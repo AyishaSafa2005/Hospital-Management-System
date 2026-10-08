@@ -1,0 +1,354 @@
+/* ================================
+   GENERAL
+================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f8fb;
+    color: #263238;
+    line-height: 1.6;
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+.home-header {
+    width: 100%;
+    height: 75px;
+    background: #0b5d7a;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+/* ================================
+   HERO
+================================ */
+
+.hero {
+    min-height: 430px;
+    background: linear-gradient(
+        rgba(11, 93, 122, 0.88),
+        rgba(11, 93, 122, 0.88)
+    ),
+    url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1600&q=80");
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.hero-content {
+    max-width: 850px;
+    color: white;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 19px;
+    max-width: 750px;
+    margin: auto;
+}
+
+
+/* ================================
+   COMMON SECTIONS
+================================ */
+
+.home-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 70px 25px;
+    text-align: center;
+}
+
+.home-section h2,
+.get-started h2 {
+    font-size: 32px;
+    color: #0b5d7a;
+    margin-bottom: 20px;
+}
+
+.home-section > p {
+    max-width: 850px;
+    margin: 0 auto;
+    color: #5f6b73;
+    font-size: 17px;
+}
+
+
+/* ================================
+   DEPARTMENTS
+================================ */
+
+.departments {
+    max-width: 1200px;
+}
+
+.department-grid {
+    margin-top: 40px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.department-card {
+    background: white;
+    padding: 30px 25px;
+    border-radius: 12px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.department-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.department-card h3 {
+    color: #0b5d7a;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.department-card p {
+    color: #68757d;
+}
+
+
+/* ================================
+   GET STARTED
+================================ */
+
+.get-started {
+    background: #e8f4f8;
+    text-align: center;
+    padding: 70px 20px;
+}
+
+.get-started p {
+    color: #5f6b73;
+    margin-bottom: 30px;
+}
+
+.get-started-btn {
+    border: none;
+    background: #0b5d7a;
+    color: white;
+
+    padding: 14px 38px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease,
+                transform 0.2s ease;
+}
+
+.get-started-btn:hover {
+    background: #08485e;
+    transform: translateY(-2px);
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+    background: #083f52;
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+
+    font-size: 14px;
+}
+
+
+/* ================================
+   RESPONSIVE DESIGN
+================================ */
+
+@media (max-width: 800px) {
+
+    .hero-content h1 {
+        font-size: 36px;
+    }
+
+    .department-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-header {
+        padding: 0 5%;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .hero {
+        min-height: 380px;
+    }
+
+    .hero-content h1 {
+        font-size: 30px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .department-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+/* =====================================================
+   SESSION TIMEOUT WARNING
+   ===================================================== */
+
+#sessionTimeoutWarning {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 99999;
+}
+
+
+.timeout-warning-box {
+
+    width: 420px;
+
+    max-width: 90%;
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 16px;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 40px
+        rgba(0, 0, 0, 0.25);
+
+}
+
+
+.timeout-icon {
+
+    font-size: 45px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.timeout-warning-box h3 {
+
+    margin: 10px 0;
+
+    color: #0b5d7a;
+
+    font-size: 25px;
+
+}
+
+
+.timeout-warning-box p {
+
+    color: #5f6b73;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+
+}
+
+
+.timeout-warning-box button {
+
+    border: none;
+
+    background: #0b5d7a;
+
+    color: white;
+
+    padding: 13px 30px;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.timeout-warning-box button:hover {
+
+    background: #08485e;
+
+}

@@ -1,0 +1,451 @@
+/* =========================================
+   ADMIN DASHBOARD - COMPLETE CSS
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f8fb;
+    color: #263238;
+}
+
+
+/* =========================================
+   TOP BAR
+========================================= */
+
+.topbar {
+    height: 70px;
+    background: #0b5d7a;
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 30px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+.topbar h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.topbar > div {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.topbar span {
+    font-weight: bold;
+}
+
+
+/* LOGOUT BUTTON */
+
+.topbar button {
+    border: none;
+    background: white;
+    color: #0b5d7a;
+
+    padding: 9px 18px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.topbar button:hover {
+    background: #e8f4f8;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.container {
+    display: flex;
+    min-height: calc(100vh - 130px);
+}
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.sidebar {
+    width: 235px;
+    flex-shrink: 0;
+
+    background: #063f52;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 15px 0;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+
+    padding: 15px 22px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+.sidebar a:hover {
+    background: #0b5d7a;
+    padding-left: 28px;
+}
+
+.sidebar a:first-child {
+    background: #0b5d7a;
+    font-weight: bold;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.content {
+    flex: 1;
+
+    padding: 35px;
+
+    overflow-x: auto;
+}
+
+.content h1 {
+    margin: 0 0 8px;
+
+    color: #0b5d7a;
+
+    font-size: 32px;
+}
+
+.content > p {
+    color: #68757d;
+
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+
+/* =========================================
+   DASHBOARD GRID
+========================================= */
+
+.dashboard {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(220px, 1fr));
+
+    gap: 25px;
+}
+
+
+/* =========================================
+   DASHBOARD CARDS
+========================================= */
+
+.card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    min-height: 190px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.08);
+
+    border: 1px solid #e5edf1;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+    margin: 0;
+
+    color: #455a64;
+
+    font-size: 18px;
+}
+
+.card h2 {
+    margin: 15px 0;
+
+    color: #0b5d7a;
+
+    font-size: 38px;
+}
+
+
+/* =========================================
+   CARD BUTTON
+========================================= */
+
+.card button {
+    border: none;
+
+    background: #0b5d7a;
+    color: white;
+
+    padding: 11px 18px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.card button:hover {
+    background: #08485e;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   GENERAL CONTENT CARDS
+========================================= */
+
+.content .card {
+    width: 100%;
+    max-width: 100%;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================
+   TABLES
+========================================= */
+
+.content table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: white;
+
+    margin: 20px 0;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.content th,
+.content td {
+    padding: 13px;
+
+    border-bottom: 1px solid #e2e8eb;
+
+    text-align: left;
+}
+
+.content th {
+    background: #0b5d7a;
+
+    color: white;
+
+    font-weight: bold;
+}
+
+.content tr:hover td {
+    background: #f4f9fb;
+}
+
+
+/* =========================================
+   LINKS
+========================================= */
+
+.content a {
+    text-decoration: none;
+}
+
+
+/* =========================================
+   FORMS
+========================================= */
+
+.content input,
+.content select,
+.content textarea {
+    width: 100%;
+
+    padding: 11px 13px;
+
+    border: 1px solid #ccd8dd;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.content input:focus,
+.content select:focus,
+.content textarea:focus {
+    border-color: #0b5d7a;
+
+    box-shadow:
+        0 0 0 3px rgba(11, 93, 122, 0.1);
+}
+
+
+/* =========================================
+   SECTION HEADINGS
+========================================= */
+
+.content h2 {
+    color: #0b5d7a;
+}
+
+.content h3 {
+    color: #455a64;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    background: #083f52;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 20px;
+
+    font-size: 14px;
+}
+
+footer p {
+    margin: 0;
+}
+
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .dashboard {
+        grid-template-columns:
+            repeat(2, minmax(220px, 1fr));
+    }
+
+    .sidebar {
+        width: 210px;
+    }
+
+    .content {
+        padding: 25px;
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .topbar h2 {
+        font-size: 17px;
+    }
+
+    .topbar span {
+        display: none;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+
+        flex-direction: row;
+
+        overflow-x: auto;
+
+        padding: 0;
+    }
+
+    .sidebar a {
+        white-space: nowrap;
+
+        padding: 13px 16px;
+
+        font-size: 14px;
+    }
+
+    .sidebar a:hover {
+        padding-left: 16px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .content h1 {
+        font-size: 27px;
+    }
+
+}
