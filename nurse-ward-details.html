@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Ward Details - Nurse</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+    <style>
+
+        /* =========================================
+           WARD DETAILS PAGE
+        ========================================= */
+
+        .page-intro {
+            margin-bottom: 20px;
+        }
+
+
+        .ward-table-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+
+        .ward-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+
+        .ward-table th {
+            background: #0b6684;
+            color: white;
+            padding: 13px 12px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+
+        .ward-table td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #e2e7e9;
+            vertical-align: middle;
+        }
+
+
+        .ward-table tbody tr:hover {
+            background: #f5f9fb;
+        }
+
+
+        .ward-status {
+            display: inline-block;
+            padding: 5px 11px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+
+        .status-available {
+            background: #e8f5e9;
+            color: #287a32;
+        }
+
+
+        .status-full {
+            background: #fde8e8;
+            color: #b42318;
+        }
+
+
+        @media (max-width: 850px) {
+
+            .ward-table-card {
+                padding: 10px;
+            }
+
+            .ward-table {
+                min-width: 850px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================== -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Nurse
+            </span>
+
+
+            <a href="../index.html">
+
+                <button type="button">
+                    Logout
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================== -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Nurse
+                </h2>
+
+            </div>
+
+
+            <a href="nurse-dashboard.html">
+                🏠 Dashboard
+            </a>
+
+
+            <a href="nurse-patients.html">
+                🧑 Assigned Patients
+            </a>
+
+
+            <a href="nurse-medicine-schedule.html">
+                💉 Medicine Schedule
+            </a>
+
+
+            <a
+                href="nurse-ward-details.html"
+                class="active"
+            >
+                🏥 Ward Details
+            </a>
+
+
+            <a href="nurse-patient-monitoring.html">
+                📋 Patient Monitoring
+            </a>
+
+
+            <a href="nurse-profile.html">
+                👤 Profile
+            </a>
+
+
+            <a href="nurse-notifications.html">
+                🔔 Notifications
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Ward Details
+            </h1>
+
+
+            <p class="page-intro">
+                View ward information and bed availability.
+            </p>
+
+
+
+            <!-- =================================
+                 WARD TABLE
+            ================================= -->
+
+            <div class="ward-table-card">
+
+                <table class="ward-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Ward ID
+                            </th>
+
+                            <th>
+                                Ward Name
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Total Beds
+                            </th>
+
+                            <th>
+                                Occupied Beds
+                            </th>
+
+                            <th>
+                                Available Beds
+                            </th>
+
+                            <th>
+                                Ward Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <!-- GENERAL WARD -->
+
+                        <tr>
+
+                            <td>
+                                W001
+                            </td>
+
+                            <td>
+                                General Ward
+                            </td>
+
+                            <td>
+                                General Medicine
+                            </td>
+
+                            <td>
+                                30
+                            </td>
+
+                            <td>
+                                20
+                            </td>
+
+                            <td>
+                                10
+                            </td>
+
+                            <td>
+
+                                <span class="ward-status status-available">
+                                    Available
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- CARDIOLOGY WARD -->
+
+                        <tr>
+
+                            <td>
+                                W002
+                            </td>
+
+                            <td>
+                                Cardiology Ward
+                            </td>
+
+                            <td>
+                                Cardiology
+                            </td>
+
+                            <td>
+                                20
+                            </td>
+
+                            <td>
+                                15
+                            </td>
+
+                            <td>
+                                5
+                            </td>
+
+                            <td>
+
+                                <span class="ward-status status-available">
+                                    Available
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- NEUROLOGY WARD -->
+
+                        <tr>
+
+                            <td>
+                                W003
+                            </td>
+
+                            <td>
+                                Neurology Ward
+                            </td>
+
+                            <td>
+                                Neurology
+                            </td>
+
+                            <td>
+                                15
+                            </td>
+
+                            <td>
+                                12
+                            </td>
+
+                            <td>
+                                3
+                            </td>
+
+                            <td>
+
+                                <span class="ward-status status-available">
+                                    Available
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- EMERGENCY WARD -->
+
+                        <tr>
+
+                            <td>
+                                W004
+                            </td>
+
+                            <td>
+                                Emergency Ward
+                            </td>
+
+                            <td>
+                                Emergency
+                            </td>
+
+                            <td>
+                                10
+                            </td>
+
+                            <td>
+                                10
+                            </td>
+
+                            <td>
+                                0
+                            </td>
+
+                            <td>
+
+                                <span class="ward-status status-full">
+                                    Full
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System | Ward Details
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

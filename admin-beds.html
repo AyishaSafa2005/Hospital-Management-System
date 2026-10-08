@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Beds - Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+    <style>
+
+        /* =========================================
+           BED CARDS
+        ========================================= */
+
+        .bed-card {
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+        }
+
+        .bed-card:hover {
+
+            transform: translateY(-5px);
+
+        }
+
+
+        /* =========================================
+           EDIT BED SECTION
+        ========================================= */
+
+        .edit-bed-section {
+
+            margin-top: 30px;
+
+            background: #ffffff;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .edit-bed-section h2 {
+
+            margin-top: 0;
+
+            color: #023e8a;
+
+        }
+
+
+        .edit-description {
+
+            color: #666;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .bed-edit-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+        }
+
+
+        .bed-input-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .bed-input-group label {
+
+            font-weight: bold;
+
+            color: #37474f;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .bed-input-group input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border:
+                1px solid #b8c5cc;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            background: #ffffff;
+
+            color: #222;
+
+            outline: none;
+
+            pointer-events: auto;
+
+            cursor: text;
+
+        }
+
+
+        .bed-input-group input:focus {
+
+            border-color: #0077b6;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    0,
+                    119,
+                    182,
+                    0.12
+                );
+
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .bed-edit-buttons {
+
+            margin-top: 25px;
+
+            display: flex;
+
+            gap: 12px;
+
+        }
+
+
+        .save-bed-button {
+
+            background: #0077b6;
+
+            color: white;
+
+            border: none;
+
+            padding:
+                12px 24px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+        }
+
+
+        .save-bed-button:hover {
+
+            background: #023e8a;
+
+        }
+
+
+        .cancel-bed-button {
+
+            background: #e9eef1;
+
+            color: #37474f;
+
+            border: none;
+
+            padding:
+                12px 24px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+        }
+
+
+        .cancel-bed-button:hover {
+
+            background: #dce3e7;
+
+        }
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+        .bed-message {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+        }
+
+
+        .bed-success {
+
+            background: #e8f7ee;
+
+            color: #19733b;
+
+            border:
+                1px solid #b8e1c7;
+
+        }
+
+
+        .bed-error {
+
+            background: #fdeaea;
+
+            color: #b52b27;
+
+            border:
+                1px solid #f2b5b2;
+
+        }
+
+
+        /* =========================================
+           SHOW ALL BUTTON
+        ========================================= */
+
+        .show-all-button {
+
+            margin-top: 25px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .bed-edit-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .bed-edit-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .bed-edit-buttons {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Admin
+            </span>
+
+
+            <a
+                href="admin-dashboard.html"
+            >
+
+                <button type="button">
+                    Dashboard
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ===================================== -->
+
+        <div class="sidebar">
+
+            <a href="admin-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="admin-patients.html">
+                Patients
+            </a>
+
+            <a href="admin-doctors.html">
+                Doctors
+            </a>
+
+            <a href="admin-nurses.html">
+                Nurses
+            </a>
+
+            <a href="admin-appointments.html">
+                Appointments
+            </a>
+
+            <a
+                href="admin-beds.html"
+                class="active"
+            >
+                Beds
+            </a>
+
+            <a href="admin-medicines.html">
+                Medicines
+            </a>
+
+            <a href="admin-reports.html">
+                Reports
+            </a>
+
+            <a href="admin-notifications.html">
+                Notifications
+            </a>
+
+            <a href="admin-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ===================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Bed Management
+            </h1>
+
+
+            <p>
+
+                Monitor and manage hospital beds
+                for admitted patients.
+
+            </p>
+
+
+
+            <!-- =================================
+                 BED SUMMARY
+            ================================= -->
+
+            <div class="dashboard">
+
+
+                <!-- TOTAL -->
+
+                <div
+                    class="card bed-card"
+                    onclick="showAllBeds()"
+                >
+
+                    <h3>
+                        Total Beds
+                    </h3>
+
+                    <h2
+                        id="totalBedsDisplay"
+                    >
+                        0
+                    </h2>
+
+                    <p>
+                        Click to view all beds
+                    </p>
+
+                </div>
+
+
+
+                <!-- AVAILABLE -->
+
+                <div
+                    class="card bed-card"
+                    onclick="filterBeds('available')"
+                >
+
+                    <h3>
+                        Available Beds
+                    </h3>
+
+                    <h2
+                        id="availableBedsDisplay"
+                    >
+                        0
+                    </h2>
+
+                    <p>
+                        Click to view available beds
+                    </p>
+
+                </div>
+
+
+
+                <!-- OCCUPIED -->
+
+                <div
+                    class="card bed-card"
+                    onclick="filterBeds('occupied')"
+                >
+
+                    <h3>
+                        Occupied Beds
+                    </h3>
+
+                    <h2
+                        id="occupiedBedsDisplay"
+                    >
+                        0
+                    </h2>
+
+                    <p>
+                        Click to view occupied beds
+                    </p>
+
+                </div>
+
+
+
+                <!-- RESERVED -->
+
+                <div
+                    class="card bed-card"
+                    onclick="filterBeds('reserved')"
+                >
+
+                    <h3>
+                        Reserved Beds
+                    </h3>
+
+                    <h2
+                        id="reservedBedsDisplay"
+                    >
+                        0
+                    </h2>
+
+                    <p>
+                        Click to view reserved beds
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 EDIT BED DETAILS
+            ================================= -->
+
+            <div
+                class="edit-bed-section"
+            >
+
+                <h2>
+                    ✏️ Edit Bed Details
+                </h2>
+
+
+                <p
+                    class="edit-description"
+                >
+
+                    Admin can directly edit the
+                    total, available, occupied and
+                    reserved bed counts.
+
+                </p>
+
+
+                <div
+                    class="bed-edit-grid"
+                >
+
+
+                    <!-- TOTAL -->
+
+                    <div
+                        class="bed-input-group"
+                    >
+
+                        <label
+                            for="totalBeds"
+                        >
+                            Total Beds
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="totalBeds"
+                            min="0"
+                            step="1"
+                            value="5"
+                        >
+
+                    </div>
+
+
+
+                    <!-- AVAILABLE -->
+
+                    <div
+                        class="bed-input-group"
+                    >
+
+                        <label
+                            for="availableBeds"
+                        >
+                            Available Beds
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="availableBeds"
+                            min="0"
+                            step="1"
+                            value="2"
+                        >
+
+                    </div>
+
+
+
+                    <!-- OCCUPIED -->
+
+                    <div
+                        class="bed-input-group"
+                    >
+
+                        <label
+                            for="occupiedBeds"
+                        >
+                            Occupied Beds
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="occupiedBeds"
+                            min="0"
+                            step="1"
+                            value="2"
+                        >
+
+                    </div>
+
+
+
+                    <!-- RESERVED -->
+
+                    <div
+                        class="bed-input-group"
+                    >
+
+                        <label
+                            for="reservedBeds"
+                        >
+                            Reserved Beds
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="reservedBeds"
+                            min="0"
+                            step="1"
+                            value="1"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div
+                    class="bed-edit-buttons"
+                >
+
+                    <button
+                        type="button"
+                        class="save-bed-button"
+                        onclick="saveBedDetails()"
+                    >
+                        💾 Save Changes
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="cancel-bed-button"
+                        onclick="loadBedData()"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    id="bedMessage"
+                    class="bed-message"
+                >
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SHOW ALL BUTTON
+            ================================= -->
+
+            <button
+                type="button"
+                class="show-all-button"
+                onclick="showAllBeds()"
+            >
+
+                Show All Beds
+
+            </button>
+
+
+
+            <!-- =================================
+                 BED TABLE
+            ================================= -->
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Bed ID
+                        </th>
+
+                        <th>
+                            Ward
+                        </th>
+
+                        <th>
+                            Bed Number
+                        </th>
+
+                        <th>
+                            Patient
+                        </th>
+
+                        <th>
+                            Patient Type
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="bedTable">
+
+
+                    <!-- BED 1 -->
+
+                    <tr>
+
+                        <td>
+                            B001
+                        </td>
+
+                        <td>
+                            General Ward
+                        </td>
+
+                        <td>
+                            G-01
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td class="bed-status">
+                            Available
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- BED 2 -->
+
+                    <tr>
+
+                        <td>
+                            B002
+                        </td>
+
+                        <td>
+                            General Ward
+                        </td>
+
+                        <td>
+                            G-02
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td class="bed-status">
+                            Available
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- BED 3 -->
+
+                    <tr>
+
+                        <td>
+                            B003
+                        </td>
+
+                        <td>
+                            Surgical Ward
+                        </td>
+
+                        <td>
+                            S-01
+                        </td>
+
+                        <td>
+                            Inpatient Example
+                        </td>
+
+                        <td>
+                            Inpatient
+                        </td>
+
+                        <td class="bed-status">
+                            Occupied
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- BED 4 -->
+
+                    <tr>
+
+                        <td>
+                            B004
+                        </td>
+
+                        <td>
+                            ICU
+                        </td>
+
+                        <td>
+                            I-01
+                        </td>
+
+                        <td>
+                            Inpatient Example 2
+                        </td>
+
+                        <td>
+                            Inpatient
+                        </td>
+
+                        <td class="bed-status">
+                            Occupied
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- BED 5 -->
+
+                    <tr>
+
+                        <td>
+                            B005
+                        </td>
+
+                        <td>
+                            Surgical Ward
+                        </td>
+
+                        <td>
+                            S-02
+                        </td>
+
+                        <td>
+                            Inpatient Example 3
+                        </td>
+
+                        <td>
+                            Inpatient
+                        </td>
+
+                        <td class="bed-status">
+                            Reserved
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         SECURITY
+         
+         Admin has no session timeout.
+    ========================================= -->
+
+    <script src="../security.js"></script>
+
+
+
+    <!-- =========================================
+         BED MANAGEMENT JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        const BED_STORAGE_KEY =
+            "hospitalBedData";
+
+
+        const DEFAULT_BED_DATA = {
+
+            total: 5,
+
+            available: 2,
+
+            occupied: 2,
+
+            reserved: 1
+
+        };
+
+
+
+        /* =========================================
+           GET SAVED DATA
+        ========================================= */
+
+        function getBedData() {
+
+            const savedData =
+                localStorage.getItem(
+                    BED_STORAGE_KEY
+                );
+
+
+            if (!savedData) {
+
+                localStorage.setItem(
+                    BED_STORAGE_KEY,
+                    JSON.stringify(
+                        DEFAULT_BED_DATA
+                    )
+                );
+
+
+                return {
+                    ...DEFAULT_BED_DATA
+                };
+
+            }
+
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        savedData
+                    );
+
+
+                return {
+
+                    total:
+                        Number(
+                            data.total
+                        ),
+
+                    available:
+                        Number(
+                            data.available
+                        ),
+
+                    occupied:
+                        Number(
+                            data.occupied
+                        ),
+
+                    reserved:
+                        Number(
+                            data.reserved
+                        )
+
+                };
+
+            }
+
+            catch (error) {
+
+                localStorage.setItem(
+                    BED_STORAGE_KEY,
+                    JSON.stringify(
+                        DEFAULT_BED_DATA
+                    )
+                );
+
+
+                return {
+                    ...DEFAULT_BED_DATA
+                };
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           LOAD DATA INTO PAGE
+        ========================================= */
+
+        function loadBedData() {
+
+            const data =
+                getBedData();
+
+
+            document.getElementById(
+                "totalBedsDisplay"
+            ).textContent =
+                data.total;
+
+
+            document.getElementById(
+                "availableBedsDisplay"
+            ).textContent =
+                data.available;
+
+
+            document.getElementById(
+                "occupiedBedsDisplay"
+            ).textContent =
+                data.occupied;
+
+
+            document.getElementById(
+                "reservedBedsDisplay"
+            ).textContent =
+                data.reserved;
+
+
+
+            /* INPUT VALUES */
+
+            document.getElementById(
+                "totalBeds"
+            ).value =
+                data.total;
+
+
+            document.getElementById(
+                "availableBeds"
+            ).value =
+                data.available;
+
+
+            document.getElementById(
+                "occupiedBeds"
+            ).value =
+                data.occupied;
+
+
+            document.getElementById(
+                "reservedBeds"
+            ).value =
+                data.reserved;
+
+
+            hideBedMessage();
+
+        }
+
+
+
+        /* =========================================
+           SAVE BED DETAILS
+        ========================================= */
+
+        function saveBedDetails() {
+
+
+            const total =
+                Number(
+                    document.getElementById(
+                        "totalBeds"
+                    ).value
+                );
+
+
+            const available =
+                Number(
+                    document.getElementById(
+                        "availableBeds"
+                    ).value
+                );
+
+
+            const occupied =
+                Number(
+                    document.getElementById(
+                        "occupiedBeds"
+                    ).value
+                );
+
+
+            const reserved =
+                Number(
+                    document.getElementById(
+                        "reservedBeds"
+                    ).value
+                );
+
+
+
+            /* =====================================
+               VALIDATION
+            ===================================== */
+
+            if (
+                !Number.isInteger(total) ||
+                !Number.isInteger(available) ||
+                !Number.isInteger(occupied) ||
+                !Number.isInteger(reserved)
+            ) {
+
+                showBedMessage(
+                    "Please enter whole numbers only.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                total < 0 ||
+                available < 0 ||
+                occupied < 0 ||
+                reserved < 0
+            ) {
+
+                showBedMessage(
+                    "Bed values cannot be negative.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /*
+               Total must equal the three
+               individual categories.
+            */
+
+            if (
+                total !==
+                (
+                    available
+                    +
+                    occupied
+                    +
+                    reserved
+                )
+            ) {
+
+                showBedMessage(
+                    "Total Beds must equal Available + Occupied + Reserved.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+
+            /* =====================================
+               SAVE
+            ===================================== */
+
+            const bedData = {
+
+                total:
+                    total,
+
+                available:
+                    available,
+
+                occupied:
+                    occupied,
+
+                reserved:
+                    reserved
+
+            };
+
+
+            localStorage.setItem(
+                BED_STORAGE_KEY,
+                JSON.stringify(
+                    bedData
+                )
+            );
+
+
+            /* Update display */
+
+            loadBedData();
+
+
+            showBedMessage(
+                "Bed details saved successfully.",
+                "success"
+            );
+
+        }
+
+
+
+        /* =========================================
+           SHOW MESSAGE
+        ========================================= */
+
+        function showBedMessage(
+            message,
+            type
+        ) {
+
+            const messageBox =
+                document.getElementById(
+                    "bedMessage"
+                );
+
+
+            messageBox.textContent =
+                message;
+
+
+            messageBox.className =
+                "bed-message";
+
+
+            if (
+                type === "success"
+            ) {
+
+                messageBox.classList.add(
+                    "bed-success"
+                );
+
+            }
+
+            else {
+
+                messageBox.classList.add(
+                    "bed-error"
+                );
+
+            }
+
+
+            messageBox.style.display =
+                "block";
+
+
+            setTimeout(
+                function() {
+
+                    hideBedMessage();
+
+                },
+                3500
+            );
+
+        }
+
+
+
+        /* =========================================
+           HIDE MESSAGE
+        ========================================= */
+
+        function hideBedMessage() {
+
+            const messageBox =
+                document.getElementById(
+                    "bedMessage"
+                );
+
+
+            messageBox.style.display =
+                "none";
+
+        }
+
+
+
+        /* =========================================
+           FILTER BEDS
+        ========================================= */
+
+        function filterBeds(status) {
+
+            const rows =
+                document.querySelectorAll(
+                    "#bedTable tr"
+                );
+
+
+            rows.forEach(
+                function(row) {
+
+                    const statusCell =
+                        row.querySelector(
+                            ".bed-status"
+                        );
+
+
+                    if (!statusCell) {
+
+                        return;
+
+                    }
+
+
+                    const bedStatus =
+                        statusCell.textContent
+                            .trim()
+                            .toLowerCase();
+
+
+                    if (
+                        bedStatus ===
+                        status
+                    ) {
+
+                        row.style.display =
+                            "";
+
+                    }
+
+                    else {
+
+                        row.style.display =
+                            "none";
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        /* =========================================
+           SHOW ALL BEDS
+        ========================================= */
+
+        function showAllBeds() {
+
+            const rows =
+                document.querySelectorAll(
+                    "#bedTable tr"
+                );
+
+
+            rows.forEach(
+                function(row) {
+
+                    row.style.display =
+                        "";
+
+                }
+            );
+
+        }
+
+
+
+        /* =========================================
+           INITIALIZE
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadBedData();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

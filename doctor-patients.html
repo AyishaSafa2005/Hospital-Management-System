@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor - My Patients</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../admin.css">
+
+<style>
+.page-title{margin-bottom:20px;}
+.search-card{margin-bottom:20px;}
+.search-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.search-input{width:100%;padding:11px 14px;border:1px solid #bcc7cf;border-radius:7px;font-size:15px;box-sizing:border-box;}
+.search-input:focus{outline:none;border-color:#0b6684;}
+.patient-count{color:#68757d;font-size:14px;margin-top:10px;}
+.table-wrap{background:white;border-radius:10px;box-shadow:0 3px 12px rgba(0,0,0,.08);overflow-x:auto;}
+.patient-table{width:100%;border-collapse:collapse;min-width:700px;}
+.patient-table th,.patient-table td{padding:13px 14px;text-align:left;border-bottom:1px solid #e5e8ea;}
+.patient-table th{background:#f5f8f9;color:#0b6684;font-weight:600;}
+.patient-table tr:last-child td{border-bottom:none;}
+.view-btn{display:inline-block;background:#0b6684;color:white;text-decoration:none;padding:8px 13px;border-radius:6px;white-space:nowrap;}
+.view-btn:hover{opacity:.9;}
+.status-badge{display:inline-block;padding:5px 10px;border-radius:20px;background:#e8f4f8;color:#0b6684;font-size:12px;font-weight:600;}
+.empty-state{text-align:center;padding:40px;color:#68757d;background:white;border-radius:10px;box-shadow:0 3px 12px rgba(0,0,0,.08);}
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <h2>Hospital Management System</h2>
+  <div><span id="topDoctorName">Doctor</span> <a href="../index.html" onclick="logoutDoctor()"><button type="button">Logout</button></a></div>
+</header>
+<div class="container">
+  <aside class="sidebar">
+    <a href="doctor-dashboard.html">Dashboard</a>
+    <a href="doctor-patients.html" class="active">My Patients</a>
+    <a href="doctor-appointments.html">Appointments</a>
+    <a href="doctor-records.html">Records</a>
+    <a href="doctor-prescriptions.html">Prescriptions</a>
+    <a href="doctor-access-requests.html">Access Requests</a>
+    <a href="doctor-profile.html">My Profile</a>
+  </aside>
+  <main class="content">
+    <div class="card page-title">
+      <h1>My Patients</h1>
+      <p>Patients assigned to the logged-in doctor from the Admin patient records.</p>
+    </div>
+    <div class="card search-card">
+      <h2>Search Patients</h2>
+      <div class="search-row">
+        <input id="patientSearch" class="search-input" type="search" placeholder="Search by Patient ID, name, phone, email, department, blood group, status..." autocomplete="off">
+      </div>
+      <div id="patientCount" class="patient-count">0 patients found</div>
+    </div>
+    <div id="patientList" class="patient-grid"></div>
+  </main>
+</div>
+<footer><p>© 2026 Hospital Management System</p></footer>
+<script src="../security.js"></script>
+<script>
+function getArray(key){try{const v=JSON.parse(localStorage.getItem(key)||"[]");return Array.isArray(v)?v:[];}catch(e){return [];}}
+function normalize(v){return String(v??"").trim().toLowerCase();}
+function getDoctorId(d){return String(d?.doctorId||d?.id||d?.userId||d?.staffId||d?.username||d?.userName||d?.loginUsername||"").trim();}
+function getDoctorName(d){return String(d?.name||d?.fullName||d?.doctorName||d?.username||"Doctor").trim();}
+function getDoctorUsername(d){return String(d?.username||d?.userName||d?.loginUsername||"").trim();}
+function getLoggedInDoctor(){
+  const currentStaff=sessionStorage.getItem("currentStaff");
+  if(currentStaff){try{const s=JSON.parse(currentStaff);if(s&&typeof s==="object")return s;}catch(e){}}
+  for(const key of ["loggedInDoctor","doctorSession","currentDoctor"]){const raw=localStorage.getItem(key);if(!raw)continue;try{const d=JSON.parse(raw);if(d&&typeof d==="object")return d;}catch(e){return {username:raw,name:raw};}}
+  const h=sessionStorage.getItem("hmsSession")||localStorage.getItem("hmsSession");
+  if(h){try{const s=JSON.parse(h);if(s&&(normalize(s.role)==="doctor"||normalize(s.userRole)==="doctor"||normalize(s.userType)==="doctor"))return s;}catch(e){}}
+  return null;
+}
+function findFullDoctor(logged){
+  if(!logged)return null;
+  const doctors=getArray("doctors");
+  const id=getDoctorId(logged), user=getDoctorUsername(logged), name=getDoctorName(logged);
+  let found=null;
+  if(id)found=doctors.find(d=>getDoctorId(d)&&normalize(getDoctorId(d))===normalize(id));
+  if(!found&&user)found=doctors.find(d=>getDoctorUsername(d)&&normalize(getDoctorUsername(d))===normalize(user));
+  if(!found&&name)found=doctors.find(d=>getDoctorName(d)&&normalize(getDoctorName(d))===normalize(name));
+  return found||logged;
+}
+const currentDoctor=findFullDoctor(getLoggedInDoctor());
+const doctorId=getDoctorId(currentDoctor), doctorName=getDoctorName(currentDoctor);
+document.getElementById("topDoctorName").textContent=doctorName;
+function getPatientId(p){return String(p?.patientId||p?.id||p?.patientID||"").trim();}
+function getPatientName(p){return String(p?.fullName||p?.name||p?.patientName||p?.username||"").trim();}
+function getAssignedDoctorId(p){return String(p?.assignedDoctorId||p?.doctorId||p?.assignedDoctorID||p?.assignedDoctorUserId||p?.doctorUserId||"").trim();}
+function getAssignedDoctorName(p){return String(p?.assignedDoctorName||p?.assignedDoctor||p?.doctorName||p?.doctor||p?.assignedDoctorUsername||p?.doctorUsername||"").trim();}
+function isMyPatient(p){
+  const pid=getAssignedDoctorId(p), pname=getAssignedDoctorName(p);
+  return (doctorId&&pid&&normalize(doctorId)===normalize(pid)) || (doctorName&&pname&&normalize(doctorName)===normalize(pname));
+}
+function esc(v){return String(v??"-").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
+function val(v){return v===undefined||v===null||String(v).trim()===""?"-":v;}
+function renderPatients(){
+  const q=normalize(document.getElementById("patientSearch").value);
+  const patients=getArray("patients").filter(isMyPatient);
+  const filtered=patients.filter(p=>{
+    if(!q)return true;
+    const text=[getPatientId(p),getPatientName(p),p.phone,p.email,p.patientType,p.type,p.status,p.patientStatus,p.condition,p.department,p.place,p.placeOfResidence,getAssignedDoctorName(p)].map(v=>String(v??"")).join(" ");
+    return normalize(text).includes(q);
+  }).sort((a,b)=>getPatientName(a).localeCompare(getPatientName(b)));
+  document.getElementById("patientCount").textContent=filtered.length+" patient"+(filtered.length===1?"":"s")+" found";
+  const list=document.getElementById("patientList");
+  if(!currentDoctor){list.innerHTML='<div class="empty-state"><h2>Doctor Login Required</h2><p>Please log in with your Doctor account.</p></div>';return;}
+  if(!filtered.length){list.innerHTML='<div class="empty-state"><h2>No Patients Found</h2><p>No patients currently match your assignment or search.</p></div>';return;}
+  list.innerHTML='<div class="table-wrap"><table class="patient-table"><thead><tr><th>Patient ID</th><th>Patient Name</th><th>Patient Type</th><th>Department</th><th>Status</th><th>Action</th></tr></thead><tbody>'+filtered.map(p=>{
+    const id=getPatientId(p);
+    const name=getPatientName(p)||"Unnamed Patient";
+    const type=p.patientType||p.type||"-";
+    const status=p.status||p.patientStatus||p.condition||"-";
+    return '<tr><td>'+esc(id||"-")+'</td><td>'+esc(name)+'</td><td>'+esc(type)+'</td><td>'+esc(p.department||"-")+'</td><td><span class="status-badge">'+esc(status)+'</span></td><td><a class="view-btn" href="doctor-patient-record.html?patientId='+encodeURIComponent(id)+'">View</a></td></tr>';
+  }).join('')+'</tbody></table></div>';
+}
+
+document.getElementById("patientSearch").addEventListener("input",renderPatients);
+window.addEventListener("storage",renderPatients);
+function logoutDoctor(){sessionStorage.removeItem("currentStaff");sessionStorage.removeItem("pendingLogin");sessionStorage.removeItem("userRole");sessionStorage.removeItem("userPhone");localStorage.removeItem("loggedInDoctor");localStorage.removeItem("doctorSession");localStorage.removeItem("currentDoctor");}
+renderPatients();
+</script>
+</body>
+</html>

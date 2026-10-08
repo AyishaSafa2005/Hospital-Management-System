@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Add Staff - Hospital Management System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+    <style>
+
+        .staff-page {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .staff-form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.08);
+        }
+
+        .staff-form-card h1 {
+            color: #023e8a;
+            margin-top: 0;
+        }
+
+        .staff-description {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #37474f;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 1px solid #ccd6dc;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0077b6;
+            box-shadow:
+                0 0 0 3px
+                rgba(0, 119, 182, 0.10);
+        }
+
+        .readonly-id {
+            background: #f1f5f7;
+            font-weight: bold;
+            color: #023e8a;
+        }
+
+        .phone-wrapper {
+            position: relative;
+        }
+
+        .phone-wrapper input {
+            width: 100%;
+            color: transparent;
+            caret-color: #222;
+            position: relative;
+            z-index: 2;
+            background: transparent;
+        }
+
+        .phone-display {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+            color: #333;
+            letter-spacing: 2px;
+            z-index: 1;
+        }
+
+        .phone-help {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .save-button,
+        .cancel-button {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .save-button {
+            background: #0077b6;
+            color: white;
+        }
+
+        .save-button:hover {
+            background: #023e8a;
+        }
+
+        .cancel-button {
+            background: #e9eef1;
+            color: #37474f;
+        }
+
+        .success-message,
+        .error-message {
+            display: none;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            background: #e8f7ee;
+            color: #19733b;
+            border: 1px solid #b8e1c7;
+        }
+
+        .error-message {
+            background: #fdeaea;
+            color: #b52b27;
+            border: 1px solid #f2b5b2;
+        }
+
+        .generated-id {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eef7fb;
+            border-radius: 8px;
+            color: #023e8a;
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            .staff-form-card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+        <div class="admin-info">
+
+            <span>
+                Admin
+            </span>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Admin
+                </h2>
+
+            </div>
+
+
+            <a href="admin-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="admin-patients.html">
+                Patients
+            </a>
+
+            <a href="admin-doctors.html">
+                Doctors
+            </a>
+
+            <a href="admin-nurses.html">
+                Nurses
+            </a>
+
+            <a href="admin-appointments.html">
+                Appointments
+            </a>
+
+            <a href="admin-beds.html">
+                Beds
+            </a>
+
+            <a href="admin-medicines.html">
+                Medicines
+            </a>
+
+            <a href="admin-reports.html">
+                Reports
+            </a>
+
+            <a href="admin-notifications.html">
+                Notifications
+            </a>
+
+            <a href="admin-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+
+        <!-- =========================================
+             CONTENT
+        ========================================= -->
+
+        <div class="content">
+
+            <div class="staff-page">
+
+                <div class="staff-form-card">
+
+
+                    <h1 id="pageTitle">
+                        Add Staff
+                    </h1>
+
+
+                    <p
+                        class="staff-description"
+                        id="pageDescription"
+                    >
+                        Create a new staff account.
+                    </p>
+
+
+                    <!-- SUCCESS -->
+
+                    <div
+                        class="success-message"
+                        id="successMessage"
+                    >
+                    </div>
+
+
+                    <!-- ERROR -->
+
+                    <div
+                        class="error-message"
+                        id="errorMessage"
+                    >
+                    </div>
+
+
+
+                    <!-- FORM -->
+
+                    <form id="staffForm">
+
+
+                        <div class="form-grid">
+
+
+                            <!-- UNIQUE ID -->
+
+                            <div class="form-group">
+
+                                <label for="staffId">
+                                    Unique ID
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="staffId"
+                                    class="readonly-id"
+                                    readonly
+                                >
+
+                            </div>
+
+
+
+                            <!-- FULL NAME -->
+
+                            <div class="form-group">
+
+                                <label for="fullName">
+                                    Full Name *
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    placeholder="Enter full name"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- USERNAME -->
+
+                            <div class="form-group">
+
+                                <label for="username">
+                                    Username *
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="username"
+                                    placeholder="Create username"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- PASSWORD -->
+
+                            <div class="form-group">
+
+                                <label for="password">
+                                    Password *
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="password"
+                                    placeholder="Create password"
+                                    minlength="6"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- PHONE -->
+
+                            <div class="form-group">
+
+                                <label for="phone">
+                                    Phone Number *
+                                </label>
+
+                                <div class="phone-wrapper">
+
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        maxlength="10"
+                                        inputmode="numeric"
+                                        placeholder="10-digit phone number"
+                                        required
+                                    >
+
+                                    <div
+                                        class="phone-display"
+                                        id="phoneDisplay"
+                                    >
+                                    </div>
+
+                                </div>
+
+                                <div class="phone-help">
+
+                                    First 6 digits are masked.
+                                    Only the last 4 digits are visible.
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- EMAIL -->
+
+                            <div class="form-group">
+
+                                <label for="email">
+                                    Email *
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="Enter email address"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- DEPARTMENT -->
+
+                            <div class="form-group">
+
+                                <label for="department">
+                                    Department *
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="department"
+                                    placeholder="e.g. General Medicine"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- QUALIFICATION -->
+
+                            <div
+                                class="form-group"
+                                id="qualificationGroup"
+                            >
+
+                                <label for="qualification">
+                                    Qualification
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="qualification"
+                                    placeholder="e.g. MBBS / B.Pharm"
+                                >
+
+                            </div>
+
+
+
+                            <!-- ADDRESS -->
+
+                            <div
+                                class="form-group full-width"
+                            >
+
+                                <label for="address">
+                                    Address
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="address"
+                                    placeholder="Enter address"
+                                >
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- BUTTONS -->
+
+                        <div class="button-row">
+
+                            <button
+                                type="submit"
+                                class="save-button"
+                            >
+                                Create Account
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="cancel-button"
+                                onclick="goBack()"
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+
+                    </form>
+
+
+
+                    <!-- GENERATED ID -->
+
+                    <div
+                        class="generated-id"
+                        id="generatedId"
+                    >
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- SECURITY -->
+
+    <script src="../security.js"></script>
+
+
+
+    <script>
+
+        /* =========================================
+           GET ROLE FROM URL
+        ========================================= */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const role =
+            (
+                params.get("role") || ""
+            ).toLowerCase();
+
+
+
+        /* =========================================
+           ROLE INFORMATION
+        ========================================= */
+
+        const roleInformation = {
+
+            doctor: {
+
+                title: "Add Doctor",
+
+                description:
+                    "Create a new doctor account.",
+
+                prefix: "D",
+
+                storageKey:
+                    "doctors"
+
+            },
+
+
+            nurse: {
+
+                title: "Add Nurse",
+
+                description:
+                    "Create a new nurse account.",
+
+                prefix: "N",
+
+                storageKey:
+                    "nurses"
+
+            },
+
+
+            pharmacist: {
+
+                title: "Add Pharmacist",
+
+                description:
+                    "Create a new pharmacist account.",
+
+                prefix: "P",
+
+                storageKey:
+                    "pharmacists"
+
+            }
+
+        };
+
+
+        const selectedRole =
+            roleInformation[role];
+
+
+        if (!selectedRole) {
+
+            window.location.href =
+                "admin-dashboard.html";
+
+        }
+
+
+
+        /* =========================================
+           PAGE TEXT
+        ========================================= */
+
+        document.getElementById(
+            "pageTitle"
+        ).textContent =
+            selectedRole.title;
+
+
+        document.getElementById(
+            "pageDescription"
+        ).textContent =
+            selectedRole.description;
+
+
+
+        /* =========================================
+           QUALIFICATION
+        ========================================= */
+
+        const qualificationGroup =
+            document.getElementById(
+                "qualificationGroup"
+            );
+
+
+        const qualification =
+            document.getElementById(
+                "qualification"
+            );
+
+
+        if (
+            role === "nurse"
+        ) {
+
+            qualificationGroup.style.display =
+                "none";
+
+            qualification.required =
+                false;
+
+        }
+
+
+
+        /* =========================================
+           GENERATE CONTINUOUS ID
+        ========================================= */
+
+        function generateStaffId() {
+
+            const records =
+                JSON.parse(
+                    localStorage.getItem(
+                        selectedRole.storageKey
+                    )
+                ) || [];
+
+
+            let highestNumber = 1000;
+
+
+            records.forEach(
+                function(record) {
+
+                    const id =
+                        String(
+                            record.uniqueId || ""
+                        );
+
+
+                    const number =
+                        parseInt(
+                            id.replace(
+                                selectedRole.prefix,
+                                ""
+                            )
+                        );
+
+
+                    if (
+                        !isNaN(number) &&
+                        number > highestNumber
+                    ) {
+
+                        highestNumber =
+                            number;
+
+                    }
+
+                }
+            );
+
+
+            return (
+                selectedRole.prefix
+                +
+                (highestNumber + 1)
+            );
+
+        }
+
+
+        document.getElementById(
+            "staffId"
+        ).value =
+            generateStaffId();
+
+
+
+        /* =========================================
+           PHONE MASKING
+        ========================================= */
+
+        const phone =
+            document.getElementById(
+                "phone"
+            );
+
+
+        const phoneDisplay =
+            document.getElementById(
+                "phoneDisplay"
+            );
+
+
+        function updatePhoneDisplay() {
+
+            const value =
+                phone.value;
+
+
+            if (!value) {
+
+                phoneDisplay.textContent =
+                    "";
+
+                return;
+
+            }
+
+
+            if (
+                value.length <= 4
+            ) {
+
+                phoneDisplay.textContent =
+                    "*".repeat(
+                        value.length
+                    );
+
+                return;
+
+            }
+
+
+            phoneDisplay.textContent =
+                "*".repeat(
+                    value.length - 4
+                )
+                +
+                value.slice(-4);
+
+        }
+
+
+        phone.addEventListener(
+            "input",
+            function() {
+
+                this.value =
+                    this.value.replace(
+                        /[^0-9]/g,
+                        ""
+                    );
+
+
+                this.value =
+                    this.value.slice(
+                        0,
+                        10
+                    );
+
+
+                updatePhoneDisplay();
+
+            }
+        );
+
+
+
+        /* =========================================
+           ERROR / SUCCESS
+        ========================================= */
+
+        function showError(message) {
+
+            const error =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            error.textContent =
+                message;
+
+
+            error.style.display =
+                "block";
+
+        }
+
+
+        function hideError() {
+
+            document.getElementById(
+                "errorMessage"
+            ).style.display =
+                "none";
+
+        }
+
+
+        function showSuccess(message) {
+
+            const success =
+                document.getElementById(
+                    "successMessage"
+                );
+
+
+            success.textContent =
+                message;
+
+
+            success.style.display =
+                "block";
+
+        }
+
+
+
+        /* =========================================
+           CHECK DUPLICATE USERNAME
+        ========================================= */
+
+        function usernameExists(username) {
+
+            const records =
+                JSON.parse(
+                    localStorage.getItem(
+                        selectedRole.storageKey
+                    )
+                ) || [];
+
+
+            return records.some(
+                function(record) {
+
+                    return (
+                        record.username
+                            .toLowerCase()
+                        ===
+                        username
+                            .toLowerCase()
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =========================================
+           SAVE STAFF ACCOUNT
+        ========================================= */
+
+        document.getElementById(
+            "staffForm"
+        ).addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                hideError();
+
+
+                const uniqueId =
+                    document.getElementById(
+                        "staffId"
+                    ).value;
+
+
+                const fullName =
+                    document.getElementById(
+                        "fullName"
+                    ).value.trim();
+
+
+                const username =
+                    document.getElementById(
+                        "username"
+                    ).value.trim();
+
+
+                const password =
+                    document.getElementById(
+                        "password"
+                    ).value;
+
+
+                const phoneNumber =
+                    phone.value.trim();
+
+
+                const email =
+                    document.getElementById(
+                        "email"
+                    ).value.trim();
+
+
+                const department =
+                    document.getElementById(
+                        "department"
+                    ).value.trim();
+
+
+                const qualificationValue =
+                    qualification.value.trim();
+
+
+                const address =
+                    document.getElementById(
+                        "address"
+                    ).value.trim();
+
+
+
+                /* =========================
+                   VALIDATION
+                ========================= */
+
+                if (
+                    fullName === ""
+                ) {
+
+                    showError(
+                        "Please enter the full name."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    username === ""
+                ) {
+
+                    showError(
+                        "Please enter a username."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    password.length < 6
+                ) {
+
+                    showError(
+                        "Password must contain at least 6 characters."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    !/^[0-9]{10}$/.test(
+                        phoneNumber
+                    )
+                ) {
+
+                    showError(
+                        "Please enter a valid 10-digit phone number."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    usernameExists(
+                        username
+                    )
+                ) {
+
+                    showError(
+                        "This username already exists for this role."
+                    );
+
+                    return;
+
+                }
+
+
+
+                /* =========================
+                   GET EXISTING RECORDS
+                ========================= */
+
+                const records =
+                    JSON.parse(
+                        localStorage.getItem(
+                            selectedRole.storageKey
+                        )
+                    ) || [];
+
+
+
+                /* =========================
+                   CREATE ACCOUNT
+                ========================= */
+
+                const staffAccount = {
+
+                    uniqueId:
+                        uniqueId,
+
+                    role:
+                        role,
+
+                    fullName:
+                        fullName,
+
+                    username:
+                        username,
+
+                    password:
+                        password,
+
+                    phone:
+                        phoneNumber,
+
+                    email:
+                        email,
+
+                    department:
+                        department,
+
+                    qualification:
+                        qualificationValue,
+
+                    address:
+                        address,
+
+                    createdAt:
+                        new Date().toISOString()
+
+                };
+
+
+                records.push(
+                    staffAccount
+                );
+
+
+                localStorage.setItem(
+                    selectedRole.storageKey,
+                    JSON.stringify(
+                        records
+                    )
+                );
+
+
+
+                /* =========================
+                   SUCCESS
+                ========================= */
+
+                showSuccess(
+                    selectedRole.title
+                    +
+                    " account created successfully."
+                );
+
+
+                const generated =
+                    document.getElementById(
+                        "generatedId"
+                    );
+
+
+                generated.innerHTML = `
+
+                    <strong>
+                        Account Created Successfully
+                    </strong>
+
+                    <br><br>
+
+                    Unique ID:
+                    <strong>
+                        ${uniqueId}
+                    </strong>
+
+                    <br>
+
+                    Username:
+                    <strong>
+                        ${username}
+                    </strong>
+
+                    <br>
+
+                    Phone:
+                    <strong>
+                        ******${phoneNumber.slice(-4)}
+                    </strong>
+
+                `;
+
+
+                generated.style.display =
+                    "block";
+
+
+                /*
+                   Prepare the next continuous ID.
+                */
+
+                document.getElementById(
+                    "staffId"
+                ).value =
+                    generateStaffId();
+
+
+                /*
+                   Clear form fields except
+                   generated ID.
+                */
+
+                document.getElementById(
+                    "fullName"
+                ).value = "";
+
+
+                document.getElementById(
+                    "username"
+                ).value = "";
+
+
+                document.getElementById(
+                    "password"
+                ).value = "";
+
+
+                phone.value = "";
+
+
+                phoneDisplay.textContent =
+                    "";
+
+
+                document.getElementById(
+                    "email"
+                ).value = "";
+
+
+                document.getElementById(
+                    "department"
+                ).value = "";
+
+
+                qualification.value =
+                    "";
+
+
+                document.getElementById(
+                    "address"
+                ).value = "";
+
+            }
+        );
+
+
+
+        /* =========================================
+           BACK BUTTON
+        ========================================= */
+
+        function goBack() {
+
+            window.location.href =
+                "admin-dashboard.html";
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        function logout() {
+
+            /*
+               Use the global logout from
+               security.js.
+            */
+
+            logoutUser();
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Doctors - Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+
+    <style>
+
+        /* ===============================
+           ADD DOCTOR SECTION
+        ================================ */
+
+        .add-doctor-section {
+
+            display: none;
+
+            margin-top: 20px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .doctor-form {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .doctor-form h2 {
+
+            margin-top: 0;
+
+        }
+
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .form-group label {
+
+            font-weight: bold;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            padding: 10px;
+
+            border:
+                1px solid #ccc;
+
+            border-radius: 5px;
+
+            font-size: 15px;
+
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus {
+
+            outline: none;
+
+            border-color: #0077b6;
+
+        }
+
+
+        .full-width {
+
+            grid-column:
+                1 / -1;
+
+        }
+
+
+        .working-days {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 5px;
+
+        }
+
+
+        .working-day {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            font-weight: normal;
+
+        }
+
+
+        .working-day input {
+
+            width: auto;
+
+        }
+
+
+        .form-buttons {
+
+            margin-top: 20px;
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+
+        .form-buttons button {
+
+            padding:
+                10px 18px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+        }
+
+
+        .save-button {
+
+            background: #0077b6;
+
+            color: white;
+
+        }
+
+
+        .cancel-button {
+
+            background: #777;
+
+            color: white;
+
+        }
+
+
+        .success-message {
+
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 10px;
+
+            background: #e8f7ee;
+
+            color: #19733b;
+
+            border-radius: 5px;
+
+        }
+
+
+        .error-message {
+
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 10px;
+
+            background: #fdeaea;
+
+            color: #b52b27;
+
+            border-radius: 5px;
+
+        }
+
+
+        .schedule-note {
+
+            background: #f1f7fa;
+
+            padding: 12px;
+
+            border-radius: 6px;
+
+            margin-top: 8px;
+
+            color: #405d70;
+
+            font-size: 14px;
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .full-width {
+
+                grid-column:
+                    auto;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Admin
+            </span>
+
+
+            <a href="admin-dashboard.html">
+
+                <button type="button">
+                    Dashboard
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+            <a href="admin-dashboard.html">
+                Dashboard
+            </a>
+
+
+            <a href="admin-patients.html">
+                Patients
+            </a>
+
+
+            <a
+                href="admin-doctors.html"
+                class="active"
+            >
+                Doctors
+            </a>
+
+
+            <a href="admin-nurses.html">
+                Nurses
+            </a>
+
+
+            <a href="admin-appointments.html">
+                Appointments
+            </a>
+
+
+            <a href="admin-beds.html">
+                Beds
+            </a>
+
+
+            <a href="admin-medicines.html">
+                Medicines
+            </a>
+
+
+            <a href="admin-reports.html">
+                Reports
+            </a>
+
+
+            <a href="admin-notifications.html">
+                Notifications
+            </a>
+
+
+            <a href="admin-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Doctors
+            </h1>
+
+
+            <p>
+                Manage hospital doctors from this section.
+            </p>
+
+
+
+            <!-- =================================
+                 TOTAL DOCTORS
+            ================================== -->
+
+            <div class="card">
+
+                <h3>
+                    Total Doctors
+                </h3>
+
+
+                <h2 id="doctorTotal">
+                    0
+                </h2>
+
+
+                <button
+                    type="button"
+                    onclick="showAddDoctor()"
+                >
+                    + Add Doctor
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================
+                 ADD DOCTOR FORM
+            ================================== -->
+
+            <div
+                id="addDoctorSection"
+                class="add-doctor-section"
+            >
+
+                <div class="doctor-form">
+
+
+                    <h2>
+                        Add New Doctor
+                    </h2>
+
+
+                    <form id="doctorForm">
+
+
+                        <div class="form-grid">
+
+
+                            <!-- DOCTOR ID -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorId"
+                                >
+                                    Doctor ID
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    id="doctorId"
+                                    placeholder="D002"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- NAME -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorName"
+                                >
+                                    Doctor Name
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    id="doctorName"
+                                    placeholder="Dr. John"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- DEPARTMENT -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorDepartment"
+                                >
+                                    Department
+                                </label>
+
+
+                                <select
+                                    id="doctorDepartment"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Department
+                                    </option>
+
+
+                                    <option value="General Medicine">
+                                        General Medicine
+                                    </option>
+
+
+                                    <option value="Cardiology">
+                                        Cardiology
+                                    </option>
+
+
+                                    <option value="Orthopedics">
+                                        Orthopedics
+                                    </option>
+
+
+                                    <option value="Dermatology">
+                                        Dermatology
+                                    </option>
+
+
+                                    <option value="Neurology">
+                                        Neurology
+                                    </option>
+
+
+                                    <option value="Pediatrics">
+                                        Pediatrics
+                                    </option>
+
+
+                                    <option value="General Surgery">
+                                        General Surgery
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- SPECIALIZATION -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorSpecialization"
+                                >
+                                    Specialization
+                                </label>
+
+
+                                <select
+                                    id="doctorSpecialization"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Specialization
+                                    </option>
+
+
+                                    <option value="General Medicine">
+                                        General Medicine
+                                    </option>
+
+
+                                    <option value="Cardiology">
+                                        Cardiology
+                                    </option>
+
+
+                                    <option value="Orthopedics">
+                                        Orthopedics
+                                    </option>
+
+
+                                    <option value="Dermatology">
+                                        Dermatology
+                                    </option>
+
+
+                                    <option value="Neurology">
+                                        Neurology
+                                    </option>
+
+
+                                    <option value="Pediatrics">
+                                        Pediatrics
+                                    </option>
+
+
+                                    <option value="General Surgery">
+                                        General Surgery
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- PHONE -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorPhone"
+                                >
+                                    Phone
+                                </label>
+
+
+                                <input
+                                    type="tel"
+                                    id="doctorPhone"
+                                    maxlength="10"
+                                    inputmode="numeric"
+                                    placeholder="10 digit phone number"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- USERNAME -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorUsername"
+                                >
+                                    Username
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    id="doctorUsername"
+                                    placeholder="Doctor username"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- PASSWORD -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorPassword"
+                                >
+                                    Password
+                                </label>
+
+
+                                <input
+                                    type="password"
+                                    id="doctorPassword"
+                                    placeholder="Doctor password"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- STATUS -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorStatus"
+                                >
+                                    Status
+                                </label>
+
+
+                                <select
+                                    id="doctorStatus"
+                                    required
+                                >
+
+                                    <option value="Active">
+                                        Active
+                                    </option>
+
+
+                                    <option value="Inactive">
+                                        Inactive
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- =================================
+                                 WORKING DAYS
+                            ================================== -->
+
+                            <div
+                                class="form-group full-width"
+                            >
+
+                                <label>
+                                    Working Days
+                                </label>
+
+
+                                <div class="working-days">
+
+
+                                    <label
+                                        class="working-day"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            name="workingDay"
+                                            value="Monday"
+                                        >
+
+                                        Monday
+
+                                    </label>
+
+
+                                    <label
+                                        class="working-day"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            name="workingDay"
+                                            value="Tuesday"
+                                        >
+
+                                        Tuesday
+
+                                    </label>
+
+
+                                    <label
+                                        class="working-day"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            name="workingDay"
+                                            value="Wednesday"
+                                        >
+
+                                        Wednesday
+
+                                    </label>
+
+
+                                    <label
+                                        class="working-day"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            name="workingDay"
+                                            value="Thursday"
+                                        >
+
+                                        Thursday
+
+                                    </label>
+
+
+                                    <label
+                                        class="working-day"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            name="workingDay"
+                                            value="Friday"
+                                        >
+
+                                        Friday
+
+                                    </label>
+
+
+                                    <label
+                                        class="working-day"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            name="workingDay"
+                                            value="Saturday"
+                                        >
+
+                                        Saturday
+
+                                    </label>
+
+
+                                    <label
+                                        class="working-day"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            name="workingDay"
+                                            value="Sunday"
+                                        >
+
+                                        Sunday
+
+                                    </label>
+
+
+                                </div>
+
+
+                                <div class="schedule-note">
+
+                                    Select the days on which
+                                    this doctor is available
+                                    for appointments.
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================
+                                 START TIME
+                            ================================== -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorStartTime"
+                                >
+                                    Available From
+                                </label>
+
+
+                                <input
+                                    type="time"
+                                    id="doctorStartTime"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- =================================
+                                 END TIME
+                            ================================== -->
+
+                            <div class="form-group">
+
+                                <label
+                                    for="doctorEndTime"
+                                >
+                                    Available Until
+                                </label>
+
+
+                                <input
+                                    type="time"
+                                    id="doctorEndTime"
+                                    required
+                                >
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- =================================
+                             BUTTONS
+                        ================================== -->
+
+                        <div class="form-buttons">
+
+
+                            <button
+                                type="submit"
+                                class="save-button"
+                            >
+                                Save Doctor
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="cancel-button"
+                                onclick="hideAddDoctor()"
+                            >
+                                Cancel
+                            </button>
+
+
+                        </div>
+
+
+
+                        <!-- SUCCESS -->
+
+                        <div
+                            id="successMessage"
+                            class="success-message"
+                        >
+                        </div>
+
+
+
+                        <!-- ERROR -->
+
+                        <div
+                            id="errorMessage"
+                            class="error-message"
+                        >
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 DOCTOR TABLE
+            ================================== -->
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Doctor ID
+                        </th>
+
+
+                        <th>
+                            Name
+                        </th>
+
+
+                        <th>
+                            Department
+                        </th>
+
+
+                        <th>
+                            Specialization
+                        </th>
+
+
+                        <th>
+                            Phone
+                        </th>
+
+
+                        <th>
+                            Status
+                        </th>
+
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="doctorTable">
+                </tbody>
+
+            </table>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         DOCTOR JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           STORAGE
+        ========================================= */
+
+        const DOCTOR_STORAGE_KEY =
+            "doctors";
+
+
+
+        /* =========================================
+           DEFAULT DOCTOR
+
+           IMPORTANT:
+           Existing default doctor is preserved.
+           New schedule fields are included.
+        ========================================= */
+
+        const DEFAULT_DOCTORS = [
+
+            {
+
+                doctorId:
+                    "D001",
+
+                name:
+                    "Dr. Example",
+
+                department:
+                    "General Medicine",
+
+                specialization:
+                    "General Medicine",
+
+                phone:
+                    "9876543210",
+
+                username:
+                    "doctor",
+
+                password:
+                    "doctor123",
+
+                workingDays: [
+
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday"
+
+                ],
+
+                startTime:
+                    "09:00",
+
+                endTime:
+                    "13:00",
+
+                status:
+                    "Active"
+
+            }
+
+        ];
+
+
+
+        /* =========================================
+           GET DOCTORS
+        ========================================= */
+
+        function getDoctors() {
+
+            const saved =
+                localStorage.getItem(
+                    DOCTOR_STORAGE_KEY
+                );
+
+
+            if (!saved) {
+
+                localStorage.setItem(
+
+                    DOCTOR_STORAGE_KEY,
+
+                    JSON.stringify(
+                        DEFAULT_DOCTORS
+                    )
+
+                );
+
+
+                return [
+                    ...DEFAULT_DOCTORS
+                ];
+
+            }
+
+
+            try {
+
+                const doctors =
+                    JSON.parse(saved);
+
+
+                if (
+                    !Array.isArray(
+                        doctors
+                    )
+                ) {
+
+                    throw new Error(
+                        "Invalid doctor data"
+                    );
+
+                }
+
+
+                /*
+                 * Make sure old doctors
+                 * receive the new fields.
+                 */
+
+                doctors.forEach(
+                    function(doctor) {
+
+
+                        if (
+                            !doctor.department
+                        ) {
+
+                            doctor.department =
+                                doctor.specialization ||
+                                "General Medicine";
+
+                        }
+
+
+                        if (
+                            !Array.isArray(
+                                doctor.workingDays
+                            )
+                        ) {
+
+                            doctor.workingDays = [
+
+                                "Monday",
+                                "Tuesday",
+                                "Wednesday",
+                                "Thursday",
+                                "Friday"
+
+                            ];
+
+                        }
+
+
+                        if (
+                            !doctor.startTime
+                        ) {
+
+                            doctor.startTime =
+                                "09:00";
+
+                        }
+
+
+                        if (
+                            !doctor.endTime
+                        ) {
+
+                            doctor.endTime =
+                                "13:00";
+
+                        }
+
+                    }
+                );
+
+
+                /*
+                 * Save upgraded doctor records.
+                 */
+
+                localStorage.setItem(
+
+                    DOCTOR_STORAGE_KEY,
+
+                    JSON.stringify(
+                        doctors
+                    )
+
+                );
+
+
+                return doctors;
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Unable to load doctors:",
+                    error
+                );
+
+
+                return [];
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           SAVE DOCTORS
+        ========================================= */
+
+        function saveDoctors(
+            doctors
+        ) {
+
+            localStorage.setItem(
+
+                DOCTOR_STORAGE_KEY,
+
+                JSON.stringify(
+                    doctors
+                )
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           SHOW ADD DOCTOR
+        ========================================= */
+
+        function showAddDoctor() {
+
+            document.getElementById(
+                "addDoctorSection"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "addDoctorSection"
+            ).scrollIntoView({
+
+                behavior:
+                    "smooth",
+
+                block:
+                    "start"
+
+            });
+
+        }
+
+
+
+        /* =========================================
+           HIDE ADD DOCTOR
+        ========================================= */
+
+        function hideAddDoctor() {
+
+            document.getElementById(
+                "addDoctorSection"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "doctorForm"
+            ).reset();
+
+
+            hideMessages();
+
+        }
+
+
+
+        /* =========================================
+           HIDE MESSAGES
+        ========================================= */
+
+        function hideMessages() {
+
+            document.getElementById(
+                "successMessage"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "errorMessage"
+            ).style.display =
+                "none";
+
+        }
+
+
+
+        /* =========================================
+           MASK PHONE
+        ========================================= */
+
+        function maskPhone(
+            phone
+        ) {
+
+            if (!phone) {
+
+                return "Not Available";
+
+            }
+
+
+            const value =
+                String(phone);
+
+
+            if (
+                value.length <= 4
+            ) {
+
+                return "****";
+
+            }
+
+
+            return (
+
+                "*".repeat(
+                    value.length - 4
+                )
+
+                +
+
+                value.slice(-4)
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHTML(
+            value
+        ) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.textContent =
+                value === undefined ||
+                value === null
+                    ? ""
+                    : value;
+
+
+            return div.innerHTML;
+
+        }
+
+
+
+        /* =========================================
+           FORMAT TIME
+        ========================================= */
+
+        function formatTime(
+            time
+        ) {
+
+            if (!time) {
+
+                return "-";
+
+            }
+
+
+            const parts =
+                time.split(":");
+
+
+            let hour =
+                Number(parts[0]);
+
+
+            const minute =
+                parts[1] || "00";
+
+
+            const period =
+                hour >= 12
+                    ? "PM"
+                    : "AM";
+
+
+            hour =
+                hour % 12;
+
+
+            if (hour === 0) {
+
+                hour = 12;
+
+            }
+
+
+            return (
+                hour
+                +
+                ":"
+                +
+                minute
+                +
+                " "
+                +
+                period
+            );
+
+        }
+
+
+
+        /* =========================================
+           DISPLAY DOCTORS
+        ========================================= */
+
+        function renderDoctors() {
+
+            const doctors =
+                getDoctors();
+
+
+            const table =
+                document.getElementById(
+                    "doctorTable"
+                );
+
+
+            table.innerHTML =
+                "";
+
+
+            /*
+             * UPDATE TOTAL
+             */
+
+            document.getElementById(
+                "doctorTotal"
+            ).textContent =
+                doctors.length;
+
+
+
+            /*
+             * DISPLAY EACH DOCTOR
+             */
+
+            doctors.forEach(
+                function(doctor) {
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+
+                            ${escapeHTML(
+                                doctor.doctorId
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                doctor.name
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                doctor.department ||
+                                doctor.specialization ||
+                                "-"
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                doctor.specialization ||
+                                "-"
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                maskPhone(
+                                    doctor.phone
+                                )
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                doctor.status
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="admin-doctor-details.html"
+                            >
+
+                                <button
+                                    type="button"
+                                >
+                                    View
+                                </button>
+
+                            </a>
+
+                        </td>
+
+                    `;
+
+
+                    table.appendChild(
+                        row
+                    );
+
+                }
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           ADD DOCTOR
+        ========================================= */
+
+        document.getElementById(
+            "doctorForm"
+        ).addEventListener(
+
+            "submit",
+
+            function(event) {
+
+
+                event.preventDefault();
+
+
+                hideMessages();
+
+
+
+                /* GET FORM VALUES */
+
+
+                const doctorId =
+                    document.getElementById(
+                        "doctorId"
+                    )
+                    .value
+                    .trim();
+
+
+                const name =
+                    document.getElementById(
+                        "doctorName"
+                    )
+                    .value
+                    .trim();
+
+
+                const department =
+                    document.getElementById(
+                        "doctorDepartment"
+                    )
+                    .value;
+
+
+                const specialization =
+                    document.getElementById(
+                        "doctorSpecialization"
+                    )
+                    .value;
+
+
+                const phone =
+                    document.getElementById(
+                        "doctorPhone"
+                    )
+                    .value
+                    .trim();
+
+
+                const username =
+                    document.getElementById(
+                        "doctorUsername"
+                    )
+                    .value
+                    .trim();
+
+
+                const password =
+                    document.getElementById(
+                        "doctorPassword"
+                    )
+                    .value;
+
+
+                const status =
+                    document.getElementById(
+                        "doctorStatus"
+                    )
+                    .value;
+
+
+                const startTime =
+                    document.getElementById(
+                        "doctorStartTime"
+                    )
+                    .value;
+
+
+                const endTime =
+                    document.getElementById(
+                        "doctorEndTime"
+                    )
+                    .value;
+
+
+
+                /* =================================
+                   WORKING DAYS
+                ================================= */
+
+                const workingDays =
+                    Array.from(
+
+                        document.querySelectorAll(
+                            'input[name="workingDay"]:checked'
+                        )
+
+                    )
+                    .map(
+                        function(input) {
+
+                            return input.value;
+
+                        }
+                    );
+
+
+
+                /* =================================
+                   VALIDATE PHONE
+                ================================= */
+
+                if (
+                    !/^\d{10}$/.test(
+                        phone
+                    )
+                ) {
+
+                    const error =
+                        document.getElementById(
+                            "errorMessage"
+                        );
+
+
+                    error.textContent =
+                        "Please enter a valid 10-digit phone number.";
+
+
+                    error.style.display =
+                        "block";
+
+
+                    return;
+
+                }
+
+
+
+                /* =================================
+                   VALIDATE WORKING DAYS
+                ================================= */
+
+                if (
+                    workingDays.length === 0
+                ) {
+
+                    const error =
+                        document.getElementById(
+                            "errorMessage"
+                        );
+
+
+                    error.textContent =
+                        "Please select at least one working day.";
+
+
+                    error.style.display =
+                        "block";
+
+
+                    return;
+
+                }
+
+
+
+                /* =================================
+                   VALIDATE TIME
+                ================================= */
+
+                if (
+                    !startTime ||
+                    !endTime
+                ) {
+
+                    const error =
+                        document.getElementById(
+                            "errorMessage"
+                        );
+
+
+                    error.textContent =
+                        "Please select the doctor's working time.";
+
+
+                    error.style.display =
+                        "block";
+
+
+                    return;
+
+                }
+
+
+                if (
+                    startTime >= endTime
+                ) {
+
+                    const error =
+                        document.getElementById(
+                            "errorMessage"
+                        );
+
+
+                    error.textContent =
+                        "The end time must be later than the start time.";
+
+
+                    error.style.display =
+                        "block";
+
+
+                    return;
+
+                }
+
+
+
+                /* =================================
+                   GET EXISTING DOCTORS
+                ================================= */
+
+                const doctors =
+                    getDoctors();
+
+
+
+                /* =================================
+                   CHECK DUPLICATE ID
+                ================================= */
+
+                const idExists =
+                    doctors.some(
+
+                        function(doctor) {
+
+                            return (
+
+                                String(
+                                    doctor.doctorId
+                                )
+                                .toLowerCase()
+
+                                ===
+
+                                doctorId
+                                    .toLowerCase()
+
+                            );
+
+                        }
+
+                    );
+
+
+                if (
+                    idExists
+                ) {
+
+                    const error =
+                        document.getElementById(
+                            "errorMessage"
+                        );
+
+
+                    error.textContent =
+                        "This Doctor ID already exists.";
+
+
+                    error.style.display =
+                        "block";
+
+
+                    return;
+
+                }
+
+
+
+                /* =================================
+                   CHECK DUPLICATE USERNAME
+                ================================= */
+
+                const usernameExists =
+                    doctors.some(
+
+                        function(doctor) {
+
+                            return (
+
+                                String(
+                                    doctor.username ||
+                                    ""
+                                )
+                                .toLowerCase()
+
+                                ===
+
+                                username
+                                    .toLowerCase()
+
+                            );
+
+                        }
+
+                    );
+
+
+                if (
+                    usernameExists
+                ) {
+
+                    const error =
+                        document.getElementById(
+                            "errorMessage"
+                        );
+
+
+                    error.textContent =
+                        "This username already exists.";
+
+
+                    error.style.display =
+                        "block";
+
+
+                    return;
+
+                }
+
+
+
+                /* =================================
+                   CREATE NEW DOCTOR
+                ================================= */
+
+                const newDoctor = {
+
+                    doctorId:
+                        doctorId,
+
+                    name:
+                        name,
+
+                    department:
+                        department,
+
+                    specialization:
+                        specialization,
+
+                    phone:
+                        phone,
+
+                    username:
+                        username,
+
+                    password:
+                        password,
+
+                    workingDays:
+                        workingDays,
+
+                    startTime:
+                        startTime,
+
+                    endTime:
+                        endTime,
+
+                    status:
+                        status
+
+                };
+
+
+
+                /* =================================
+                   ADD TO ARRAY
+                ================================= */
+
+                doctors.push(
+                    newDoctor
+                );
+
+
+
+                /* =================================
+                   SAVE
+                ================================= */
+
+                saveDoctors(
+                    doctors
+                );
+
+
+
+                /* =================================
+                   UPDATE TABLE + COUNT
+                ================================= */
+
+                renderDoctors();
+
+
+
+                /* =================================
+                   SUCCESS MESSAGE
+                ================================= */
+
+                const success =
+                    document.getElementById(
+                        "successMessage"
+                    );
+
+
+                success.textContent =
+                    "Doctor added successfully.";
+
+
+                success.style.display =
+                    "block";
+
+
+
+                /* =================================
+                   CLEAR FORM
+                ================================= */
+
+                document.getElementById(
+                    "doctorForm"
+                ).reset();
+
+
+            }
+
+        );
+
+
+
+        /* =========================================
+           PAGE LOAD
+        ========================================= */
+
+        document.addEventListener(
+
+            "DOMContentLoaded",
+
+            function() {
+
+                renderDoctors();
+
+            }
+
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

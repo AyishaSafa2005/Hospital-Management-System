@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OTP Verification - Hospital Management System</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <!-- Security -->
+    <script src="../security.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #e8f4f8, #f7fbfd);
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+
+        .otp-header {
+            height: 75px;
+            background: #0b5d7a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 7%;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.12);
+        }
+
+        .otp-logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+
+        /* MAIN */
+
+        .otp-main {
+            flex: 1;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 50px 20px;
+        }
+
+
+        /* CARD */
+
+        .otp-card {
+            width: 100%;
+            max-width: 560px;
+
+            background: white;
+
+            padding: 45px 50px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 12px 35px rgba(0,0,0,0.12);
+
+            text-align: center;
+        }
+
+
+        /* ICON */
+
+        .otp-icon {
+            width: 75px;
+            height: 75px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #e8f4f8;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 38px;
+        }
+
+
+        /* TITLE */
+
+        .otp-card h1 {
+            color: #0b5d7a;
+
+            font-size: 32px;
+
+            margin-bottom: 12px;
+        }
+
+        .otp-description {
+            color: #68757d;
+
+            font-size: 16px;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* ROLE */
+
+        .role-box {
+            background: #e8f4f8;
+
+            color: #0b5d7a;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-weight: bold;
+        }
+
+
+        /* PHONE */
+
+        .phone-box {
+            background: #f5fafc;
+
+            border: 1px solid #d7e8ee;
+
+            color: #0b5d7a;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 25px;
+
+            font-weight: bold;
+        }
+
+
+        /* OTP INPUT */
+
+        .otp-input {
+            width: 100%;
+
+            padding: 17px;
+
+            border: 1px solid #ccd8dd;
+
+            border-radius: 10px;
+
+            font-size: 28px;
+
+            text-align: center;
+
+            letter-spacing: 12px;
+
+            outline: none;
+
+            margin-bottom: 20px;
+        }
+
+        .otp-input:focus {
+            border-color: #0b5d7a;
+
+            box-shadow:
+                0 0 0 3px rgba(
+                    11,
+                    93,
+                    122,
+                    0.12
+                );
+        }
+
+
+        /* ERROR */
+
+        .error-message {
+            display: none;
+
+            background: #fdeaea;
+
+            color: #b52b27;
+
+            border: 1px solid #f3b5b2;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* VERIFY BUTTON */
+
+        .verify-btn {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #0b5d7a;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .verify-btn:hover {
+            background: #08485e;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* RESEND */
+
+        .resend-section {
+            margin-top: 22px;
+
+            color: #68757d;
+
+            font-size: 15px;
+        }
+
+        .resend-btn {
+            background: none;
+
+            border: none;
+
+            color: #0b5d7a;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+        .resend-btn:hover {
+            text-decoration: underline;
+        }
+
+
+        /* BACK */
+
+        .back-login {
+            display: inline-block;
+
+            margin-top: 25px;
+
+            color: #0b5d7a;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .back-login:hover {
+            text-decoration: underline;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            background: #083f52;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 20px;
+
+            font-size: 14px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .otp-card {
+                padding: 35px 25px;
+            }
+
+            .otp-card h1 {
+                font-size: 27px;
+            }
+
+            .otp-input {
+                font-size: 23px;
+                letter-spacing: 8px;
+            }
+
+            .otp-logo {
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="otp-header">
+
+        <div class="otp-logo">
+            🏥 Hospital Management System
+        </div>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main class="otp-main">
+
+        <div class="otp-card">
+
+
+            <div class="otp-icon">
+                🔐
+            </div>
+
+
+            <h1>
+                Verify Your Identity
+            </h1>
+
+
+            <p class="otp-description">
+
+                Enter the one-time password sent to your
+                registered phone number to securely access
+                your account.
+
+            </p>
+
+
+            <!-- ROLE -->
+
+            <div
+                class="role-box"
+                id="roleBox"
+            >
+                Role: --
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="phone-box">
+
+                OTP sent to:
+
+                <span id="maskedPhone">
+                    ****** 
+                </span>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <div
+                class="error-message"
+                id="errorMessage"
+            >
+                Invalid OTP. Please enter the correct
+                6-digit OTP.
+            </div>
+
+
+            <!-- OTP FORM -->
+
+            <form id="otpForm">
+
+
+                <input
+                    type="text"
+                    id="otp"
+                    class="otp-input"
+                    placeholder="123456"
+                    maxlength="6"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="verify-btn"
+                >
+                    Verify OTP
+                </button>
+
+
+            </form>
+
+
+            <!-- RESEND -->
+
+            <div class="resend-section">
+
+                Didn't receive the OTP?
+
+                <button
+                    type="button"
+                    class="resend-btn"
+                    onclick="resendOTP()"
+                >
+                    Resend OTP
+                </button>
+
+            </div>
+
+
+            <!-- BACK -->
+
+            <a
+                href="#"
+                class="back-login"
+                id="backLogin"
+            >
+                ← Back to Login
+            </a>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 Hospital Management System
+
+    </footer>
+
+
+
+    <script>
+
+        /* =========================================
+           GET LOGIN INFORMATION
+        ========================================= */
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const role =
+            (
+                urlParams.get("role") || ""
+            ).toLowerCase();
+
+
+        const phone =
+            urlParams.get("phone") || "";
+
+
+        const roleNames = {
+
+            admin: "Admin",
+
+            doctor: "Doctor",
+
+            nurse: "Nurse",
+
+            patient: "Patient",
+
+            pharmacist: "Pharmacist"
+
+        };
+
+
+        /* =========================================
+           CHECK PENDING LOGIN
+        ========================================= */
+
+        const pendingLogin =
+            sessionStorage.getItem(
+                "pendingLogin"
+            );
+
+
+        /*
+         * User should only reach OTP after
+         * successful username/password/phone
+         * verification.
+         */
+
+        if (
+            pendingLogin !== "true"
+        ) {
+
+            window.location.href =
+                "role-selection.html";
+
+        }
+
+
+
+        /* =========================================
+           DISPLAY ROLE
+        ========================================= */
+
+        document.getElementById(
+            "roleBox"
+        ).textContent =
+            "Role: " +
+            (
+                roleNames[role]
+                || "Unknown"
+            );
+
+
+
+        /* =========================================
+           MASK PHONE
+        ========================================= */
+
+        function displayMaskedPhone(
+            number
+        ) {
+
+            if (!number) {
+
+                return "Not Available";
+
+            }
+
+
+            if (
+                number.length <= 4
+            ) {
+
+                return "****";
+
+            }
+
+
+            return (
+                "******" +
+                number.slice(-4)
+            );
+
+        }
+
+
+        document.getElementById(
+            "maskedPhone"
+        ).textContent =
+            displayMaskedPhone(phone);
+
+
+
+        /* =========================================
+           BACK TO LOGIN
+        ========================================= */
+
+        document.getElementById(
+            "backLogin"
+        ).href =
+            "login.html?role=" +
+            encodeURIComponent(role);
+
+
+
+        /* =========================================
+           OTP FORM
+        ========================================= */
+
+        document
+            .getElementById("otpForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    const otp =
+                        document
+                            .getElementById("otp")
+                            .value
+                            .trim();
+
+
+                    const errorMessage =
+                        document.getElementById(
+                            "errorMessage"
+                        );
+
+
+                    /* CLEAR ERROR */
+
+                    errorMessage.style.display =
+                        "none";
+
+
+                    /* =================================
+                       TEMPORARY FRONTEND OTP
+                    ================================= */
+
+                    if (
+                        otp !== "123456"
+                    ) {
+
+                        errorMessage.textContent =
+                            "Invalid OTP. Please enter the correct 6-digit OTP.";
+
+                        errorMessage.style.display =
+                            "block";
+
+                        return;
+
+                    }
+
+
+
+                    /* =================================
+                       OTP SUCCESS
+                    ================================= */
+
+                    /*
+                     * Remove pending login.
+                     */
+
+                    sessionStorage.removeItem(
+                        "pendingLogin"
+                    );
+
+
+                    /*
+                     * Start the secure session.
+                     *
+                     * This comes from security.js.
+                     */
+
+                    startSession();
+
+
+                    /*
+                     * Save role and phone.
+                     */
+
+                    sessionStorage.setItem(
+                        "userRole",
+                        role
+                    );
+
+                    sessionStorage.setItem(
+                        "userPhone",
+                        phone
+                    );
+
+
+                    /* =================================
+                       FIND CORRECT DASHBOARD
+                    ================================= */
+
+                    let dashboard;
+
+
+                    switch (role) {
+
+                        case "admin":
+
+                            dashboard =
+                                "admin-dashboard.html";
+
+                            break;
+
+
+                        case "doctor":
+
+                            dashboard =
+                                "doctor-dashboard.html";
+
+                            break;
+
+
+                        case "nurse":
+
+                            dashboard =
+                                "nurse-dashboard.html";
+
+                            break;
+
+
+                        case "patient":
+
+                            dashboard =
+                                "patient-dashboard.html";
+
+                            break;
+
+
+                        case "pharmacist":
+
+                            dashboard =
+                                "pharmacist-dashboard.html";
+
+                            break;
+
+
+                        default:
+
+                            dashboard =
+                                "role-selection.html";
+
+                            break;
+
+                    }
+
+
+                    /*
+                     * DIRECT REDIRECT.
+                     *
+                     * No success alert.
+                     */
+
+                    window.location.href =
+                        dashboard;
+
+                }
+            );
+
+
+
+        /* =========================================
+           RESEND OTP
+        ========================================= */
+
+        function resendOTP() {
+
+            alert(
+                "A new OTP has been sent to " +
+                displayMaskedPhone(phone)
+            );
+
+        }
+
+
+
+        /* =========================================
+           ONLY ALLOW NUMBERS
+        ========================================= */
+
+        document
+            .getElementById("otp")
+            .addEventListener(
+                "input",
+                function() {
+
+                    this.value =
+                        this.value.replace(
+                            /[^0-9]/g,
+                            ""
+                        );
+
+                }
+            );
+
+
+
+        /* =========================================
+           HIDE ERROR WHILE TYPING
+        ========================================= */
+
+        document
+            .getElementById("otp")
+            .addEventListener(
+                "input",
+                function() {
+
+                    document.getElementById(
+                        "errorMessage"
+                    ).style.display =
+                        "none";
+
+                }
+            );
+
+    </script>
+
+
+</body>
+
+</html>

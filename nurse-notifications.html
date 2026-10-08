@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Nurse Notifications - Hospital Management System</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+    <style>
+
+        .page-header {
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 {
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #666;
+            margin: 0;
+        }
+
+        .notification-summary {
+            background: #ffffff;
+            padding: 18px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .notification-summary h3 {
+            margin: 0;
+            color: #0b6684;
+        }
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notification {
+            border: 1px solid #d9e3e8;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #eef7ff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: 0.2s ease;
+        }
+
+        .notification:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+        }
+
+        .notification.read {
+            background-color: #f5f5f5;
+            border-color: #ddd;
+        }
+
+        .notification h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #0b6684;
+        }
+
+        .notification p {
+            margin: 7px 0;
+            color: #444;
+        }
+
+        .notification .time {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .badge {
+            color: #ffffff;
+            background: #d32f2f;
+            font-weight: bold;
+            margin-left: 10px;
+            padding: 4px 9px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .status {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .read-status {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+
+        <div class="logo">
+
+            <h2>
+                🏥 HMS
+            </h2>
+
+        </div>
+
+
+        <div class="title">
+
+            <h2>
+                Hospital Management System
+            </h2>
+
+        </div>
+
+
+        <div class="admin-info">
+
+            Welcome, Nurse
+
+        </div>
+
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+
+            <a href="nurse-dashboard.html">
+                🏠 Dashboard
+            </a>
+
+
+            <a href="nurse-patients.html">
+                🧑 Assigned Patients
+            </a>
+
+
+            <a href="nurse-medicine-schedule.html">
+                💉 Medicine Schedule
+            </a>
+
+
+            <a href="nurse-ward-details.html">
+                🏥 Ward Details
+            </a>
+
+
+            <a href="nurse-patient-monitoring.html">
+                📋 Patient Monitoring
+            </a>
+
+
+            <a href="nurse-icu-availability.html">
+                🏥 ICU Availability
+            </a>
+
+
+            <a href="nurse-shift-handover.html">
+                📋 Shift Handover
+            </a>
+
+
+            <a href="nurse-profile.html">
+                👤 Profile
+            </a>
+
+
+            <a href="nurse-notifications.html" class="active">
+                🔔 Notifications
+            </a>
+
+
+            <a href="../index.html">
+                🚪 Logout
+            </a>
+
+
+        </aside>
+
+
+        <!-- CONTENT -->
+
+        <main class="content">
+
+
+            <div class="page-header">
+
+                <h1>
+                    Notifications
+                </h1>
+
+                <p>
+                    View important alerts, medicine reminders, patient assignments and status updates.
+                </p>
+
+            </div>
+
+
+            <!-- NOTIFICATION COUNT -->
+
+            <div class="notification-summary">
+
+                <h3 id="count">
+                    🔔 Notifications (4 New)
+                </h3>
+
+            </div>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <div class="notification-list">
+
+
+                <!-- Emergency Alert -->
+
+                <div
+                    class="notification"
+                    onclick="markRead(this)">
+
+
+                    <h3>
+
+                        🚨 Emergency Alert
+
+                        <span class="badge">
+                            New
+                        </span>
+
+                    </h3>
+
+
+                    <p>
+                        Patient Amit Kumar requires immediate attention in Cardiology Ward.
+                    </p>
+
+
+                    <p class="time">
+
+                        <b>
+                            Time:
+                        </b>
+
+                        10:45 AM
+
+                    </p>
+
+
+                </div>
+
+
+                <!-- Medicine Reminder -->
+
+                <div
+                    class="notification"
+                    onclick="markRead(this)">
+
+
+                    <h3>
+
+                        💊 Medicine Reminder
+
+                        <span class="badge">
+                            New
+                        </span>
+
+                    </h3>
+
+
+                    <p>
+                        Give Paracetamol to Rahul Sharma.
+                    </p>
+
+
+                    <p class="time">
+
+                        <b>
+                            Time:
+                        </b>
+
+                        9:00 AM
+
+                    </p>
+
+
+                </div>
+
+
+                <!-- New Patient Assigned -->
+
+                <div
+                    class="notification"
+                    onclick="markRead(this)">
+
+
+                    <h3>
+
+                        👤 New Patient Assigned
+
+                        <span class="badge">
+                            New
+                        </span>
+
+                    </h3>
+
+
+                    <p>
+                        Priya Singh has been assigned to your ward.
+                    </p>
+
+
+                    <p class="time">
+
+                        <b>
+                            Time:
+                        </b>
+
+                        8:20 AM
+
+                    </p>
+
+
+                </div>
+
+
+                <!-- Patient Status Updated -->
+
+                <div
+                    class="notification"
+                    onclick="markRead(this)">
+
+
+                    <h3>
+
+                        🩺 Patient Status Updated
+
+                        <span class="badge">
+                            New
+                        </span>
+
+                    </h3>
+
+
+                    <p>
+                        Rahul Sharma's health status has been updated to Stable.
+                    </p>
+
+
+                    <p class="time">
+
+                        <b>
+                            Time:
+                        </b>
+
+                        Yesterday
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 Hospital Management System | Nurse Notifications
+
+    </footer>
+
+
+    <script>
+
+
+        let unread = 4;
+
+
+        function markRead(card) {
+
+
+            // Do nothing if already read
+
+            if (card.classList.contains("read")) {
+
+                return;
+
+            }
+
+
+            // Mark notification as read
+
+            card.classList.add("read");
+
+
+            // Remove New badge
+
+            let badge =
+                card.querySelector(".badge");
+
+
+            if (badge) {
+
+                badge.remove();
+
+            }
+
+
+            // Add Read status
+
+            let status =
+                document.createElement("p");
+
+
+            status.className =
+                "read-status";
+
+
+            status.innerHTML =
+                "<span class='status'>✔ Read</span>";
+
+
+            card.appendChild(status);
+
+
+            // Decrease unread count
+
+            unread--;
+
+
+            // Update notification count
+
+            document
+                .getElementById("count")
+                .innerHTML =
+                "🔔 Notifications (" +
+                unread +
+                " New)";
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

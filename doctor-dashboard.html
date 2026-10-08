@@ -1,0 +1,3749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Doctor Dashboard - Hospital Management System
+    </title>
+
+    <!-- SAME ADMIN THEME -->
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+    <style>
+
+        .doctor-welcome {
+            margin-bottom: 20px;
+        }
+
+        .doctor-profile-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 22px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+        }
+
+        .doctor-avatar {
+            width: 70px;
+            height: 70px;
+
+            border-radius: 50%;
+
+            background: #0b6684;
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 26px;
+            font-weight: bold;
+
+            flex-shrink: 0;
+        }
+
+        .doctor-profile-info h2 {
+            margin: 0 0 6px;
+
+            color: #0b6684;
+        }
+
+        .doctor-profile-info p {
+            margin: 3px 0;
+
+            color: #68757d;
+        }
+
+        .doctor-id {
+            font-size: 14px;
+        }
+
+        .doctor-summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px, 1fr)
+                );
+
+            gap: 18px;
+
+            margin-bottom: 20px;
+        }
+
+        .doctor-summary-card {
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+            text-align: center;
+        }
+
+        /* CLICKABLE CARDS */
+
+        .clickable-card {
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .clickable-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(0,0,0,0.14);
+        }
+
+        .doctor-summary-card h3 {
+            margin: 0 0 12px;
+
+            color: #68757d;
+
+            font-size: 15px;
+        }
+
+        .doctor-summary-number {
+            color: #0b6684;
+
+            font-size: 30px;
+
+            font-weight: bold;
+        }
+
+        .doctor-summary-label {
+            margin-top: 5px;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+        /* DASHBOARD LIST */
+
+        .dashboard-list-section {
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 22px;
+
+            margin-top: 25px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+        }
+
+        .dashboard-list-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+        .dashboard-list-header h2 {
+            margin: 0;
+
+            color: #0b6684;
+        }
+
+        .close-list-button {
+            background: #e9eef1;
+
+            color: #333;
+
+            border: none;
+
+            padding: 9px 16px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .close-list-button:hover {
+            background: #dce5e9;
+        }
+
+        .dashboard-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .dashboard-table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        .dashboard-table th,
+        .dashboard-table td {
+            padding: 12px;
+
+            border-bottom:
+                1px solid #e5e5e5;
+
+            text-align: left;
+
+            white-space: nowrap;
+        }
+
+        .dashboard-table th {
+            background: #f1f7fa;
+
+            color: #0b6684;
+        }
+
+        .dashboard-table tr:hover {
+            background: #f8fbfc;
+        }
+
+        .dashboard-view-button {
+            background: #0b6684;
+
+            color: white;
+
+            padding: 8px 13px;
+
+            border-radius: 5px;
+
+            text-decoration: none;
+
+            display: inline-block;
+        }
+
+        .dashboard-view-button:hover {
+            background: #084f66;
+        }
+
+        .dashboard-empty {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #68757d;
+        }
+
+        /* QUICK ACTIONS */
+
+        .doctor-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(190px, 1fr)
+                );
+
+            gap: 15px;
+        }
+
+        .doctor-action {
+            display: block;
+
+            text-decoration: none;
+
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+            color: #0b6684;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .doctor-action:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 6px 18px
+                rgba(0,0,0,0.12);
+        }
+
+        .doctor-action span {
+            display: block;
+
+            color: #68757d;
+
+            font-size: 13px;
+
+            font-weight: normal;
+
+            margin-top: 6px;
+        }
+
+        .doctor-error {
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+        }
+
+        .doctor-error h2 {
+            color: #b52b27;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+
+            .doctor-profile-card {
+                align-items: flex-start;
+            }
+
+            .doctor-avatar {
+                width: 58px;
+                height: 58px;
+
+                font-size: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            Hospital Management System
+        </h2>
+
+        <div>
+
+            <span id="topDoctorName">
+                Doctor
+            </span>
+
+            <a
+                href="../index.html"
+                onclick="logoutDoctor()"
+            >
+
+                <button type="button">
+                    Logout
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+            <a
+                href="doctor-dashboard.html"
+                class="active"
+            >
+                Dashboard
+            </a>
+
+            <a href="doctor-patients.html">
+                My Patients
+            </a>
+
+            <a href="doctor-appointments.html">
+                Appointments
+            </a>
+
+            <a href="doctor-records.html">
+                Records
+            </a>
+
+            <a href="doctor-prescriptions.html">
+                Prescriptions
+            </a>
+
+            <a href="doctor-access-requests.html">
+                Access Requests
+            </a>
+
+            <a href="doctor-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <!-- WELCOME -->
+
+            <div class="welcome-card doctor-welcome">
+
+                <h1>
+                    Doctor Dashboard
+                </h1>
+
+                <p id="welcomeMessage">
+                    Welcome to your Doctor Dashboard.
+                </p>
+
+            </div>
+
+
+
+            <!-- DOCTOR PROFILE -->
+
+            <div
+                id="doctorProfileCard"
+                class="doctor-profile-card"
+            >
+
+                <div
+                    id="doctorAvatar"
+                    class="doctor-avatar"
+                >
+                    D
+                </div>
+
+                <div class="doctor-profile-info">
+
+                    <h2 id="doctorName">
+                        Doctor
+                    </h2>
+
+                    <p id="doctorDepartment">
+                        Department: -
+                    </p>
+
+                    <p
+                        id="doctorSpecialization"
+                        class="doctor-id"
+                    >
+                        Specialization: -
+                    </p>
+
+                    <p
+                        id="doctorId"
+                        class="doctor-id"
+                    >
+                        Doctor ID: -
+                    </p>
+
+                    <p
+                        id="doctorUsername"
+                        class="doctor-id"
+                    >
+                        Username: -
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SUMMARY CARDS
+            ================================== -->
+
+            <div id="dashboardContent">
+
+                <div class="doctor-summary-grid">
+
+
+                    <!-- MY PATIENTS -->
+
+                    <div
+                        class="doctor-summary-card clickable-card"
+                        onclick="showDashboardList('myPatients')"
+                    >
+
+                        <h3>
+                            My Patients
+                        </h3>
+
+                        <div
+                            id="myPatientsCount"
+                            class="doctor-summary-number"
+                        >
+                            0
+                        </div>
+
+                        <div class="doctor-summary-label">
+                            Assigned Patients
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- TOTAL PATIENTS -->
+
+                    <div
+                        class="doctor-summary-card clickable-card"
+                        onclick="showDashboardList('totalPatients')"
+                    >
+
+                        <h3>
+                            Total Patients
+                        </h3>
+
+                        <div
+                            id="totalPatientsCount"
+                            class="doctor-summary-number"
+                        >
+                            0
+                        </div>
+
+                        <div class="doctor-summary-label">
+                            Hospital Patients
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CRITICAL -->
+
+                    <div
+                        class="doctor-summary-card clickable-card"
+                        onclick="showDashboardList('critical')"
+                    >
+
+                        <h3>
+                            Critical
+                        </h3>
+
+                        <div
+                            id="criticalCount"
+                            class="doctor-summary-number"
+                        >
+                            0
+                        </div>
+
+                        <div class="doctor-summary-label">
+                            Critical Patients
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STABLE -->
+
+                    <div
+                        class="doctor-summary-card clickable-card"
+                        onclick="showDashboardList('stable')"
+                    >
+
+                        <h3>
+                            Stable
+                        </h3>
+
+                        <div
+                            id="stableCount"
+                            class="doctor-summary-number"
+                        >
+                            0
+                        </div>
+
+                        <div class="doctor-summary-label">
+                            Stable Patients
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ADMITTED TODAY -->
+
+                    <div
+                        class="doctor-summary-card clickable-card"
+                        onclick="showDashboardList('admittedToday')"
+                    >
+
+                        <h3>
+                            Admitted Today
+                        </h3>
+
+                        <div
+                            id="admittedTodayCount"
+                            class="doctor-summary-number"
+                        >
+                            0
+                        </div>
+
+                        <div class="doctor-summary-label">
+                            Today's Admissions
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- APPOINTMENTS -->
+
+                    <div
+                        class="doctor-summary-card clickable-card"
+                        onclick="showDashboardList('appointments')"
+                    >
+
+                        <h3>
+                            Appointments
+                        </h3>
+
+                        <div
+                            id="appointmentsCount"
+                            class="doctor-summary-number"
+                        >
+                            0
+                        </div>
+
+                        <div class="doctor-summary-label">
+                            My Appointments
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ACCESS REQUESTS -->
+
+                    <div
+                        class="doctor-summary-card clickable-card"
+                        onclick="showDashboardList('accessRequests')"
+                    >
+
+                        <h3>
+                            Access Requests
+                        </h3>
+
+                        <div
+                            id="accessRequestsCount"
+                            class="doctor-summary-number"
+                        >
+                            0
+                        </div>
+
+                        <div class="doctor-summary-label">
+                            Pending Requests
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PRESCRIPTIONS -->
+
+                    <div
+                        class="doctor-summary-card clickable-card"
+                        onclick="showDashboardList('prescriptions')"
+                    >
+
+                        <h3>
+                            Prescriptions
+                        </h3>
+
+                        <div
+                            id="prescriptionsCount"
+                            class="doctor-summary-number"
+                        >
+                            0
+                        </div>
+
+                        <div class="doctor-summary-label">
+                            My Prescriptions
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================
+                     CLICKABLE LIST SECTION
+                ================================== -->
+
+                <div
+                    id="dashboardListSection"
+                    class="dashboard-list-section"
+                    style="display:none;"
+                >
+
+                    <div class="dashboard-list-header">
+
+                        <h2 id="dashboardListTitle">
+                            List
+                        </h2>
+
+                        <button
+                            type="button"
+                            class="close-list-button"
+                            onclick="closeDashboardList()"
+                        >
+                            Close
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="dashboardListContent"
+                        class="dashboard-table-wrapper"
+                    ></div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     QUICK ACTIONS
+                ================================== -->
+
+                <div class="card">
+
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                    <div class="doctor-actions">
+
+                        <a
+                            href="doctor-patients.html"
+                            class="doctor-action"
+                        >
+
+                            My Patients
+
+                            <span>
+                                View patients assigned to you.
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="doctor-appointments.html"
+                            class="doctor-action"
+                        >
+
+                            Appointments
+
+                            <span>
+                                View and complete your appointments.
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="doctor-records.html"
+                            class="doctor-action"
+                        >
+
+                            Patient Records
+
+                            <span>
+                                View authorized medical records.
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="doctor-prescriptions.html"
+                            class="doctor-action"
+                        >
+
+                            Prescriptions
+
+                            <span>
+                                Create and view prescriptions.
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="doctor-access-requests.html"
+                            class="doctor-action"
+                        >
+
+                            Access Requests
+
+                            <span>
+                                Manage requests from other doctors.
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="doctor-profile.html"
+                            class="doctor-action"
+                        >
+
+                            My Profile
+
+                            <span>
+                                View your doctor account information.
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- LOGIN ERROR -->
+
+            <div
+                id="doctorError"
+                class="doctor-error hidden"
+            >
+
+                <h2>
+                    Doctor Login Required
+                </h2>
+
+                <p>
+                    No logged-in doctor account was found.
+                </p>
+
+                <p>
+                    Please return to the login page and sign in
+                    using your Doctor account.
+                </p>
+
+                <br>
+
+                <a href="role-selection.html">
+
+                    <button type="button">
+                        Go to Login
+                    </button>
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- SECURITY -->
+
+    <script src="../security.js"></script>
+
+
+
+    <!-- =========================================
+         DOCTOR DASHBOARD JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           STORAGE HELPERS
+        ========================================= */
+
+        function getArray(key) {
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        localStorage.getItem(key)
+                        || "[]"
+                    );
+
+                return Array.isArray(data)
+                    ? data
+                    : [];
+
+            }
+
+            catch (error) {
+
+                return [];
+
+            }
+
+        }
+
+
+        function normalize(value) {
+
+            return String(
+                value || ""
+            )
+            .trim()
+            .toLowerCase();
+
+        }
+
+
+
+        /* =========================================
+           GET LOGGED-IN DOCTOR
+        ========================================= */
+
+        function getLoggedInDoctor() {
+
+            /*
+             * IMPORTANT:
+             * login.html stores the logged-in
+             * Admin-created doctor here.
+             */
+
+            const currentStaff =
+                sessionStorage.getItem(
+                    "currentStaff"
+                );
+
+
+            if (currentStaff) {
+
+                try {
+
+                    const staff =
+                        JSON.parse(
+                            currentStaff
+                        );
+
+
+                    if (
+                        staff &&
+                        typeof staff === "object"
+                    ) {
+
+                        return staff;
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Unable to read currentStaff:",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            /*
+             * Compatibility with older
+             * Doctor session keys.
+             */
+
+            const possibleKeys = [
+
+                "loggedInDoctor",
+
+                "doctorSession",
+
+                "currentDoctor"
+
+            ];
+
+
+            for (
+                const key of possibleKeys
+            ) {
+
+                const raw =
+                    localStorage.getItem(
+                        key
+                    );
+
+
+                if (!raw) {
+                    continue;
+                }
+
+
+                try {
+
+                    const doctor =
+                        JSON.parse(
+                            raw
+                        );
+
+
+                    if (
+                        doctor &&
+                        typeof doctor === "object"
+                    ) {
+
+                        return doctor;
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    return {
+
+                        username: raw,
+
+                        name: raw
+
+                    };
+
+                }
+
+            }
+
+
+            /*
+             * hmsSession compatibility.
+             */
+
+            const hmsSession =
+                sessionStorage.getItem(
+                    "hmsSession"
+                );
+
+
+            if (hmsSession) {
+
+                try {
+
+                    const session =
+                        JSON.parse(
+                            hmsSession
+                        );
+
+
+                    if (
+                        session &&
+                        (
+                            normalize(
+                                session.role
+                            ) === "doctor"
+
+                            ||
+
+                            normalize(
+                                session.userRole
+                            ) === "doctor"
+
+                            ||
+
+                            normalize(
+                                session.userType
+                            ) === "doctor"
+                        )
+                    ) {
+
+                        return session;
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Unable to read hmsSession:",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+
+        /* =========================================
+           DOCTOR FIELD HELPERS
+        ========================================= */
+
+        function getDoctorId(doctor) {
+
+            if (!doctor) {
+                return "";
+            }
+
+
+            return String(
+
+                doctor.doctorId
+
+                ||
+
+                doctor.id
+
+                ||
+
+                doctor.userId
+
+                ||
+
+                ""
+
+            ).trim();
+
+        }
+
+
+        function getDoctorName(doctor) {
+
+            if (!doctor) {
+                return "Doctor";
+            }
+
+
+            return String(
+
+                doctor.name
+
+                ||
+
+                doctor.fullName
+
+                ||
+
+                doctor.doctorName
+
+                ||
+
+                doctor.username
+
+                ||
+
+                "Doctor"
+
+            ).trim();
+
+        }
+
+
+        function getDoctorUsername(doctor) {
+
+            if (!doctor) {
+                return "";
+            }
+
+
+            return String(
+
+                doctor.username
+
+                ||
+
+                doctor.userName
+
+                ||
+
+                doctor.loginUsername
+
+                ||
+
+                ""
+
+            ).trim();
+
+        }
+
+
+        function getDoctorDepartment(doctor) {
+
+            if (!doctor) {
+                return "";
+            }
+
+
+            return String(
+
+                doctor.department
+
+                ||
+
+                doctor.dept
+
+                ||
+
+                ""
+
+            ).trim();
+
+        }
+
+
+        function getDoctorSpecialization(doctor) {
+
+            if (!doctor) {
+                return "";
+            }
+
+
+            return String(
+
+                doctor.specialization
+
+                ||
+
+                doctor.speciality
+
+                ||
+
+                doctor.specialty
+
+                ||
+
+                ""
+
+            ).trim();
+
+        }
+
+
+
+        /* =========================================
+           FIND FULL DOCTOR RECORD
+        ========================================= */
+
+        function findFullDoctor(loggedDoctor) {
+
+            if (!loggedDoctor) {
+                return null;
+            }
+
+
+            const doctors =
+                getArray(
+                    "doctors"
+                );
+
+
+            const loggedId =
+                getDoctorId(
+                    loggedDoctor
+                );
+
+
+            const loggedUsername =
+                getDoctorUsername(
+                    loggedDoctor
+                );
+
+
+            const loggedName =
+                getDoctorName(
+                    loggedDoctor
+                );
+
+
+            /*
+             * Match Doctor ID.
+             */
+
+            if (loggedId) {
+
+                const matchById =
+                    doctors.find(
+                        function(doctor) {
+
+                            return (
+
+                                getDoctorId(
+                                    doctor
+                                )
+
+                                &&
+
+                                normalize(
+                                    getDoctorId(
+                                        doctor
+                                    )
+                                )
+                                ===
+                                normalize(
+                                    loggedId
+                                )
+
+                            );
+
+                        }
+                    );
+
+
+                if (matchById) {
+
+                    return matchById;
+
+                }
+
+            }
+
+
+            /*
+             * Match username.
+             */
+
+            if (loggedUsername) {
+
+                const matchByUsername =
+                    doctors.find(
+                        function(doctor) {
+
+                            return (
+
+                                getDoctorUsername(
+                                    doctor
+                                )
+
+                                &&
+
+                                normalize(
+                                    getDoctorUsername(
+                                        doctor
+                                    )
+                                )
+                                ===
+                                normalize(
+                                    loggedUsername
+                                )
+
+                            );
+
+                        }
+                    );
+
+
+                if (matchByUsername) {
+
+                    return matchByUsername;
+
+                }
+
+            }
+
+
+            /*
+             * Match name.
+             */
+
+            if (loggedName) {
+
+                const matchByName =
+                    doctors.find(
+                        function(doctor) {
+
+                            return (
+
+                                getDoctorName(
+                                    doctor
+                                )
+
+                                &&
+
+                                normalize(
+                                    getDoctorName(
+                                        doctor
+                                    )
+                                )
+                                ===
+                                normalize(
+                                    loggedName
+                                )
+
+                            );
+
+                        }
+                    );
+
+
+                if (matchByName) {
+
+                    return matchByName;
+
+                }
+
+            }
+
+
+            return loggedDoctor;
+
+        }
+
+
+
+        /* =========================================
+           CURRENT DOCTOR
+        ========================================= */
+
+        const loggedInDoctor =
+            getLoggedInDoctor();
+
+
+        const currentDoctor =
+            findFullDoctor(
+                loggedInDoctor
+            );
+
+
+
+        /* =========================================
+           PATIENT ASSIGNMENT
+        ========================================= */
+
+        function isMyPatient(patient) {
+
+            if (
+                !patient ||
+                !currentDoctor
+            ) {
+
+                return false;
+
+            }
+
+
+            const doctorId =
+                getDoctorId(
+                    currentDoctor
+                );
+
+
+            const doctorName =
+                getDoctorName(
+                    currentDoctor
+                );
+
+
+            const patientDoctorId =
+                String(
+
+                    patient.assignedDoctorId
+
+                    ||
+
+                    patient.doctorId
+
+                    ||
+
+                    patient.assignedDoctorID
+
+                    ||
+
+                    ""
+
+                ).trim();
+
+
+            const patientDoctorName =
+                String(
+
+                    patient.assignedDoctorName
+
+                    ||
+
+                    patient.assignedDoctor
+
+                    ||
+
+                    patient.doctorName
+
+                    ||
+
+                    ""
+
+                ).trim();
+
+
+            return (
+
+                (
+                    doctorId
+
+                    &&
+
+                    patientDoctorId
+
+                    &&
+
+                    normalize(
+                        doctorId
+                    )
+                    ===
+                    normalize(
+                        patientDoctorId
+                    )
+                )
+
+                ||
+
+                (
+                    doctorName
+
+                    &&
+
+                    patientDoctorName
+
+                    &&
+
+                    normalize(
+                        doctorName
+                    )
+                    ===
+                    normalize(
+                        patientDoctorName
+                    )
+                )
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           TODAY
+        ========================================= */
+
+        function getToday() {
+
+            const date =
+                new Date();
+
+
+            const year =
+                date.getFullYear();
+
+
+            const month =
+                String(
+                    date.getMonth() + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const day =
+                String(
+                    date.getDate()
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            return (
+                year
+                +
+                "-"
+                +
+                month
+                +
+                "-"
+                +
+                day
+            );
+
+        }
+
+
+
+        /* =========================================
+           DISPLAY DOCTOR
+        ========================================= */
+
+        function displayDoctor() {
+
+            if (!currentDoctor) {
+
+                document
+                    .getElementById(
+                        "doctorProfileCard"
+                    )
+                    .classList.add(
+                        "hidden"
+                    );
+
+
+                document
+                    .getElementById(
+                        "dashboardContent"
+                    )
+                    .classList.add(
+                        "hidden"
+                    );
+
+
+                document
+                    .getElementById(
+                        "doctorError"
+                    )
+                    .classList.remove(
+                        "hidden"
+                    );
+
+
+                return false;
+
+            }
+
+
+            const name =
+                getDoctorName(
+                    currentDoctor
+                );
+
+
+            const id =
+                getDoctorId(
+                    currentDoctor
+                );
+
+
+            const username =
+                getDoctorUsername(
+                    currentDoctor
+                );
+
+
+            const department =
+                getDoctorDepartment(
+                    currentDoctor
+                );
+
+
+            const specialization =
+                getDoctorSpecialization(
+                    currentDoctor
+                );
+
+
+            document
+                .getElementById(
+                    "topDoctorName"
+                )
+                .textContent =
+                name;
+
+
+            document
+                .getElementById(
+                    "doctorName"
+                )
+                .textContent =
+                name;
+
+
+            document
+                .getElementById(
+                    "doctorDepartment"
+                )
+                .textContent =
+                "Department: "
+                +
+                (
+                    department || "-"
+                );
+
+
+            document
+                .getElementById(
+                    "doctorSpecialization"
+                )
+                .textContent =
+                "Specialization: "
+                +
+                (
+                    specialization || "-"
+                );
+
+
+            document
+                .getElementById(
+                    "doctorId"
+                )
+                .textContent =
+                "Doctor ID: "
+                +
+                (
+                    id || "-"
+                );
+
+
+            document
+                .getElementById(
+                    "doctorUsername"
+                )
+                .textContent =
+                "Username: "
+                +
+                (
+                    username || "-"
+                );
+
+
+            document
+                .getElementById(
+                    "welcomeMessage"
+                )
+                .textContent =
+                "Welcome, "
+                +
+                name
+                +
+                ". Manage your patients, appointments, records and prescriptions from this dashboard.";
+
+
+            const words =
+                name
+                    .trim()
+                    .split(
+                        /\s+/
+                    )
+                    .filter(
+                        Boolean
+                    );
+
+
+            let initials =
+                "D";
+
+
+            if (
+                words.length >= 2
+            ) {
+
+                initials =
+                    words[0].charAt(0)
+                    +
+                    words[
+                        words.length - 1
+                    ].charAt(0);
+
+            }
+
+            else if (
+                words.length === 1
+            ) {
+
+                initials =
+                    words[0].charAt(0);
+
+            }
+
+
+            document
+                .getElementById(
+                    "doctorAvatar"
+                )
+                .textContent =
+                initials.toUpperCase();
+
+
+            return true;
+
+        }
+
+
+
+        /* =========================================
+           DASHBOARD COUNTS
+        ========================================= */
+
+        function calculateDashboard() {
+
+            if (!currentDoctor) {
+                return;
+            }
+
+
+            const patients =
+                getArray(
+                    "patients"
+                );
+
+
+            const myPatients =
+                patients.filter(
+                    function(patient) {
+
+                        return isMyPatient(
+                            patient
+                        );
+
+                    }
+                );
+
+
+            document
+                .getElementById(
+                    "myPatientsCount"
+                )
+                .textContent =
+                myPatients.length;
+
+
+            document
+                .getElementById(
+                    "totalPatientsCount"
+                )
+                .textContent =
+                patients.length;
+
+
+            /* CRITICAL */
+
+            const criticalPatients =
+                myPatients.filter(
+                    function(patient) {
+
+                        const status =
+                            normalize(
+
+                                patient.status
+
+                                ||
+
+                                patient.patientStatus
+
+                                ||
+
+                                patient.condition
+
+                                ||
+
+                                ""
+
+                            );
+
+
+                        return (
+                            status === "critical"
+                            ||
+                            status === "critically ill"
+                        );
+
+                    }
+                );
+
+
+            document
+                .getElementById(
+                    "criticalCount"
+                )
+                .textContent =
+                criticalPatients.length;
+
+
+            /* STABLE */
+
+            const stablePatients =
+                myPatients.filter(
+                    function(patient) {
+
+                        const status =
+                            normalize(
+
+                                patient.status
+
+                                ||
+
+                                patient.patientStatus
+
+                                ||
+
+                                patient.condition
+
+                                ||
+
+                                ""
+
+                            );
+
+
+                        return (
+                            status === "stable"
+                        );
+
+                    }
+                );
+
+
+            document
+                .getElementById(
+                    "stableCount"
+                )
+                .textContent =
+                stablePatients.length;
+
+
+            /* ADMITTED TODAY */
+
+            const today =
+                getToday();
+
+
+            const admittedToday =
+                myPatients.filter(
+                    function(patient) {
+
+                        const patientType =
+                            normalize(
+
+                                patient.patientType
+
+                                ||
+
+                                patient.type
+
+                                ||
+
+                                ""
+
+                            );
+
+
+                        const admissionDate =
+                            String(
+
+                                patient.admissionDate
+
+                                ||
+
+                                patient.admittedDate
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        return (
+
+                            patientType === "inpatient"
+
+                            &&
+
+                            (
+                                admissionDate === today
+                                ||
+                                admissionDate.startsWith(today)
+                            )
+
+                        );
+
+                    }
+                );
+
+
+            document
+                .getElementById(
+                    "admittedTodayCount"
+                )
+                .textContent =
+                admittedToday.length;
+
+
+            /* APPOINTMENTS */
+
+            const appointments =
+                getArray(
+                    "appointments"
+                );
+
+
+            const doctorId =
+                getDoctorId(
+                    currentDoctor
+                );
+
+
+            const doctorName =
+                getDoctorName(
+                    currentDoctor
+                );
+
+
+            const myAppointments =
+                appointments.filter(
+                    function(appointment) {
+
+                        const appointmentDoctorId =
+                            String(
+
+                                appointment.doctorId
+
+                                ||
+
+                                appointment.assignedDoctorId
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        const appointmentDoctorName =
+                            String(
+
+                                appointment.doctorName
+
+                                ||
+
+                                appointment.doctor
+
+                                ||
+
+                                appointment.assignedDoctorName
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        return (
+
+                            (
+                                appointmentDoctorId
+
+                                &&
+
+                                doctorId
+
+                                &&
+
+                                normalize(
+                                    appointmentDoctorId
+                                )
+                                ===
+                                normalize(
+                                    doctorId
+                                )
+                            )
+
+                            ||
+
+                            (
+                                appointmentDoctorName
+
+                                &&
+
+                                doctorName
+
+                                &&
+
+                                normalize(
+                                    appointmentDoctorName
+                                )
+                                ===
+                                normalize(
+                                    doctorName
+                                )
+                            )
+
+                        );
+
+                    }
+                );
+
+
+            document
+                .getElementById(
+                    "appointmentsCount"
+                )
+                .textContent =
+                myAppointments.length;
+
+
+            /* ACCESS REQUESTS */
+
+            const requests =
+                getArray(
+                    "doctorAccessRequests"
+                );
+
+
+            const pendingRequests =
+                requests.filter(
+                    function(request) {
+
+                        const ownerId =
+                            String(
+
+                                request.ownerDoctorId
+
+                                ||
+
+                                request.doctorId
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        const ownerName =
+                            String(
+
+                                request.ownerDoctorName
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        return (
+
+                            normalize(
+                                request.status
+                            ) === "pending"
+
+                            &&
+
+                            (
+
+                                (
+                                    ownerId
+
+                                    &&
+
+                                    doctorId
+
+                                    &&
+
+                                    normalize(
+                                        ownerId
+                                    )
+                                    ===
+                                    normalize(
+                                        doctorId
+                                    )
+                                )
+
+                                ||
+
+                                (
+                                    ownerName
+
+                                    &&
+
+                                    doctorName
+
+                                    &&
+
+                                    normalize(
+                                        ownerName
+                                    )
+                                    ===
+                                    normalize(
+                                        doctorName
+                                    )
+                                )
+
+                            )
+
+                        );
+
+                    }
+                );
+
+
+            document
+                .getElementById(
+                    "accessRequestsCount"
+                )
+                .textContent =
+                pendingRequests.length;
+
+
+            /* PRESCRIPTIONS */
+
+            const prescriptions =
+                getArray(
+                    "prescriptions"
+                );
+
+
+            const myPrescriptions =
+                prescriptions.filter(
+                    function(prescription) {
+
+                        const prescriptionDoctorId =
+                            String(
+
+                                prescription.doctorId
+
+                                ||
+
+                                prescription.prescribedByDoctorId
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        const prescriptionDoctorName =
+                            String(
+
+                                prescription.doctorName
+
+                                ||
+
+                                prescription.doctor
+
+                                ||
+
+                                prescription.prescribedByDoctorName
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        return (
+
+                            (
+                                prescriptionDoctorId
+
+                                &&
+
+                                doctorId
+
+                                &&
+
+                                normalize(
+                                    prescriptionDoctorId
+                                )
+                                ===
+                                normalize(
+                                    doctorId
+                                )
+                            )
+
+                            ||
+
+                            (
+                                prescriptionDoctorName
+
+                                &&
+
+                                doctorName
+
+                                &&
+
+                                normalize(
+                                    prescriptionDoctorName
+                                )
+                                ===
+                                normalize(
+                                    doctorName
+                                )
+                            )
+
+                        );
+
+                    }
+                );
+
+
+            document
+                .getElementById(
+                    "prescriptionsCount"
+                )
+                .textContent =
+                myPrescriptions.length;
+
+        }
+
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHtml(value) {
+
+            return String(
+                value ?? ""
+            )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+
+
+        /* =========================================
+           SHOW DASHBOARD LIST
+        ========================================= */
+
+        function showDashboardList(type) {
+
+            if (!currentDoctor) {
+                return;
+            }
+
+
+            const section =
+                document.getElementById(
+                    "dashboardListSection"
+                );
+
+
+            const title =
+                document.getElementById(
+                    "dashboardListTitle"
+                );
+
+
+            const content =
+                document.getElementById(
+                    "dashboardListContent"
+                );
+
+
+            const patients =
+                getArray(
+                    "patients"
+                );
+
+
+            const appointments =
+                getArray(
+                    "appointments"
+                );
+
+
+            const prescriptions =
+                getArray(
+                    "prescriptions"
+                );
+
+
+            const requests =
+                getArray(
+                    "doctorAccessRequests"
+                );
+
+
+            const myPatients =
+                patients.filter(
+                    function(patient) {
+
+                        return isMyPatient(
+                            patient
+                        );
+
+                    }
+                );
+
+
+            const doctorId =
+                getDoctorId(
+                    currentDoctor
+                );
+
+
+            const doctorName =
+                getDoctorName(
+                    currentDoctor
+                );
+
+
+            /* MY APPOINTMENTS */
+
+            const myAppointments =
+                appointments.filter(
+                    function(appointment) {
+
+                        const appointmentDoctorId =
+                            String(
+
+                                appointment.doctorId
+
+                                ||
+
+                                appointment.assignedDoctorId
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        const appointmentDoctorName =
+                            String(
+
+                                appointment.doctorName
+
+                                ||
+
+                                appointment.doctor
+
+                                ||
+
+                                appointment.assignedDoctorName
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        return (
+
+                            (
+                                doctorId
+
+                                &&
+
+                                appointmentDoctorId
+
+                                &&
+
+                                normalize(
+                                    doctorId
+                                )
+                                ===
+                                normalize(
+                                    appointmentDoctorId
+                                )
+                            )
+
+                            ||
+
+                            (
+                                doctorName
+
+                                &&
+
+                                appointmentDoctorName
+
+                                &&
+
+                                normalize(
+                                    doctorName
+                                )
+                                ===
+                                normalize(
+                                    appointmentDoctorName
+                                )
+                            )
+
+                        );
+
+                    }
+                );
+
+
+            /* MY PRESCRIPTIONS */
+
+            const myPrescriptions =
+                prescriptions.filter(
+                    function(prescription) {
+
+                        const prescriptionDoctorId =
+                            String(
+
+                                prescription.doctorId
+
+                                ||
+
+                                prescription.prescribedByDoctorId
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        const prescriptionDoctorName =
+                            String(
+
+                                prescription.doctorName
+
+                                ||
+
+                                prescription.doctor
+
+                                ||
+
+                                prescription.prescribedByDoctorName
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        return (
+
+                            (
+                                doctorId
+
+                                &&
+
+                                prescriptionDoctorId
+
+                                &&
+
+                                normalize(
+                                    doctorId
+                                )
+                                ===
+                                normalize(
+                                    prescriptionDoctorId
+                                )
+                            )
+
+                            ||
+
+                            (
+                                doctorName
+
+                                &&
+
+                                prescriptionDoctorName
+
+                                &&
+
+                                normalize(
+                                    doctorName
+                                )
+                                ===
+                                normalize(
+                                    prescriptionDoctorName
+                                )
+                            )
+
+                        );
+
+                    }
+                );
+
+
+            /* PENDING ACCESS REQUESTS */
+
+            const pendingRequests =
+                requests.filter(
+                    function(request) {
+
+                        const ownerId =
+                            String(
+
+                                request.ownerDoctorId
+
+                                ||
+
+                                request.doctorId
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        const ownerName =
+                            String(
+
+                                request.ownerDoctorName
+
+                                ||
+
+                                ""
+
+                            ).trim();
+
+
+                        return (
+
+                            normalize(
+                                request.status
+                            ) ===
+                            "pending"
+
+                            &&
+
+                            (
+
+                                (
+                                    doctorId
+
+                                    &&
+
+                                    ownerId
+
+                                    &&
+
+                                    normalize(
+                                        doctorId
+                                    )
+                                    ===
+                                    normalize(
+                                        ownerId
+                                    )
+                                )
+
+                                ||
+
+                                (
+                                    doctorName
+
+                                    &&
+
+                                    ownerName
+
+                                    &&
+
+                                    normalize(
+                                        doctorName
+                                    )
+                                    ===
+                                    normalize(
+                                        ownerName
+                                    )
+                                )
+
+                            )
+
+                        );
+
+                    }
+                );
+
+
+
+            /* =====================================
+               PATIENT LIST TYPES
+            ===================================== */
+
+            if (
+
+                type === "myPatients"
+
+                ||
+
+                type === "totalPatients"
+
+                ||
+
+                type === "critical"
+
+                ||
+
+                type === "stable"
+
+                ||
+
+                type === "admittedToday"
+
+            ) {
+
+                let list =
+                    patients;
+
+
+                let listTitle =
+                    "Total Hospital Patients";
+
+
+                /* MY PATIENTS */
+
+                if (
+                    type === "myPatients"
+                ) {
+
+                    list =
+                        myPatients;
+
+                    listTitle =
+                        "My Patients";
+
+                }
+
+
+                /* CRITICAL */
+
+                if (
+                    type === "critical"
+                ) {
+
+                    list =
+                        myPatients.filter(
+                            function(patient) {
+
+                                const status =
+                                    normalize(
+
+                                        patient.status
+
+                                        ||
+
+                                        patient.patientStatus
+
+                                        ||
+
+                                        patient.condition
+
+                                        ||
+
+                                        ""
+
+                                    );
+
+
+                                return (
+
+                                    status ===
+                                    "critical"
+
+                                    ||
+
+                                    status ===
+                                    "critically ill"
+
+                                );
+
+                            }
+                        );
+
+
+                    listTitle =
+                        "Critical Patients";
+
+                }
+
+
+                /* STABLE */
+
+                if (
+                    type === "stable"
+                ) {
+
+                    list =
+                        myPatients.filter(
+                            function(patient) {
+
+                                const status =
+                                    normalize(
+
+                                        patient.status
+
+                                        ||
+
+                                        patient.patientStatus
+
+                                        ||
+
+                                        patient.condition
+
+                                        ||
+
+                                        ""
+
+                                    );
+
+
+                                return (
+                                    status === "stable"
+                                );
+
+                            }
+                        );
+
+
+                    listTitle =
+                        "Stable Patients";
+
+                }
+
+
+                /* ADMITTED TODAY */
+
+                if (
+                    type === "admittedToday"
+                ) {
+
+                    const today =
+                        getToday();
+
+
+                    list =
+                        myPatients.filter(
+                            function(patient) {
+
+                                const patientType =
+                                    normalize(
+
+                                        patient.patientType
+
+                                        ||
+
+                                        patient.type
+
+                                        ||
+
+                                        ""
+
+                                    );
+
+
+                                const admissionDate =
+                                    String(
+
+                                        patient.admissionDate
+
+                                        ||
+
+                                        patient.admittedDate
+
+                                        ||
+
+                                        ""
+
+                                    ).trim();
+
+
+                                return (
+
+                                    patientType ===
+                                    "inpatient"
+
+                                    &&
+
+                                    (
+                                        admissionDate ===
+                                        today
+
+                                        ||
+
+                                        admissionDate.startsWith(
+                                            today
+                                        )
+                                    )
+
+                                );
+
+                            }
+                        );
+
+
+                    listTitle =
+                        "Admitted Today";
+
+                }
+
+
+                renderPatientList(
+                    list,
+                    title,
+                    content,
+                    listTitle
+                );
+
+            }
+
+
+
+            /* =====================================
+               APPOINTMENTS
+            ===================================== */
+
+            else if (
+                type === "appointments"
+            ) {
+
+                title.textContent =
+                    "My Appointments";
+
+
+                if (
+                    myAppointments.length === 0
+                ) {
+
+                    content.innerHTML = `
+
+                        <div class="dashboard-empty">
+
+                            No appointments found.
+
+                        </div>
+
+                    `;
+
+                }
+
+                else {
+
+                    content.innerHTML = `
+
+                        <table
+                            class="dashboard-table"
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Appointment ID
+                                    </th>
+
+                                    <th>
+                                        Patient ID
+                                    </th>
+
+                                    <th>
+                                        Patient
+                                    </th>
+
+                                    <th>
+                                        Department
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Time
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                ${
+                                    myAppointments
+                                        .map(
+                                            function(
+                                                appointment
+                                            ) {
+
+                                                return `
+
+                                                    <tr>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                appointment.appointmentId ||
+                                                                appointment.id ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                appointment.patientId ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                appointment.patientName ||
+                                                                appointment.patient ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                appointment.department ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                appointment.date ||
+                                                                appointment.appointmentDate ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                appointment.time ||
+                                                                appointment.appointmentTime ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                appointment.status ||
+                                                                appointment.appointmentStatus ||
+                                                                "Pending"
+                                                            )}
+                                                        </td>
+
+                                                    </tr>
+
+                                                `;
+
+                                            }
+                                        )
+                                        .join("")
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    `;
+
+                }
+
+            }
+
+
+
+            /* =====================================
+               ACCESS REQUESTS
+            ===================================== */
+
+            else if (
+                type === "accessRequests"
+            ) {
+
+                title.textContent =
+                    "Pending Access Requests";
+
+
+                if (
+                    pendingRequests.length === 0
+                ) {
+
+                    content.innerHTML = `
+
+                        <div class="dashboard-empty">
+
+                            No pending access requests.
+
+                        </div>
+
+                    `;
+
+                }
+
+                else {
+
+                    content.innerHTML = `
+
+                        <table
+                            class="dashboard-table"
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Requester
+                                    </th>
+
+                                    <th>
+                                        Patient
+                                    </th>
+
+                                    <th>
+                                        Patient ID
+                                    </th>
+
+                                    <th>
+                                        Request Date
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                ${
+                                    pendingRequests
+                                        .map(
+                                            function(
+                                                request
+                                            ) {
+
+                                                return `
+
+                                                    <tr>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                request.requesterDoctorName ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                request.patientName ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                request.patientId ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                request.requestDate ||
+                                                                request.requestedAt ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            Pending
+                                                        </td>
+
+                                                    </tr>
+
+                                                `;
+
+                                            }
+                                        )
+                                        .join("")
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    `;
+
+                }
+
+            }
+
+
+
+            /* =====================================
+               PRESCRIPTIONS
+            ===================================== */
+
+            else if (
+                type === "prescriptions"
+            ) {
+
+                title.textContent =
+                    "My Prescriptions";
+
+
+                if (
+                    myPrescriptions.length === 0
+                ) {
+
+                    content.innerHTML = `
+
+                        <div class="dashboard-empty">
+
+                            No prescriptions found.
+
+                        </div>
+
+                    `;
+
+                }
+
+                else {
+
+                    content.innerHTML = `
+
+                        <table
+                            class="dashboard-table"
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Prescription ID
+                                    </th>
+
+                                    <th>
+                                        Patient ID
+                                    </th>
+
+                                    <th>
+                                        Patient
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Patient Type
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                ${
+                                    myPrescriptions
+                                        .map(
+                                            function(
+                                                prescription
+                                            ) {
+
+                                                return `
+
+                                                    <tr>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                prescription.prescriptionId ||
+                                                                prescription.id ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                prescription.patientId ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                prescription.patientName ||
+                                                                prescription.patient ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                prescription.date ||
+                                                                prescription.prescriptionDate ||
+                                                                prescription.createdAt ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                prescription.patientType ||
+                                                                "-"
+                                                            )}
+                                                        </td>
+
+                                                    </tr>
+
+                                                `;
+
+                                            }
+                                        )
+                                        .join("")
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    `;
+
+                }
+
+            }
+
+
+            section.style.display =
+                "block";
+
+
+            section.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+
+        /* =========================================
+           RENDER PATIENT LIST
+        ========================================= */
+
+        function renderPatientList(
+            list,
+            title,
+            content,
+            listTitle
+        ) {
+
+            title.textContent =
+                listTitle;
+
+
+            if (
+                list.length === 0
+            ) {
+
+                content.innerHTML = `
+
+                    <div class="dashboard-empty">
+
+                        No patients found.
+
+                    </div>
+
+                `;
+
+
+                document
+                    .getElementById(
+                        "dashboardListSection"
+                    )
+                    .style.display =
+                    "block";
+
+
+                return;
+
+            }
+
+
+            content.innerHTML = `
+
+                <table
+                    class="dashboard-table"
+                >
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Patient ID
+                            </th>
+
+                            <th>
+                                Patient Name
+                            </th>
+
+                            <th>
+                                Age
+                            </th>
+
+                            <th>
+                                Gender
+                            </th>
+
+                            <th>
+                                Blood Group
+                            </th>
+
+                            <th>
+                                Patient Type
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            list
+                                .map(
+                                    function(
+                                        patient
+                                    ) {
+
+                                        const patientId =
+                                            patient.patientId
+                                            ||
+                                            patient.id
+                                            ||
+                                            "";
+
+
+                                        return `
+
+                                            <tr>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        patientId ||
+                                                        "-"
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        patient.fullName
+                                                        ||
+                                                        patient.name
+                                                        ||
+                                                        patient.patientName
+                                                        ||
+                                                        "-"
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        patient.age
+                                                        ||
+                                                        "-"
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        patient.gender
+                                                        ||
+                                                        "-"
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        patient.bloodGroup
+                                                        ||
+                                                        "-"
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        patient.patientType
+                                                        ||
+                                                        patient.type
+                                                        ||
+                                                        "-"
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        patient.department
+                                                        ||
+                                                        "-"
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        patient.status
+                                                        ||
+                                                        patient.patientStatus
+                                                        ||
+                                                        patient.condition
+                                                        ||
+                                                        "-"
+                                                    )}
+                                                </td>
+
+                                                <td>
+
+                                                    <a
+                                                        class="dashboard-view-button"
+                                                        href="doctor-patient-record.html?patientId=${encodeURIComponent(patientId)}"
+                                                    >
+                                                        View
+                                                    </a>
+
+                                                </td>
+
+                                            </tr>
+
+                                        `;
+
+                                    }
+                                )
+                                .join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            `;
+
+
+            document
+                .getElementById(
+                    "dashboardListSection"
+                )
+                .style.display =
+                "block";
+
+        }
+
+
+
+        /* =========================================
+           CLOSE LIST
+        ========================================= */
+
+        function closeDashboardList() {
+
+            document
+                .getElementById(
+                    "dashboardListSection"
+                )
+                .style.display =
+                "none";
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        function logoutDoctor() {
+
+            /*
+             * Only remove login/session data.
+             * Hospital data is NOT deleted.
+             */
+
+            sessionStorage.removeItem(
+                "currentStaff"
+            );
+
+            sessionStorage.removeItem(
+                "pendingLogin"
+            );
+
+            sessionStorage.removeItem(
+                "userRole"
+            );
+
+            sessionStorage.removeItem(
+                "userPhone"
+            );
+
+            localStorage.removeItem(
+                "loggedInDoctor"
+            );
+
+            localStorage.removeItem(
+                "doctorSession"
+            );
+
+            localStorage.removeItem(
+                "currentDoctor"
+            );
+
+        }
+
+
+
+        /* =========================================
+           INITIALIZE
+        ========================================= */
+
+        function initializeDashboard() {
+
+            const validDoctor =
+                displayDoctor();
+
+
+            if (
+                validDoctor
+            ) {
+
+                calculateDashboard();
+
+            }
+
+        }
+
+
+        initializeDashboard();
+
+
+    </script>
+
+
+</body>
+
+</html>

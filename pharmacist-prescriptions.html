@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Pharmacist Prescriptions | Hospital Management System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+    <style>
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #607d8b;
+            margin: 0;
+        }
+
+
+        /* =========================================
+           SUMMARY
+        ========================================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+
+            border-left:
+                5px solid #0b6684;
+        }
+
+        .summary-card h3 {
+            margin: 0 0 10px;
+
+            color: #455a64;
+
+            font-size: 15px;
+        }
+
+        .summary-number {
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #0b6684;
+        }
+
+
+        /* =========================================
+           PRESCRIPTION CARD
+        ========================================= */
+
+        .prescription-card {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+        }
+
+        .prescription-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+
+            padding-bottom: 15px;
+
+            border-bottom:
+                1px solid #e5edf1;
+        }
+
+        .prescription-header h2 {
+            margin: 0 0 8px;
+
+            color: #263238;
+        }
+
+        .prescription-meta {
+            color: #607d8b;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status-badge {
+            display: inline-block;
+
+            padding:
+                6px 13px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+
+            color: #856404;
+        }
+
+        .status-dispensed {
+            background: #d4edda;
+
+            color: #155724;
+        }
+
+
+        /* =========================================
+           PATIENT INFORMATION
+        ========================================= */
+
+        .patient-info {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 15px;
+
+            background: #f7fafb;
+
+            border-radius: 9px;
+
+            padding: 18px;
+
+            margin-bottom: 20px;
+        }
+
+        .info-item strong {
+            display: block;
+
+            color: #455a64;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .info-item span {
+            color: #263238;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           MEDICINE TABLE
+        ========================================= */
+
+        .medicine-table-wrapper {
+            overflow-x: auto;
+
+            margin-top: 15px;
+        }
+
+        .medicine-table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 650px;
+        }
+
+        .medicine-table th {
+            background: #0b6684;
+
+            color: white;
+
+            padding: 12px;
+
+            text-align: left;
+
+            font-size: 14px;
+        }
+
+        .medicine-table td {
+            padding: 12px;
+
+            border-bottom:
+                1px solid #e5edf1;
+
+            color: #455a64;
+
+            font-size: 14px;
+        }
+
+        .medicine-table tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        /* =========================================
+           ACTIONS
+        ========================================= */
+
+        .prescription-actions {
+            display: flex;
+
+            justify-content: flex-end;
+
+            margin-top: 20px;
+        }
+
+        .dispense-button {
+            background: #0b6684;
+
+            color: white;
+
+            border: none;
+
+            padding:
+                11px 22px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .dispense-button:hover {
+            background: #084f66;
+        }
+
+        .dispense-button:disabled {
+            background: #9eacb3;
+
+            cursor: not-allowed;
+        }
+
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty-state {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 50px 25px;
+
+            text-align: center;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+
+            color: #607d8b;
+        }
+
+        .empty-state h3 {
+            color: #455a64;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+        .page-message {
+            display: none;
+
+            padding: 14px 18px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-weight: bold;
+        }
+
+        .success-message {
+            background: #e8f5e9;
+
+            color: #2e7d32;
+
+            border:
+                1px solid #a5d6a7;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-info {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .patient-info {
+                grid-template-columns: 1fr;
+            }
+
+            .prescription-header {
+                flex-direction: column;
+            }
+
+            .prescription-actions {
+                justify-content: stretch;
+            }
+
+            .dispense-button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+        <div>
+
+            <span>
+                Pharmacist
+            </span>
+
+            <button
+                type="button"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Pharmacist
+                </h2>
+
+            </div>
+
+
+            <a href="pharmacist-dashboard.html">
+                Dashboard
+            </a>
+
+
+            <a
+                href="pharmacist-prescriptions.html"
+                class="active"
+            >
+                Prescriptions
+            </a>
+
+
+            <a href="pharmacist-medicines.html">
+                Medicines
+            </a>
+
+
+            <a href="pharmacist-history.html">
+                History
+            </a>
+
+
+            <a href="pharmacist-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <h1>
+                    Prescriptions
+                </h1>
+
+                <p>
+                    View outpatient prescriptions sent by doctors
+                    and dispense the prescribed medicines.
+                </p>
+
+            </div>
+
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="pageMessage"
+                class="page-message success-message"
+            >
+            </div>
+
+
+
+            <!-- =================================
+                 SUMMARY
+            ================================== -->
+
+            <div class="summary-grid">
+
+
+                <div class="summary-card">
+
+                    <h3>
+                        Total Outpatient Prescriptions
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="totalPrescriptions"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+                    <h3>
+                        Pending
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="pendingPrescriptions"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+                    <h3>
+                        Dispensed
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="dispensedPrescriptions"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 PRESCRIPTION LIST
+            ================================== -->
+
+            <div id="prescriptionList">
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System.
+            All rights reserved.
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         SECURITY
+    ========================================= -->
+
+    <script src="../security.js"></script>
+
+
+
+    <script>
+
+        /* =========================================
+           HELPERS
+        ========================================= */
+
+        function getArray(key) {
+
+            try {
+
+                const value =
+                    JSON.parse(
+                        localStorage.getItem(key)
+                    );
+
+                return Array.isArray(value)
+                    ? value
+                    : [];
+
+            }
+
+            catch (error) {
+
+                return [];
+
+            }
+
+        }
+
+
+
+        function normalize(value) {
+
+            return String(
+                value || ""
+            )
+            .trim()
+            .toLowerCase();
+
+        }
+
+
+
+        function escapeHtml(value) {
+
+            return String(
+                value ?? ""
+            )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+
+
+        function getPatientType(
+            prescription
+        ) {
+
+            return (
+                prescription.patientType ||
+                prescription.type ||
+                ""
+            );
+
+        }
+
+
+
+        /* =========================================
+           CHECK OUTPATIENT
+        ========================================= */
+
+        function isOutpatient(
+            prescription
+        ) {
+
+            const patientType =
+                normalize(
+                    getPatientType(
+                        prescription
+                    )
+                );
+
+            const destinationRole =
+                normalize(
+                    prescription.destinationRole
+                );
+
+            const routing =
+                normalize(
+                    prescription.routing
+                );
+
+
+            /*
+             * Outpatient prescriptions created
+             * by Doctor are sent to Pharmacy.
+             */
+
+            if (
+                destinationRole ===
+                "pharmacy"
+            ) {
+
+                return true;
+
+            }
+
+
+            if (
+                routing.includes(
+                    "doctor → pharmacy"
+                )
+            ) {
+
+                return true;
+
+            }
+
+
+            if (
+                routing.includes(
+                    "doctor -> pharmacy"
+                )
+            ) {
+
+                return true;
+
+            }
+
+
+            /*
+             * Do not treat inpatient
+             * prescriptions as pharmacy work.
+             */
+
+            if (
+                patientType.includes(
+                    "inpatient"
+                )
+                ||
+                patientType === "ipd"
+            ) {
+
+                return false;
+
+            }
+
+
+            /*
+             * Fallback for records that
+             * explicitly say outpatient.
+             */
+
+            return (
+                patientType.includes(
+                    "outpatient"
+                )
+                ||
+                patientType === "opd"
+            );
+
+        }
+
+
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        function getPharmacyStatus(
+            prescription
+        ) {
+
+            return (
+                prescription.pharmacyStatus ||
+                "Pending"
+            );
+
+        }
+
+
+
+        function isDispensed(
+            prescription
+        ) {
+
+            return (
+                normalize(
+                    getPharmacyStatus(
+                        prescription
+                    )
+                ) === "dispensed"
+            );
+
+        }
+
+
+
+        /* =========================================
+           LOAD PRESCRIPTIONS
+        ========================================= */
+
+        function loadPrescriptions() {
+
+            const allPrescriptions =
+                getArray(
+                    "prescriptions"
+                );
+
+
+            /*
+             * Pharmacy must receive
+             * only outpatient prescriptions.
+             */
+
+            const pharmacyPrescriptions =
+                allPrescriptions
+                .filter(
+                    function(prescription) {
+
+                        return isOutpatient(
+                            prescription
+                        );
+
+                    }
+                )
+                .sort(
+                    function(a, b) {
+
+                        return new Date(
+                            b.createdAt ||
+                            b.date ||
+                            b.prescriptionDate ||
+                            0
+                        )
+                        -
+                        new Date(
+                            a.createdAt ||
+                            a.date ||
+                            a.prescriptionDate ||
+                            0
+                        );
+
+                    }
+                );
+
+
+            updateSummary(
+                pharmacyPrescriptions
+            );
+
+
+            renderPrescriptions(
+                pharmacyPrescriptions
+            );
+
+        }
+
+
+
+        /* =========================================
+           SUMMARY
+        ========================================= */
+
+        function updateSummary(
+            prescriptions
+        ) {
+
+            const total =
+                prescriptions.length;
+
+
+            const pending =
+                prescriptions.filter(
+                    function(item) {
+
+                        return !isDispensed(
+                            item
+                        );
+
+                    }
+                ).length;
+
+
+            const dispensed =
+                prescriptions.filter(
+                    function(item) {
+
+                        return isDispensed(
+                            item
+                        );
+
+                    }
+                ).length;
+
+
+            document.getElementById(
+                "totalPrescriptions"
+            ).textContent =
+                total;
+
+
+            document.getElementById(
+                "pendingPrescriptions"
+            ).textContent =
+                pending;
+
+
+            document.getElementById(
+                "dispensedPrescriptions"
+            ).textContent =
+                dispensed;
+
+        }
+
+
+
+        /* =========================================
+           RENDER
+        ========================================= */
+
+        function renderPrescriptions(
+            prescriptions
+        ) {
+
+            const container =
+                document.getElementById(
+                    "prescriptionList"
+                );
+
+
+            if (
+                !prescriptions.length
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <h3>
+                            No outpatient prescriptions
+                        </h3>
+
+                        <p>
+                            No prescriptions have been
+                            sent to Pharmacy yet.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                prescriptions
+                .map(
+                    function(
+                        prescription
+                    ) {
+
+                        return renderPrescription(
+                            prescription
+                        );
+
+                    }
+                )
+                .join("");
+
+        }
+
+
+
+        /* =========================================
+           RENDER ONE PRESCRIPTION
+        ========================================= */
+
+        function renderPrescription(
+            prescription
+        ) {
+
+            const prescriptionId =
+                prescription.prescriptionId ||
+                prescription.id ||
+                "-";
+
+
+            const patientId =
+                prescription.patientId ||
+                "-";
+
+
+            const patientName =
+                prescription.patientName ||
+                "-";
+
+
+            const doctorName =
+                prescription.doctorName ||
+                prescription.doctor ||
+                prescription.doctorId ||
+                "-";
+
+
+            const department =
+                prescription.department ||
+                "-";
+
+
+            const date =
+                prescription.prescriptionDate ||
+                prescription.date ||
+                "-";
+
+
+            const patientType =
+                prescription.patientType ||
+                "-";
+
+
+            const status =
+                getPharmacyStatus(
+                    prescription
+                );
+
+
+            const dispensed =
+                isDispensed(
+                    prescription
+                );
+
+
+            const medicines =
+                Array.isArray(
+                    prescription.medicines
+                )
+                    ? prescription.medicines
+                    : [];
+
+
+            let medicineRows = "";
+
+
+            if (
+                medicines.length
+            ) {
+
+                medicineRows =
+                    medicines
+                    .map(
+                        function(
+                            medicine
+                        ) {
+
+                            const times =
+                                Array.isArray(
+                                    medicine.times
+                                )
+                                    ? medicine.times.join(
+                                        ", "
+                                    )
+                                    : (
+                                        medicine.times ||
+                                        "-"
+                                    );
+
+
+                            const food =
+                                Array.isArray(
+                                    medicine.foodInstructions
+                                )
+                                    ? medicine.foodInstructions.join(
+                                        ", "
+                                    )
+                                    : (
+                                        medicine.foodInstructions ||
+                                        "-"
+                                    );
+
+
+                            return `
+
+                                <tr>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            medicine.medicineName ||
+                                            "-"
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            times
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            food
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            medicine.duration ||
+                                            "-"
+                                        )}
+                                    </td>
+
+                                </tr>
+
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+            }
+
+            else {
+
+                medicineRows = `
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            style="text-align:center;"
+                        >
+                            No medicines recorded
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+
+
+            return `
+
+                <div
+                    class="prescription-card"
+                    id="prescription-${escapeHtml(
+                        prescriptionId
+                    )}"
+                >
+
+
+                    <!-- HEADER -->
+
+                    <div class="prescription-header">
+
+                        <div>
+
+                            <h2>
+                                Prescription
+                                ${escapeHtml(
+                                    prescriptionId
+                                )}
+                            </h2>
+
+                            <div class="prescription-meta">
+
+                                Date:
+                                ${escapeHtml(
+                                    date
+                                )}
+
+                                &nbsp; | &nbsp;
+
+                                Doctor:
+                                ${escapeHtml(
+                                    doctorName
+                                )}
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <span
+                                class="status-badge
+                                ${
+                                    dispensed
+                                        ? "status-dispensed"
+                                        : "status-pending"
+                                }"
+                            >
+
+                                ${escapeHtml(
+                                    status
+                                )}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PATIENT INFORMATION -->
+
+                    <div class="patient-info">
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Patient ID
+                            </strong>
+
+                            <span>
+                                ${escapeHtml(
+                                    patientId
+                                )}
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Patient Name
+                            </strong>
+
+                            <span>
+                                ${escapeHtml(
+                                    patientName
+                                )}
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Patient Type
+                            </strong>
+
+                            <span>
+                                ${escapeHtml(
+                                    patientType
+                                )}
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="info-item">
+
+                            <strong>
+                                Department
+                            </strong>
+
+                            <span>
+                                ${escapeHtml(
+                                    department
+                                )}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- MEDICINES -->
+
+                    <h3>
+                        Prescribed Medicines
+                    </h3>
+
+
+                    <div class="medicine-table-wrapper">
+
+                        <table
+                            class="medicine-table"
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Medicine
+                                    </th>
+
+                                    <th>
+                                        Time
+                                    </th>
+
+                                    <th>
+                                        Food Instruction
+                                    </th>
+
+                                    <th>
+                                        Duration
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                ${medicineRows}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+                    <!-- ACTION -->
+
+                    <div
+                        class="prescription-actions"
+                    >
+
+                        ${
+                            dispensed
+
+                                ? `
+
+                                    <button
+                                        type="button"
+                                        class="dispense-button"
+                                        disabled
+                                    >
+                                        ✓ Dispensed
+                                    </button>
+
+                                  `
+
+                                : `
+
+                                    <button
+                                        type="button"
+                                        class="dispense-button"
+                                        onclick="dispensePrescription(
+                                            '${escapeHtml(
+                                                prescriptionId
+                                            )}'
+                                        )"
+                                    >
+                                        Dispense Medicines
+                                    </button>
+
+                                  `
+                        }
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+        }
+
+
+
+        /* =========================================
+           DISPENSE PRESCRIPTION
+        ========================================= */
+
+        function dispensePrescription(
+            prescriptionId
+        ) {
+
+            const prescriptions =
+                getArray(
+                    "prescriptions"
+                );
+
+
+            const index =
+                prescriptions.findIndex(
+                    function(item) {
+
+                        return String(
+                            item.prescriptionId ||
+                            item.id ||
+                            ""
+                        )
+                        ===
+                        String(
+                            prescriptionId
+                        );
+
+                    }
+                );
+
+
+            if (
+                index === -1
+            ) {
+
+                alert(
+                    "Prescription not found."
+                );
+
+                return;
+
+            }
+
+
+            const prescription =
+                prescriptions[index];
+
+
+            /*
+             * Safety check:
+             * Pharmacist must not dispense
+             * an inpatient prescription.
+             */
+
+            if (
+                !isOutpatient(
+                    prescription
+                )
+            ) {
+
+                alert(
+                    "This prescription is not an outpatient Pharmacy prescription."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                isDispensed(
+                    prescription
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Update Pharmacy status.
+             */
+
+            prescriptions[index]
+                .pharmacyStatus =
+                "Dispensed";
+
+
+            /*
+             * Keep the main prescription
+             * status synchronized.
+             */
+
+            prescriptions[index]
+                .prescriptionStatus =
+                "Dispensed";
+
+
+            prescriptions[index]
+                .status =
+                "Dispensed";
+
+
+            prescriptions[index]
+                .dispensedAt =
+                new Date()
+                    .toISOString();
+
+
+            /*
+             * Store which pharmacist
+             * completed the action.
+             */
+
+            const currentStaff =
+                JSON.parse(
+                    sessionStorage.getItem(
+                        "currentStaff"
+                    ) || "null"
+                );
+
+
+            prescriptions[index]
+                .dispensedBy =
+                currentStaff
+                    ? (
+                        currentStaff.name ||
+                        currentStaff.fullName ||
+                        currentStaff.username ||
+                        "Pharmacist"
+                    )
+                    : "Pharmacist";
+
+
+            localStorage.setItem(
+                "prescriptions",
+                JSON.stringify(
+                    prescriptions
+                )
+            );
+
+
+            /*
+             * Update related Pharmacy
+             * notification if present.
+             */
+
+            updatePrescriptionNotification(
+                prescriptions[index]
+            );
+
+
+            showMessage(
+                "Prescription " +
+                prescriptionId +
+                " has been marked as Dispensed."
+            );
+
+
+            loadPrescriptions();
+
+        }
+
+
+
+        /* =========================================
+           UPDATE NOTIFICATION
+        ========================================= */
+
+        function updatePrescriptionNotification(
+            prescription
+        ) {
+
+            const notifications =
+                getArray(
+                    "notifications"
+                );
+
+
+            let changed =
+                false;
+
+
+            notifications.forEach(
+                function(notification) {
+
+                    const samePrescription =
+                        String(
+                            notification.prescriptionId ||
+                            ""
+                        )
+                        ===
+                        String(
+                            prescription.prescriptionId ||
+                            prescription.id ||
+                            ""
+                        );
+
+
+                    const pharmacyNotification =
+                        normalize(
+                            notification.recipientRole
+                        )
+                        ===
+                        "pharmacy";
+
+
+                    if (
+                        samePrescription &&
+                        pharmacyNotification
+                    ) {
+
+                        notification.prescriptionStatus =
+                            "Dispensed";
+
+                        notification.status =
+                            "Read";
+
+                        notification.updatedAt =
+                            new Date()
+                                .toISOString();
+
+                        changed =
+                            true;
+
+                    }
+
+                }
+            );
+
+
+            if (
+                changed
+            ) {
+
+                localStorage.setItem(
+                    "notifications",
+                    JSON.stringify(
+                        notifications
+                    )
+                );
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+        function showMessage(
+            message
+        ) {
+
+            const element =
+                document.getElementById(
+                    "pageMessage"
+                );
+
+
+            element.textContent =
+                message;
+
+
+            element.style.display =
+                "block";
+
+
+            setTimeout(
+                function() {
+
+                    element.style.display =
+                        "none";
+
+                },
+                3500
+            );
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        function logout() {
+
+            if (
+                typeof window.logout ===
+                "function"
+            ) {
+
+                window.logout();
+
+                return;
+
+            }
+
+
+            sessionStorage.clear();
+
+            window.location.href =
+                "../index.html";
+
+        }
+
+
+
+        /* =========================================
+           STORAGE CHANGE
+        ========================================= */
+
+        window.addEventListener(
+            "storage",
+            function(event) {
+
+                if (
+                    event.key ===
+                    "prescriptions"
+                    ||
+                    event.key ===
+                    "notifications"
+                ) {
+
+                    loadPrescriptions();
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================================
+           PAGE SHOW
+        ========================================= */
+
+        window.addEventListener(
+            "pageshow",
+            function() {
+
+                loadPrescriptions();
+
+            }
+        );
+
+
+
+        /* =========================================
+           INITIAL LOAD
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadPrescriptions();
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

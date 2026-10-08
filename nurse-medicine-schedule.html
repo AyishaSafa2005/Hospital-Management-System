@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Medicine Schedule - Nurse</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+    <style>
+
+        /* =========================================
+           MEDICINE SCHEDULE PAGE
+        ========================================= */
+
+        .page-intro {
+            margin-bottom: 20px;
+        }
+
+
+        .medicine-table-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+
+        .medicine-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+
+        .medicine-table th {
+            background: #0b6684;
+            color: white;
+            padding: 13px 12px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+
+        .medicine-table td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #e2e7e9;
+            vertical-align: middle;
+        }
+
+
+        .medicine-table tbody tr:hover {
+            background: #f5f9fb;
+        }
+
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 11px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+
+        .status-pending {
+            background: #fff4d6;
+            color: #8a6500;
+        }
+
+
+        .status-given {
+            background: #e8f5e9;
+            color: #287a32;
+        }
+
+
+        .medicine-button {
+            background: #0b6684;
+            color: white;
+            border: none;
+            padding: 8px 13px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+
+        .medicine-button:hover {
+            opacity: 0.9;
+        }
+
+
+        .medicine-button:disabled {
+            background: #aeb8bd;
+            color: white;
+            cursor: not-allowed;
+            opacity: 1;
+        }
+
+
+        @media (max-width: 850px) {
+
+            .medicine-table-card {
+                padding: 10px;
+            }
+
+            .medicine-table {
+                min-width: 950px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================== -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Nurse
+            </span>
+
+
+            <a href="../index.html">
+
+                <button type="button">
+                    Logout
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================== -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Nurse
+                </h2>
+
+            </div>
+
+
+            <a href="nurse-dashboard.html">
+                🏠 Dashboard
+            </a>
+
+
+            <a href="nurse-patients.html">
+                🧑 Assigned Patients
+            </a>
+
+
+            <a
+                href="nurse-medicine-schedule.html"
+                class="active"
+            >
+                💉 Medicine Schedule
+            </a>
+
+
+            <a href="nurse-ward-details.html">
+                🏥 Ward Details
+            </a>
+
+
+            <a href="nurse-patient-monitoring.html">
+                📋 Patient Monitoring
+            </a>
+
+
+            <a href="nurse-profile.html">
+                👤 Profile
+            </a>
+
+
+            <a href="nurse-notifications.html">
+                🔔 Notifications
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Medicine Schedule
+            </h1>
+
+
+            <p class="page-intro">
+                View and manage the medicine schedule of assigned patients.
+            </p>
+
+
+
+            <!-- =================================
+                 MEDICINE TABLE
+            ================================= -->
+
+            <div class="medicine-table-card">
+
+                <table class="medicine-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Patient ID
+                            </th>
+
+                            <th>
+                                Patient Name
+                            </th>
+
+                            <th>
+                                Medicine
+                            </th>
+
+                            <th>
+                                Dosage
+                            </th>
+
+                            <th>
+                                Time
+                            </th>
+
+                            <th>
+                                Frequency
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <!-- =================================
+                             RAHUL SHARMA - PARACETAMOL
+                        ================================== -->
+
+                        <tr>
+
+                            <td>
+                                P001
+                            </td>
+
+                            <td>
+                                Rahul Sharma
+                            </td>
+
+                            <td>
+                                Paracetamol
+                            </td>
+
+                            <td>
+                                500 mg
+                            </td>
+
+                            <td>
+                                9:00 AM
+                            </td>
+
+                            <td>
+                                Once Daily
+                            </td>
+
+                            <td id="status1">
+
+                                <span class="status-badge status-pending">
+                                    Pending
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="medicine-button"
+                                    onclick="markAsGiven('status1', this)"
+                                >
+                                    Mark as Given
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- =================================
+                             PRIYA SINGH - METFORMIN
+                        ================================== -->
+
+                        <tr>
+
+                            <td>
+                                P002
+                            </td>
+
+                            <td>
+                                Priya Singh
+                            </td>
+
+                            <td>
+                                Metformin
+                            </td>
+
+                            <td>
+                                500 mg
+                            </td>
+
+                            <td>
+                                12:00 PM
+                            </td>
+
+                            <td>
+                                Twice Daily
+                            </td>
+
+                            <td id="status2">
+
+                                <span class="status-badge status-given">
+                                    Given
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="medicine-button"
+                                    disabled
+                                >
+                                    Completed
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- =================================
+                             AMIT KUMAR - AMOXICILLIN
+                        ================================== -->
+
+                        <tr>
+
+                            <td>
+                                P003
+                            </td>
+
+                            <td>
+                                Amit Kumar
+                            </td>
+
+                            <td>
+                                Amoxicillin
+                            </td>
+
+                            <td>
+                                250 mg
+                            </td>
+
+                            <td>
+                                2:00 PM
+                            </td>
+
+                            <td>
+                                Three Times Daily
+                            </td>
+
+                            <td id="status3">
+
+                                <span class="status-badge status-pending">
+                                    Pending
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="medicine-button"
+                                    onclick="markAsGiven('status3', this)"
+                                >
+                                    Mark as Given
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- =================================
+                             RAHUL SHARMA - VITAMIN D
+                        ================================== -->
+
+                        <tr>
+
+                            <td>
+                                P001
+                            </td>
+
+                            <td>
+                                Rahul Sharma
+                            </td>
+
+                            <td>
+                                Vitamin D
+                            </td>
+
+                            <td>
+                                1000 IU
+                            </td>
+
+                            <td>
+                                6:00 PM
+                            </td>
+
+                            <td>
+                                Once Daily
+                            </td>
+
+                            <td id="status4">
+
+                                <span class="status-badge status-pending">
+                                    Pending
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="medicine-button"
+                                    onclick="markAsGiven('status4', this)"
+                                >
+                                    Mark as Given
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System | Medicine Schedule
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         MEDICINE STATUS FUNCTION
+    ========================================== -->
+
+    <script>
+
+        function markAsGiven(statusId, button) {
+
+            /*
+             * Change the status from Pending to Given.
+             */
+
+            const statusCell =
+                document.getElementById(statusId);
+
+
+            statusCell.innerHTML =
+                '<span class="status-badge status-given">Given</span>';
+
+
+            /*
+             * Change the button text.
+             */
+
+            button.innerText =
+                "Completed";
+
+
+            /*
+             * Disable the button after
+             * medicine is given.
+             */
+
+            button.disabled =
+                true;
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Login - Hospital Management System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e8f4f8,
+                    #f7fbfd
+                );
+
+            min-height: 100vh;
+
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        .login-header {
+
+            height: 75px;
+
+            background: #0b5d7a;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 7%;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.15);
+
+        }
+
+
+        .login-logo {
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .login-wrapper {
+
+            min-height:
+                calc(100vh - 135px);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 50px 20px;
+
+        }
+
+
+
+        /* ==============================
+           LOGIN BOX
+        ============================== */
+
+        .login-box {
+
+            width: 950px;
+
+            max-width: 100%;
+
+            min-height: 560px;
+
+            background: white;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            display: grid;
+
+            grid-template-columns:
+                45% 55%;
+
+            box-shadow:
+                0 12px 40px
+                rgba(0,0,0,0.12);
+
+        }
+
+
+
+        /* ==============================
+           LEFT PANEL
+        ============================== */
+
+        .login-info {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0b5d7a,
+                    #08485e
+                );
+
+            color: white;
+
+            padding: 55px 40px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+        }
+
+
+        .hospital-icon {
+
+            font-size: 65px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .login-info h1 {
+
+            font-size: 35px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .login-info p {
+
+            line-height: 1.7;
+
+            opacity: 0.92;
+
+        }
+
+
+        .security-box {
+
+            margin-top: 30px;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.12
+                );
+
+        }
+
+
+        .security-box strong {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+        }
+
+
+
+        /* ==============================
+           RIGHT SIDE
+        ============================== */
+
+        .login-form-area {
+
+            padding: 45px 50px;
+
+        }
+
+
+        .login-title {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .login-title h2 {
+
+            color: #0b5d7a;
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .login-title p {
+
+            color: #71808a;
+
+        }
+
+
+
+        /* ==============================
+           ROLE
+        ============================== */
+
+        .selected-role {
+
+            text-align: center;
+
+            background: #e8f4f8;
+
+            color: #0b5d7a;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 22px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        /* ==============================
+           FORM
+        ============================== */
+
+        .form-group {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #37474f;
+
+            font-weight: bold;
+
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border:
+                1px solid #d0dbe0;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            outline: none;
+
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #0b5d7a;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    11,
+                    93,
+                    122,
+                    0.1
+                );
+
+        }
+
+
+
+        /* ==============================
+           PHONE
+        ============================== */
+
+        .phone-input {
+
+            display: flex;
+
+            gap: 8px;
+
+        }
+
+
+        .country-code {
+
+            width: 80px !important;
+
+            background: #f5f7f8;
+
+            text-align: center;
+
+            color: #53666f;
+
+            font-weight: bold;
+
+        }
+
+
+        .phone-mask-wrapper {
+
+            flex: 1;
+
+            position: relative;
+
+            height: 47px;
+
+        }
+
+
+        .phone-number {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100% !important;
+
+            background: transparent;
+
+            color: transparent;
+
+            caret-color: #263238;
+
+            z-index: 2;
+
+            letter-spacing: 2px;
+
+            cursor: text;
+
+        }
+
+
+        .phone-mask-display {
+
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 14px;
+
+            border:
+                1px solid #d0dbe0;
+
+            border-radius: 8px;
+
+            background: white;
+
+            color: #263238;
+
+            font-size: 15px;
+
+            letter-spacing: 2px;
+
+            pointer-events: none;
+
+            z-index: 1;
+
+        }
+
+
+        .phone-mask-wrapper:focus-within
+        .phone-mask-display {
+
+            border-color: #0b5d7a;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    11,
+                    93,
+                    122,
+                    0.1
+                );
+
+        }
+
+
+        .phone-help {
+
+            margin-top: 6px;
+
+            font-size: 12px;
+
+            color: #71808a;
+
+        }
+
+
+
+        /* ==============================
+           ERROR
+        ============================== */
+
+        .login-error {
+
+            display: none;
+
+            background: #fdeaea;
+
+            color: #b52b27;
+
+            border:
+                1px solid #f2b5b2;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+
+        }
+
+
+
+        /* ==============================
+           SUCCESS
+        ============================== */
+
+        .login-success {
+
+            display: none;
+
+            background: #e8f7ee;
+
+            color: #19733b;
+
+            border:
+                1px solid #b8e1c7;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+
+        }
+
+
+
+        /* ==============================
+           BUTTON
+        ============================== */
+
+        .login-button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            background: #0b5d7a;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 8px;
+
+            transition: 0.2s;
+
+        }
+
+
+        .login-button:hover {
+
+            background: #08485e;
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+
+        /* ==============================
+           LINKS
+        ============================== */
+
+        .login-links {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            margin-top: 18px;
+
+            font-size: 14px;
+
+        }
+
+
+        .login-links a {
+
+            color: #0b5d7a;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+        }
+
+
+        .login-links a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        .signup-text {
+
+            text-align: center;
+
+            margin-top: 28px;
+
+            color: #68757d;
+
+        }
+
+
+        .signup-text a {
+
+            color: #0b5d7a;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+        }
+
+
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        .login-footer {
+
+            background: #083f52;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 20px;
+
+            font-size: 14px;
+
+        }
+
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 800px) {
+
+            .login-box {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .login-info {
+
+                display: none;
+
+            }
+
+
+            .login-form-area {
+
+                padding:
+                    35px 25px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==============================
+         HEADER
+    ============================== -->
+
+    <header class="login-header">
+
+        <div class="login-logo">
+
+            🏥 Hospital Management System
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ==============================
+         LOGIN
+    ============================== -->
+
+    <main class="login-wrapper">
+
+        <div class="login-box">
+
+
+            <!-- LEFT PANEL -->
+
+            <section class="login-info">
+
+                <div class="hospital-icon">
+                    🏥
+                </div>
+
+
+                <h1>
+                    Welcome Back
+                </h1>
+
+
+                <p>
+
+                    Securely access the Hospital
+                    Management System and manage
+                    healthcare services from one place.
+
+                </p>
+
+
+                <div class="security-box">
+
+                    <strong>
+                        🔐 Two-Step Secure Login
+                    </strong>
+
+                    <span>
+
+                        Your account is protected with
+                        username, password, phone number
+                        and OTP verification.
+
+                    </span>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- LOGIN FORM -->
+
+            <section class="login-form-area">
+
+
+                <div class="login-title">
+
+                    <h2>
+                        Sign In
+                    </h2>
+
+                    <p>
+                        Enter your account details
+                        to continue.
+                    </p>
+
+                </div>
+
+
+
+                <!-- ROLE -->
+
+                <div
+                    class="selected-role"
+                    id="selectedRole"
+                >
+                    Role: Loading...
+                </div>
+
+
+
+                <!-- ERROR -->
+
+                <div
+                    class="login-error"
+                    id="loginError"
+                >
+                </div>
+
+
+
+                <!-- SUCCESS -->
+
+                <div
+                    class="login-success"
+                    id="loginSuccess"
+                >
+                </div>
+
+
+
+                <!-- FORM -->
+
+                <form id="loginForm">
+
+
+                    <!-- USERNAME -->
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Registered Phone Number
+                        </label>
+
+
+                        <div class="phone-input">
+
+
+                            <input
+                                type="text"
+                                value="+91"
+                                class="country-code"
+                                readonly
+                            >
+
+
+                            <div
+                                class="phone-mask-wrapper"
+                            >
+
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    class="phone-number"
+                                    placeholder=""
+                                    maxlength="10"
+                                    inputmode="numeric"
+                                    autocomplete="tel"
+                                    required
+                                >
+
+
+                                <div
+                                    class="phone-mask-display"
+                                    id="phoneMaskDisplay"
+                                >
+                                    Enter 10-digit phone number
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="phone-help">
+
+                            For privacy, the first 6 digits
+                            are hidden. Only the last 4
+                            digits are visible.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                    >
+                        Login Securely
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- LINKS -->
+
+                <div class="login-links">
+
+                    <a
+                        href="forgot-password.html"
+                    >
+                        Forgot Password?
+                    </a>
+
+
+                    <a
+                        href="register.html"
+                    >
+                        Create Account
+                    </a>
+
+                </div>
+
+
+
+                <div class="signup-text">
+
+                    Don't have an account?
+
+                    <a
+                        href="register.html"
+                    >
+                        Sign Up
+                    </a>
+
+                </div>
+
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer class="login-footer">
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <script>
+
+
+        /* =========================================
+           GET ROLE FROM URL
+        ========================================= */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const role =
+            (
+                params.get("role") || ""
+            ).toLowerCase();
+
+
+        const roleNames = {
+
+            admin:
+                "Admin",
+
+            doctor:
+                "Doctor",
+
+            nurse:
+                "Nurse",
+
+            patient:
+                "Patient",
+
+            pharmacist:
+                "Pharmacist"
+
+        };
+
+
+        const selectedRole =
+            document.getElementById(
+                "selectedRole"
+            );
+
+
+        if (
+            role &&
+            roleNames[role]
+        ) {
+
+            selectedRole.textContent =
+                "Role: "
+                +
+                roleNames[role];
+
+        }
+
+        else {
+
+            selectedRole.textContent =
+                "Please select your role";
+
+        }
+
+
+
+        /* =========================================
+           ERROR
+        ========================================= */
+
+        function showError(message) {
+
+            const error =
+                document.getElementById(
+                    "loginError"
+                );
+
+
+            error.textContent =
+                message;
+
+
+            error.style.display =
+                "block";
+
+
+            document.getElementById(
+                "loginSuccess"
+            ).style.display =
+                "none";
+
+        }
+
+
+        function hideError() {
+
+            document.getElementById(
+                "loginError"
+            ).style.display =
+                "none";
+
+        }
+
+
+
+        /* =========================================
+           SUCCESS
+        ========================================= */
+
+        function showSuccess(message) {
+
+            const success =
+                document.getElementById(
+                    "loginSuccess"
+                );
+
+
+            success.textContent =
+                message;
+
+
+            success.style.display =
+                "block";
+
+
+            document.getElementById(
+                "loginError"
+            ).style.display =
+                "none";
+
+        }
+
+
+
+        /* =========================================
+           CLEAR OLD LOGIN DATA
+        ========================================= */
+
+        sessionStorage.removeItem(
+            "pendingLogin"
+        );
+
+
+
+        /* =========================================
+           PHONE MASKING
+        ========================================= */
+
+        const phoneInput =
+            document.getElementById(
+                "phone"
+            );
+
+
+        const phoneMaskDisplay =
+            document.getElementById(
+                "phoneMaskDisplay"
+            );
+
+
+        function getMaskedPhone(phone) {
+
+            if (!phone) {
+
+                return
+                    "Enter 10-digit phone number";
+
+            }
+
+
+            if (
+                phone.length <= 4
+            ) {
+
+                return "*".repeat(
+                    phone.length
+                );
+
+            }
+
+
+            return (
+
+                "*".repeat(
+                    phone.length - 4
+                )
+
+                +
+
+                phone.slice(-4)
+
+            );
+
+        }
+
+
+        function updatePhoneMask() {
+
+            const phone =
+                phoneInput.value;
+
+
+            if (!phone) {
+
+                phoneMaskDisplay.textContent =
+                    "Enter 10-digit phone number";
+
+                return;
+
+            }
+
+
+            phoneMaskDisplay.textContent =
+                getMaskedPhone(
+                    phone
+                );
+
+        }
+
+
+
+        /* =========================================
+           PHONE INPUT
+        ========================================= */
+
+        phoneInput.addEventListener(
+            "input",
+            function() {
+
+                this.value =
+                    this.value.replace(
+                        /[^0-9]/g,
+                        ""
+                    );
+
+
+                this.value =
+                    this.value.slice(
+                        0,
+                        10
+                    );
+
+
+                updatePhoneMask();
+
+                hideError();
+
+            }
+        );
+
+
+
+        /* =========================================
+           LOGIN FORM
+        ========================================= */
+
+        document
+            .getElementById(
+                "loginForm"
+            )
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    hideError();
+
+
+
+                    /* ==========================
+                       CHECK ROLE
+                    ========================== */
+
+                    if (
+                        !role ||
+                        !roleNames[role]
+                    ) {
+
+                        showError(
+                            "Please select your role before logging in."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* ==========================
+                       GET DETAILS
+                    ========================== */
+
+                    const username =
+                        document
+                            .getElementById(
+                                "username"
+                            )
+                            .value
+                            .trim();
+
+
+                    const password =
+                        document
+                            .getElementById(
+                                "password"
+                            )
+                            .value;
+
+
+                    const phone =
+                        phoneInput.value.trim();
+
+
+
+                    /* ==========================
+                       PHONE VALIDATION
+                    ========================== */
+
+                    if (
+                        !/^[0-9]{10}$/.test(
+                            phone
+                        )
+                    ) {
+
+                        showError(
+                            "Please enter a valid 10-digit phone number."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* =================================
+                       PATIENT LOGIN
+                    ================================= */
+
+                    if (
+                        role === "patient"
+                    ) {
+
+                        const patients =
+                            JSON.parse(
+                                localStorage.getItem(
+                                    "patients"
+                                )
+                            ) || [];
+
+
+                        const patient =
+                            patients.find(
+                                function(item) {
+
+                                    return (
+
+                                        item.username &&
+
+                                        item.username
+                                            .toLowerCase()
+                                        ===
+                                        username
+                                            .toLowerCase()
+
+                                        &&
+
+                                        item.password
+                                        ===
+                                        password
+
+                                        &&
+
+                                        item.phone
+                                        ===
+                                        phone
+
+                                    );
+
+                                }
+                            );
+
+
+                        if (!patient) {
+
+                            showError(
+                                "Invalid patient username, password, or phone number."
+                            );
+
+                            return;
+
+                        }
+
+
+                        sessionStorage.setItem(
+                            "currentPatient",
+                            JSON.stringify(
+                                patient
+                            )
+                        );
+
+
+                        sessionStorage.setItem(
+                            "pendingLogin",
+                            "true"
+                        );
+
+
+                        sessionStorage.setItem(
+                            "userRole",
+                            "patient"
+                        );
+
+
+                        sessionStorage.setItem(
+                            "userPhone",
+                            phone
+                        );
+
+
+                        window.location.href =
+                            "otp-verification.html?role=patient&phone="
+                            +
+                            encodeURIComponent(
+                                phone
+                            );
+
+
+                        return;
+
+                    }
+
+
+
+                    /* =================================
+                       ADMIN LOGIN
+                    ================================= */
+
+                    if (
+                        role === "admin"
+                    ) {
+
+                        const validAdmin =
+
+                            username ===
+                                "admin"
+
+                            &&
+
+                            password ===
+                                "admin123"
+
+                            &&
+
+                            phone ===
+                                "9999999999";
+
+
+                        if (
+                            !validAdmin
+                        ) {
+
+                            showError(
+                                "Invalid Admin username, password, or phone number."
+                            );
+
+                            return;
+
+                        }
+
+
+                        sessionStorage.setItem(
+                            "pendingLogin",
+                            "true"
+                        );
+
+
+                        sessionStorage.setItem(
+                            "userRole",
+                            "admin"
+                        );
+
+
+                        sessionStorage.setItem(
+                            "userPhone",
+                            phone
+                        );
+
+
+                        /*
+                           Admin does not have
+                           session timeout.
+                        */
+
+
+                        sessionStorage.setItem(
+                            "adminSession",
+                            "true"
+                        );
+
+
+                        window.location.href =
+                            "otp-verification.html?role=admin&phone="
+                            +
+                            encodeURIComponent(
+                                phone
+                            );
+
+
+                        return;
+
+                    }
+
+
+
+                    /* =================================
+                       DOCTOR / NURSE / PHARMACIST
+                    ================================= */
+
+                    const staffStorageKeys = {
+
+                        doctor:
+                            "doctors",
+
+                        nurse:
+                            "nurses",
+
+                        pharmacist:
+                            "pharmacists"
+
+                    };
+
+
+                    /*
+                       Get accounts created by Admin.
+                    */
+
+                    const staffAccounts =
+                        JSON.parse(
+                            localStorage.getItem(
+                                staffStorageKeys[role]
+                            )
+                        ) || [];
+
+
+                    /*
+                       Find Admin-created account.
+                    */
+
+                    const createdStaff =
+                        staffAccounts.find(
+                            function(account) {
+
+                                return (
+
+                                    account.username &&
+
+                                    account.username
+                                        .toLowerCase()
+                                    ===
+                                    username
+                                        .toLowerCase()
+
+                                    &&
+
+                                    account.password
+                                    ===
+                                    password
+
+                                    &&
+
+                                    account.phone
+                                    ===
+                                    phone
+
+                                );
+
+                            }
+                        );
+
+
+
+                    /* =================================
+                       EXISTING DEMO ACCOUNTS
+                    ================================= */
+
+                    const demoCredentials = {
+
+                        doctor: {
+
+                            username:
+                                "doctor",
+
+                            password:
+                                "doctor123",
+
+                            phone:
+                                "9876543210"
+
+                        },
+
+
+                        nurse: {
+
+                            username:
+                                "nurse",
+
+                            password:
+                                "nurse123",
+
+                            phone:
+                                "1234567890"
+
+                        },
+
+
+                        pharmacist: {
+
+                            username:
+                                "pharmacist",
+
+                            password:
+                                "pharmacist123",
+
+                            phone:
+                                "7777777777"
+
+                        }
+
+                    };
+
+
+                    const credentials =
+                        demoCredentials[role];
+
+
+                    const validDemoAccount =
+
+                        credentials &&
+
+                        username ===
+                            credentials.username
+
+                        &&
+
+                        password ===
+                            credentials.password
+
+                        &&
+
+                        phone ===
+                            credentials.phone;
+
+
+
+                    /* =================================
+                       FINAL STAFF LOGIN CHECK
+                    ================================= */
+
+                    if (
+                        !createdStaff &&
+                        !validDemoAccount
+                    ) {
+
+                        showError(
+                            "Invalid username, password, or phone number."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* =================================
+                       SAVE STAFF INFORMATION
+                    ================================= */
+
+                    if (
+                        createdStaff
+                    ) {
+
+                        sessionStorage.setItem(
+                            "currentStaff",
+                            JSON.stringify(
+                                createdStaff
+                            )
+                        );
+
+                    }
+
+                    else {
+
+                        /*
+                           Remove old staff data when
+                           using a demo account.
+                        */
+
+                        sessionStorage.removeItem(
+                            "currentStaff"
+                        );
+
+                    }
+
+
+
+                    /* =================================
+                       START OTP LOGIN
+                    ================================= */
+
+                    sessionStorage.setItem(
+                        "pendingLogin",
+                        "true"
+                    );
+
+
+                    sessionStorage.setItem(
+                        "userRole",
+                        role
+                    );
+
+
+                    sessionStorage.setItem(
+                        "userPhone",
+                        phone
+                    );
+
+
+                    /*
+                       Doctor/Nurse/Pharmacist will
+                       get the normal session timeout
+                       after OTP verification.
+                    */
+
+
+                    window.location.href =
+                        "otp-verification.html?role="
+                        +
+                        encodeURIComponent(
+                            role
+                        )
+                        +
+                        "&phone="
+                        +
+                        encodeURIComponent(
+                            phone
+                        );
+
+                }
+            );
+
+
+
+        /* =========================================
+           HIDE ERROR WHEN USER TYPES
+        ========================================= */
+
+        [
+
+            "username",
+
+            "password"
+
+        ].forEach(
+            function(id) {
+
+                document
+                    .getElementById(id)
+                    .addEventListener(
+                        "input",
+                        hideError
+                    );
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

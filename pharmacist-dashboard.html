@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Pharmacist Dashboard - Hospital Management System
+    </title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+</head>
+
+<body>
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+        <div>
+
+            <span>
+                Pharmacist
+            </span>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Pharmacist
+                </h2>
+
+            </div>
+
+
+            <a href="pharmacist-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="pharmacist-prescriptions.html">
+                Prescriptions
+            </a>
+
+            <a href="pharmacist-medicines.html">
+                Medicines
+            </a>
+
+            <a href="pharmacist-stock.html">
+                Medicine Stock
+            </a>
+
+            <a href="pharmacist-profile.html">
+                Profile
+            </a>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <h1>
+                Pharmacist Dashboard
+            </h1>
+
+            <p class="welcome">
+                Manage prescriptions and medicines
+                securely.
+            </p>
+
+
+            <div class="dashboard">
+
+
+                <!-- PRESCRIPTIONS -->
+
+                <div class="card">
+
+                    <h3>
+                        Prescriptions
+                    </h3>
+
+                    <p>
+                        View prescriptions sent by doctors.
+                    </p>
+
+                    <a href="pharmacist-prescriptions.html">
+
+                        <button>
+                            View Prescriptions
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+                <!-- MEDICINES -->
+
+                <div class="card">
+
+                    <h3>
+                        Medicines
+                    </h3>
+
+                    <p>
+                        View and manage available
+                        medicines.
+                    </p>
+
+                    <a href="pharmacist-medicines.html">
+
+                        <button>
+                            Medicines
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+                <!-- STOCK -->
+
+                <div class="card">
+
+                    <h3>
+                        Medicine Stock
+                    </h3>
+
+                    <p>
+                        Monitor current medicine stock.
+                    </p>
+
+                    <a href="pharmacist-stock.html">
+
+                        <button>
+                            Manage Stock
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+                <!-- PROFILE -->
+
+                <div class="card">
+
+                    <h3>
+                        Profile
+                    </h3>
+
+                    <p>
+                        View your pharmacist profile.
+                    </p>
+
+                    <a href="pharmacist-profile.html">
+
+                        <button>
+                            My Profile
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECURITY -->
+
+            <div class="card">
+
+                <h2>
+                    🔐 Secure Session
+                </h2>
+
+                <p>
+                    Your pharmacist account is protected
+                    by automatic session timeout.
+                </p>
+
+                <p>
+                    Prescriptions can be viewed but
+                    cannot be edited by the pharmacist.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+    <!-- EXISTING SECURITY -->
+
+    <script src="../security.js"></script>
+
+</body>
+
+</html>

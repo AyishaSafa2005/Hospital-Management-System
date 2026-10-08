@@ -1,0 +1,3276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor - Patient Record</title>
+
+    <!-- SAME ADMIN DASHBOARD THEME -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+    <style>
+        .page-title {
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 16px;
+            background: #0b6684;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            opacity: 0.9;
+        }
+
+        .patient-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .patient-header h2 {
+            margin: 0 0 6px;
+        }
+
+        .patient-id {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #e8f4f8;
+            color: #0b6684;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .detail-item {
+            padding: 12px;
+            background: #f8fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e9eb;
+        }
+
+        .detail-label {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            display: block;
+            color: #222;
+            word-break: break-word;
+        }
+
+        .section-card {
+            margin-top: 20px;
+        }
+
+        .section-card h3 {
+            margin-top: 0;
+            color: #0b6684;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #ccd5d9;
+            border-radius: 7px;
+            resize: vertical;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #0b6684;
+        }
+
+        input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccd5d9;
+            border-radius: 7px;
+            font-family: inherit;
+        }
+
+        .save-btn,
+        .request-btn,
+        .prescription-btn {
+            border: none;
+            padding: 10px 17px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .save-btn {
+            background: #0b6684;
+            color: white;
+        }
+
+        .prescription-btn {
+            background: #0b6684;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .request-btn {
+            background: #0b6684;
+            color: white;
+        }
+
+        .request-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .success-message {
+            background: #e9f7ef;
+            color: #207044;
+        }
+
+        .error-message {
+            background: #fdecec;
+            color: #a22a2a;
+        }
+
+        .info-message {
+            background: #eef6f9;
+            color: #0b6684;
+        }
+
+        .consultation-list,
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .consultation-item,
+        .note-item {
+            border: 1px solid #e2e7e9;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fafcfd;
+        }
+
+        .consultation-item h4,
+        .note-item h4 {
+            margin: 0 0 10px;
+            color: #0b6684;
+        }
+
+        .record-meta {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .record-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #444;
+            margin-top: 10px;
+            margin-bottom: 4px;
+        }
+
+        .record-text {
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .access-denied {
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+        .access-denied h2 {
+            color: #a22a2a;
+            margin-bottom: 10px;
+        }
+
+        .access-denied p {
+            color: #666;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .owner-info {
+            padding: 10px 12px;
+            background: #eef6f9;
+            border-left: 4px solid #0b6684;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 700px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+
+    <div class="logo">
+        Hospital Management System
+    </div>
+
+    <div class="topbar-right">
+
+        <span id="doctorTopName">
+            Doctor
+        </span>
+
+        <a href="../index.html" onclick="logoutDoctor()">
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <h3>
+            Doctor Panel
+        </h3>
+
+        <a href="doctor-dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="doctor-patients.html">
+            My Patients
+        </a>
+
+        <a href="doctor-appointments.html">
+            Appointments
+        </a>
+
+        <a href="doctor-records.html">
+            Records
+        </a>
+
+        <a href="doctor-prescriptions.html">
+            Prescriptions
+        </a>
+
+        <a href="doctor-access-requests.html">
+            Access Requests
+        </a>
+
+        <a href="doctor-profile.html">
+            My Profile
+        </a>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+    <main class="content">
+
+        <a
+            href="doctor-patients.html"
+            class="back-btn"
+        >
+            ← Back to My Patients
+        </a>
+
+
+        <div id="pageContent">
+
+            <!-- PATIENT HEADER -->
+            <div class="card page-title">
+
+                <div class="patient-header">
+
+                    <div>
+
+                        <h2 id="patientName">
+                            Patient Record
+                        </h2>
+
+                        <div
+                            class="patient-id"
+                            id="patientIdText"
+                        ></div>
+
+                    </div>
+
+                    <span
+                        class="status-badge"
+                        id="patientStatus"
+                    >
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PATIENT INFORMATION -->
+            <div class="card section-card">
+
+                <h3>
+                    Patient Information
+                </h3>
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Patient ID
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailPatientId"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Full Name
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailName"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Age
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailAge"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Gender
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailGender"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Blood Group
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailBloodGroup"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Phone
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailPhone"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Email
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailEmail"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Username
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailUsername"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Patient Type
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailPatientType"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Department
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailDepartment"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Place of Residence
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailPlace"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Admission Date
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailAdmissionDate"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Room Number
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailRoom"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Duty Nurse
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailNurse"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Assigned Doctor
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailDoctor"
+                        >
+                            -
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            Status
+                        </span>
+                        <span
+                            class="detail-value"
+                            id="detailStatus"
+                        >
+                            -
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="detail-item"
+                    style="margin-top:16px;"
+                >
+
+                    <span class="detail-label">
+                        Chief Complaint
+                    </span>
+
+                    <span
+                        class="detail-value"
+                        id="detailComplaint"
+                    >
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONSULTATION -->
+            <div class="card section-card">
+
+                <h3>
+                    Today's Consultation
+                </h3>
+
+
+                <div
+                    id="consultationOwnerInfo"
+                    class="owner-info hidden"
+                ></div>
+
+
+                <div id="consultationEditor">
+
+                    <label for="consultationDate">
+                        <strong>
+                            Consultation Date
+                        </strong>
+                    </label>
+
+                    <br>
+
+                    <input
+                        type="date"
+                        id="consultationDate"
+                        readonly
+                    >
+
+                    <br><br>
+
+
+                    <label for="symptoms">
+                        <strong>
+                            Symptoms
+                        </strong>
+                    </label>
+
+                    <br>
+
+                    <textarea
+                        id="symptoms"
+                        placeholder="Enter patient's symptoms..."
+                    ></textarea>
+
+                    <br>
+
+
+                    <label for="diagnosis">
+                        <strong>
+                            Diagnosis
+                        </strong>
+                    </label>
+
+                    <br>
+
+                    <textarea
+                        id="diagnosis"
+                        placeholder="Enter diagnosis..."
+                    ></textarea>
+
+                    <br>
+
+
+                    <button
+                        type="button"
+                        class="save-btn"
+                        onclick="saveConsultation()"
+                    >
+                        Save Consultation
+                    </button>
+
+
+                    <div
+                        id="consultationMessage"
+                        class="message"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONSULTATION HISTORY -->
+            <div class="card section-card">
+
+                <h3>
+                    Consultation History
+                </h3>
+
+                <div
+                    id="consultationHistory"
+                    class="consultation-list"
+                >
+                    <p>
+                        No consultation history found.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- DOCTOR NOTES -->
+            <div class="card section-card">
+
+                <h3>
+                    Doctor Notes
+                </h3>
+
+
+                <div
+                    id="notesOwnerInfo"
+                    class="owner-info hidden"
+                ></div>
+
+
+                <div id="notesEditor">
+
+                    <textarea
+                        id="doctorNote"
+                        placeholder="Enter a note about this patient..."
+                    ></textarea>
+
+                    <br>
+
+
+                    <button
+                        type="button"
+                        class="save-btn"
+                        onclick="saveDoctorNote()"
+                    >
+                        Save Note
+                    </button>
+
+
+                    <div
+                        id="noteMessage"
+                        class="message"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    id="notesHistory"
+                    class="notes-list"
+                    style="margin-top:20px;"
+                >
+                    <p>
+                        No notes found.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- PRESCRIPTIONS -->
+            <div class="card section-card">
+
+                <h3>
+                    Prescriptions
+                </h3>
+
+                <p>
+                    Create and manage prescriptions for this patient
+                    from the Doctor Prescription section.
+                </p>
+
+                <a
+                    class="prescription-btn"
+                    id="prescriptionLink"
+                    href="doctor-prescriptions.html"
+                >
+                    Go to Prescriptions
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACCESS DENIED -->
+        <div
+            id="accessDenied"
+            class="card access-denied hidden"
+        >
+
+            <h2>
+                Access Required
+            </h2>
+
+            <p id="accessDeniedText">
+                You do not currently have permission
+                to view this patient's medical record.
+            </p>
+
+
+            <button
+                type="button"
+                id="requestAccessBtn"
+                class="request-btn"
+                onclick="requestAccess()"
+            >
+                Request Access
+            </button>
+
+
+            <div
+                id="accessMessage"
+                class="message"
+            ></div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <p>
+        © Hospital Management System
+    </p>
+
+</footer>
+
+
+<script src="../security.js"></script>
+
+
+<script>
+
+/* =========================================================
+   DOCTOR SESSION
+   ========================================================= */
+
+function getLoggedInDoctor() {
+
+    /*
+     * Admin-created Doctor accounts are stored here
+     * by the login system.
+     */
+    const currentStaff =
+        sessionStorage.getItem("currentStaff");
+
+    if (currentStaff) {
+
+        try {
+
+            const staff =
+                JSON.parse(currentStaff);
+
+            if (
+                staff &&
+                typeof staff === "object"
+            ) {
+                return staff;
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read currentStaff:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+     * Compatibility with other Doctor session keys.
+     */
+    const possibleKeys = [
+        "loggedInDoctor",
+        "doctorSession",
+        "currentDoctor"
+    ];
+
+    for (const key of possibleKeys) {
+
+        const raw =
+            localStorage.getItem(key);
+
+        if (!raw) {
+            continue;
+        }
+
+        try {
+
+            const parsed =
+                JSON.parse(raw);
+
+            if (
+                parsed &&
+                typeof parsed === "object"
+            ) {
+                return parsed;
+            }
+
+        } catch (error) {
+
+            return {
+                username: raw,
+                name: raw
+            };
+
+        }
+
+    }
+
+
+    /*
+     * HMS session compatibility.
+     */
+    const hmsSession =
+        sessionStorage.getItem("hmsSession");
+
+    if (hmsSession) {
+
+        try {
+
+            const session =
+                JSON.parse(hmsSession);
+
+            if (
+                session &&
+                (
+                    normalize(session.role) === "doctor" ||
+                    normalize(session.userType) === "doctor" ||
+                    normalize(session.userRole) === "doctor"
+                )
+            ) {
+                return session;
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read hmsSession:",
+                error
+            );
+
+        }
+
+    }
+
+
+    return null;
+}
+
+
+const currentDoctor =
+    getLoggedInDoctor();
+
+
+/* =========================================================
+   DOCTOR ID / NAME
+   ========================================================= */
+
+function getDoctorId(doctor) {
+
+    if (!doctor) {
+        return "";
+    }
+
+    return String(
+        doctor.doctorId ||
+        doctor.id ||
+        doctor.userId ||
+        doctor.staffId ||
+        doctor.username ||
+        doctor.userName ||
+        doctor.loginUsername ||
+        ""
+    ).trim();
+}
+
+
+function getDoctorName(doctor) {
+
+    if (!doctor) {
+        return "Doctor";
+    }
+
+    return String(
+        doctor.name ||
+        doctor.fullName ||
+        doctor.doctorName ||
+        doctor.username ||
+        doctor.userName ||
+        "Doctor"
+    ).trim();
+}
+
+
+const currentDoctorId =
+    getDoctorId(currentDoctor);
+
+
+const currentDoctorName =
+    getDoctorName(currentDoctor);
+
+
+const doctorTopName =
+    document.getElementById("doctorTopName");
+
+
+if (doctorTopName) {
+    doctorTopName.textContent =
+        currentDoctorName;
+}
+
+
+/* =========================================================
+   GENERAL HELPERS
+   ========================================================= */
+
+function normalize(value) {
+
+    return String(value || "")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+function getArray(key) {
+
+    try {
+
+        const value =
+            JSON.parse(
+                localStorage.getItem(key) || "[]"
+            );
+
+        return Array.isArray(value)
+            ? value
+            : [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveArray(key, value) {
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(value)
+    );
+
+}
+
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+        return "-";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function todayDate() {
+
+    const now =
+        new Date();
+
+    const year =
+        now.getFullYear();
+
+    const month =
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0");
+
+    const day =
+        String(
+            now.getDate()
+        ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+function formatDateTime(value) {
+
+    if (!value) {
+        return "-";
+    }
+
+    try {
+
+        return new Date(value)
+            .toLocaleString();
+
+    } catch (error) {
+
+        return value;
+
+    }
+
+}
+
+
+/* =========================================================
+   PATIENT HELPERS
+   ========================================================= */
+
+function getPatientId(patient) {
+
+    if (!patient) {
+        return "";
+    }
+
+    return String(
+        patient.patientId ||
+        patient.id ||
+        patient.patientID ||
+        patient.patient_id ||
+        ""
+    ).trim();
+
+}
+
+
+function getPatientName(patient) {
+
+    if (!patient) {
+        return "";
+    }
+
+    return String(
+        patient.fullName ||
+        patient.name ||
+        patient.patientName ||
+        patient.username ||
+        ""
+    ).trim();
+
+}
+
+
+/*
+ * Some Admin patient records contain age directly.
+ * Older registration records may contain DOB instead.
+ */
+function getPatientAge(patient) {
+
+    if (!patient) {
+        return "";
+    }
+
+    if (
+        patient.age !== undefined &&
+        patient.age !== null &&
+        String(patient.age).trim() !== ""
+    ) {
+        return patient.age;
+    }
+
+
+    const dob =
+        patient.dob ||
+        patient.dateOfBirth ||
+        patient.birthDate ||
+        "";
+
+    if (!dob) {
+        return "";
+    }
+
+
+    const birth =
+        new Date(dob);
+
+    if (isNaN(birth.getTime())) {
+        return "";
+    }
+
+
+    const now =
+        new Date();
+
+    let age =
+        now.getFullYear() -
+        birth.getFullYear();
+
+
+    const monthDifference =
+        now.getMonth() -
+        birth.getMonth();
+
+
+    if (
+        monthDifference < 0 ||
+        (
+            monthDifference === 0 &&
+            now.getDate() < birth.getDate()
+        )
+    ) {
+        age--;
+    }
+
+
+    return age >= 0
+        ? age
+        : "";
+}
+
+
+/* =========================================================
+   URL PATIENT ID
+   ========================================================= */
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const requestedPatientId =
+    urlParams.get("patientId") ||
+    urlParams.get("id") ||
+    "";
+
+
+/* =========================================================
+   FIND PATIENT
+   ========================================================= */
+
+const patients =
+    getArray("patients");
+
+
+const patient =
+    patients.find(function(item) {
+
+        return normalize(
+            getPatientId(item)
+        ) === normalize(
+            requestedPatientId
+        );
+
+    });
+
+
+/* =========================================================
+   ASSIGNED DOCTOR
+   ========================================================= */
+
+function getAssignedDoctorId(patient) {
+
+    if (!patient) {
+        return "";
+    }
+
+    /*
+     * admin-patients.html uses:
+     * assignedDoctorId
+     * doctorId
+     */
+    return String(
+        patient.assignedDoctorId ||
+        patient.assignedDoctorID ||
+        patient.doctorId ||
+        patient.doctorUserId ||
+        patient.assignedDoctorUserId ||
+        patient.assignedDoctor ||
+        ""
+    ).trim();
+
+}
+
+
+function getAssignedDoctorName(patient) {
+
+    if (!patient) {
+        return "";
+    }
+
+    /*
+     * Supports both Admin patient formats.
+     *
+     * Newer:
+     * assignedDoctorName
+     *
+     * Older:
+     * doctor
+     */
+    return String(
+        patient.assignedDoctorName ||
+        patient.assignedDoctor ||
+        patient.doctorName ||
+        patient.doctor ||
+        patient.assignedDoctorUsername ||
+        patient.doctorUsername ||
+        ""
+    ).trim();
+
+}
+
+
+/* =========================================================
+   DOCTOR LIST LOOKUP
+   ========================================================= */
+
+function getDoctorFromDoctorsList(
+    id,
+    name
+) {
+
+    const doctors =
+        getArray("doctors");
+
+
+    return doctors.find(function(doctor) {
+
+        const doctorId =
+            getDoctorId(doctor);
+
+        const doctorName =
+            getDoctorName(doctor);
+
+
+        if (
+            id &&
+            doctorId &&
+            normalize(id) ===
+            normalize(doctorId)
+        ) {
+            return true;
+        }
+
+
+        if (
+            name &&
+            doctorName &&
+            normalize(name) ===
+            normalize(doctorName)
+        ) {
+            return true;
+        }
+
+
+        return false;
+
+    }) || null;
+
+}
+
+
+/* =========================================================
+   OWNERSHIP
+   ========================================================= */
+
+function isOwnerDoctor() {
+
+    if (
+        !patient ||
+        !currentDoctor
+    ) {
+        return false;
+    }
+
+
+    const assignedId =
+        getAssignedDoctorId(patient);
+
+
+    const assignedName =
+        getAssignedDoctorName(patient);
+
+
+    /*
+     * First compare IDs.
+     */
+    if (
+        assignedId &&
+        currentDoctorId &&
+        normalize(assignedId) ===
+        normalize(currentDoctorId)
+    ) {
+        return true;
+    }
+
+
+    /*
+     * Compare assigned doctor name.
+     */
+    if (
+        assignedName &&
+        currentDoctorName &&
+        normalize(assignedName) ===
+        normalize(currentDoctorName)
+    ) {
+        return true;
+    }
+
+
+    /*
+     * Older patient records may contain doctor name only.
+     * Look up the Doctor list and compare IDs.
+     */
+    const matchedDoctor =
+        getDoctorFromDoctorsList(
+            assignedId,
+            assignedName
+        );
+
+
+    if (matchedDoctor) {
+
+        const matchedDoctorId =
+            getDoctorId(matchedDoctor);
+
+        const matchedDoctorName =
+            getDoctorName(matchedDoctor);
+
+
+        if (
+            matchedDoctorId &&
+            currentDoctorId &&
+            normalize(matchedDoctorId) ===
+            normalize(currentDoctorId)
+        ) {
+            return true;
+        }
+
+
+        if (
+            matchedDoctorName &&
+            currentDoctorName &&
+            normalize(matchedDoctorName) ===
+            normalize(currentDoctorName)
+        ) {
+            return true;
+        }
+
+    }
+
+
+    return false;
+}
+
+
+/* =========================================================
+   OWNER INFORMATION
+   ========================================================= */
+
+function getOwnerDoctorId() {
+
+    const assignedId =
+        getAssignedDoctorId(patient);
+
+
+    if (assignedId) {
+        return assignedId;
+    }
+
+
+    const assignedName =
+        getAssignedDoctorName(patient);
+
+
+    const doctor =
+        getDoctorFromDoctorsList(
+            "",
+            assignedName
+        );
+
+
+    if (doctor) {
+        return getDoctorId(doctor);
+    }
+
+
+    return "";
+}
+
+
+function getOwnerDoctorName() {
+
+    const assignedName =
+        getAssignedDoctorName(patient);
+
+
+    if (assignedName) {
+        return assignedName;
+    }
+
+
+    const assignedId =
+        getAssignedDoctorId(patient);
+
+
+    const doctor =
+        getDoctorFromDoctorsList(
+            assignedId,
+            ""
+        );
+
+
+    if (doctor) {
+        return getDoctorName(doctor);
+    }
+
+
+    return "";
+}
+
+
+/* =========================================================
+   ACCESS REQUESTS
+   ========================================================= */
+
+function hasAcceptedAccess() {
+
+    if (
+        !patient ||
+        !currentDoctor
+    ) {
+        return false;
+    }
+
+
+    if (isOwnerDoctor()) {
+        return true;
+    }
+
+
+    const requests =
+        getArray(
+            "doctorAccessRequests"
+        );
+
+
+    const patientId =
+        getPatientId(patient);
+
+
+    const ownerId =
+        getOwnerDoctorId();
+
+
+    const ownerName =
+        getOwnerDoctorName();
+
+
+    return requests.some(function(request) {
+
+        const requestPatientId =
+            request.patientId ||
+            request.patientID;
+
+
+        const requesterId =
+            request.requesterDoctorId ||
+            request.requesterId ||
+            request.doctorId;
+
+
+        const requestOwnerId =
+            request.ownerDoctorId ||
+            request.ownerId;
+
+
+        const requestOwnerName =
+            request.ownerDoctorName ||
+            request.ownerName;
+
+
+        const status =
+            normalize(
+                request.status
+            );
+
+
+        const patientMatches =
+            normalize(requestPatientId) ===
+            normalize(patientId);
+
+
+        const requesterMatches =
+            normalize(requesterId) ===
+            normalize(currentDoctorId);
+
+
+        const ownerMatches =
+            (
+                ownerId &&
+                requestOwnerId &&
+                normalize(requestOwnerId) ===
+                normalize(ownerId)
+            ) ||
+            (
+                ownerName &&
+                requestOwnerName &&
+                normalize(requestOwnerName) ===
+                normalize(ownerName)
+            );
+
+
+        return (
+            patientMatches &&
+            requesterMatches &&
+            ownerMatches &&
+            status === "accepted"
+        );
+
+    });
+
+}
+
+
+function getExistingAccessRequest() {
+
+    if (!patient) {
+        return null;
+    }
+
+
+    const requests =
+        getArray(
+            "doctorAccessRequests"
+        );
+
+
+    const patientId =
+        getPatientId(patient);
+
+
+    const ownerId =
+        getOwnerDoctorId();
+
+
+    const ownerName =
+        getOwnerDoctorName();
+
+
+    return requests.find(function(request) {
+
+        const requestPatientId =
+            request.patientId ||
+            request.patientID;
+
+
+        const requesterId =
+            request.requesterDoctorId ||
+            request.requesterId ||
+            request.doctorId;
+
+
+        const requestOwnerId =
+            request.ownerDoctorId ||
+            request.ownerId;
+
+
+        const requestOwnerName =
+            request.ownerDoctorName ||
+            request.ownerName;
+
+
+        const status =
+            normalize(
+                request.status
+            );
+
+
+        const patientMatches =
+            normalize(requestPatientId) ===
+            normalize(patientId);
+
+
+        const requesterMatches =
+            normalize(requesterId) ===
+            normalize(currentDoctorId);
+
+
+        const ownerMatches =
+            (
+                ownerId &&
+                requestOwnerId &&
+                normalize(requestOwnerId) ===
+                normalize(ownerId)
+            ) ||
+            (
+                ownerName &&
+                requestOwnerName &&
+                normalize(requestOwnerName) ===
+                normalize(ownerName)
+            );
+
+
+        return (
+            patientMatches &&
+            requesterMatches &&
+            ownerMatches &&
+            (
+                status === "pending" ||
+                status === "accepted"
+            )
+        );
+
+    }) || null;
+
+}
+
+
+/* =========================================================
+   DISPLAY PATIENT DETAILS
+   ========================================================= */
+
+function displayPatientDetails() {
+
+    if (!patient) {
+        return;
+    }
+
+
+    const patientId =
+        getPatientId(patient);
+
+
+    const patientName =
+        getPatientName(patient);
+
+
+    document.getElementById(
+        "patientName"
+    ).textContent =
+        patientName ||
+        "Patient Record";
+
+
+    document.getElementById(
+        "patientIdText"
+    ).textContent =
+        "Patient ID: " +
+        (
+            patientId ||
+            "-"
+        );
+
+
+    document.getElementById(
+        "detailPatientId"
+    ).textContent =
+        patientId ||
+        "-";
+
+
+    document.getElementById(
+        "detailName"
+    ).textContent =
+        patientName ||
+        "-";
+
+
+    document.getElementById(
+        "detailAge"
+    ).textContent =
+        getPatientAge(patient) ||
+        "-";
+
+
+    document.getElementById(
+        "detailGender"
+    ).textContent =
+        patient.gender ||
+        "-";
+
+
+    document.getElementById(
+        "detailBloodGroup"
+    ).textContent =
+        patient.bloodGroup ||
+        patient.bloodType ||
+        "-";
+
+
+    document.getElementById(
+        "detailPhone"
+    ).textContent =
+        patient.phone ||
+        patient.mobile ||
+        patient.contact ||
+        "-";
+
+
+    document.getElementById(
+        "detailEmail"
+    ).textContent =
+        patient.email ||
+        "-";
+
+
+    document.getElementById(
+        "detailUsername"
+    ).textContent =
+        patient.username ||
+        "-";
+
+
+    document.getElementById(
+        "detailPatientType"
+    ).textContent =
+        patient.patientType ||
+        patient.type ||
+        "-";
+
+
+    document.getElementById(
+        "detailDepartment"
+    ).textContent =
+        patient.department ||
+        "-";
+
+
+    document.getElementById(
+        "detailPlace"
+    ).textContent =
+        patient.placeOfResidence ||
+        patient.place ||
+        patient.address ||
+        "-";
+
+
+    document.getElementById(
+        "detailAdmissionDate"
+    ).textContent =
+        patient.admissionDate ||
+        patient.dateOfAdmission ||
+        patient.registrationDate ||
+        "-";
+
+
+    document.getElementById(
+        "detailRoom"
+    ).textContent =
+        patient.roomNumber ||
+        patient.room ||
+        "-";
+
+
+    document.getElementById(
+        "detailNurse"
+    ).textContent =
+        patient.dutyNurseName ||
+        patient.dutyNurse ||
+        patient.assignedNurseName ||
+        patient.assignedNurse ||
+        "-";
+
+
+    document.getElementById(
+        "detailDoctor"
+    ).textContent =
+        getAssignedDoctorName(patient) ||
+        getAssignedDoctorId(patient) ||
+        "-";
+
+
+    document.getElementById(
+        "detailStatus"
+    ).textContent =
+        patient.status ||
+        patient.patientStatus ||
+        "Active";
+
+
+    document.getElementById(
+        "detailComplaint"
+    ).textContent =
+        patient.chiefComplaint ||
+        patient.complaint ||
+        patient.reason ||
+        "-";
+
+
+    document.getElementById(
+        "patientStatus"
+    ).textContent =
+        patient.status ||
+        patient.patientStatus ||
+        "Active";
+
+}
+
+
+/* =========================================================
+   ACCESS DENIED
+   ========================================================= */
+
+function showAccessDenied() {
+
+    document.getElementById(
+        "pageContent"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "accessDenied"
+    ).classList.remove("hidden");
+
+
+    const deniedText =
+        document.getElementById(
+            "accessDeniedText"
+        );
+
+
+    const requestButton =
+        document.getElementById(
+            "requestAccessBtn"
+        );
+
+
+    if (!patient) {
+
+        deniedText.textContent =
+            "The requested patient record could not be found.";
+
+        requestButton.classList.add(
+            "hidden"
+        );
+
+        return;
+    }
+
+
+    if (!currentDoctor) {
+
+        deniedText.textContent =
+            "No logged-in doctor was found. Please log in as a doctor first.";
+
+        requestButton.classList.add(
+            "hidden"
+        );
+
+        return;
+    }
+
+
+    if (
+        !getOwnerDoctorId() &&
+        !getOwnerDoctorName()
+    ) {
+
+        deniedText.textContent =
+            "This patient does not currently have an identifiable assigned doctor.";
+
+        requestButton.classList.add(
+            "hidden"
+        );
+
+        return;
+    }
+
+
+    deniedText.textContent =
+        "You are not the assigned doctor for this patient. Access must be approved by the patient's assigned doctor before you can view the medical record.";
+
+
+    updateRequestButton();
+
+}
+
+
+/* =========================================================
+   REQUEST BUTTON
+   ========================================================= */
+
+function updateRequestButton() {
+
+    const button =
+        document.getElementById(
+            "requestAccessBtn"
+        );
+
+
+    const existing =
+        getExistingAccessRequest();
+
+
+    if (!existing) {
+
+        button.disabled = false;
+
+        button.textContent =
+            "Request Access";
+
+        return;
+    }
+
+
+    const status =
+        normalize(
+            existing.status
+        );
+
+
+    if (status === "pending") {
+
+        button.disabled = true;
+
+        button.textContent =
+            "Access Request Pending";
+
+    } else if (status === "accepted") {
+
+        button.disabled = true;
+
+        button.textContent =
+            "Access Granted";
+
+    } else {
+
+        button.disabled = false;
+
+        button.textContent =
+            "Request Access";
+
+    }
+
+}
+
+
+/* =========================================================
+   REQUEST ACCESS
+   ========================================================= */
+
+function requestAccess() {
+
+    if (
+        !patient ||
+        !currentDoctor
+    ) {
+        return;
+    }
+
+
+    if (isOwnerDoctor()) {
+        return;
+    }
+
+
+    const existing =
+        getExistingAccessRequest();
+
+
+    if (existing) {
+
+        updateRequestButton();
+
+
+        showMessage(
+            "accessMessage",
+            "An access request already exists for this patient.",
+            "info-message"
+        );
+
+        return;
+    }
+
+
+    const requests =
+        getArray(
+            "doctorAccessRequests"
+        );
+
+
+    const patientId =
+        getPatientId(patient);
+
+
+    const patientName =
+        getPatientName(patient);
+
+
+    const ownerDoctorId =
+        getOwnerDoctorId();
+
+
+    const ownerDoctorName =
+        getOwnerDoctorName();
+
+
+    const now =
+        new Date();
+
+
+    const request = {
+
+        id:
+            "AR-" +
+            Date.now() +
+            "-" +
+            Math.floor(
+                Math.random() * 10000
+            ),
+
+        requesterDoctorId:
+            currentDoctorId,
+
+        requesterDoctorName:
+            currentDoctorName,
+
+        ownerDoctorId:
+            ownerDoctorId,
+
+        ownerDoctorName:
+            ownerDoctorName,
+
+        patientId:
+            patientId,
+
+        patientName:
+            patientName,
+
+        requestDate:
+            todayDate(),
+
+        requestedAt:
+            now.toISOString(),
+
+        status:
+            "Pending",
+
+        decisionDate:
+            "",
+
+        decisionAt:
+            "",
+
+        decisionBy:
+            "",
+
+        decisionByName:
+            ""
+
+    };
+
+
+    requests.push(request);
+
+
+    saveArray(
+        "doctorAccessRequests",
+        requests
+    );
+
+
+    /*
+     * Create a notification for the assigned Doctor.
+     */
+    const notifications =
+        getArray(
+            "notifications"
+        );
+
+
+    notifications.push({
+
+        id:
+            "NOTIF-" +
+            Date.now(),
+
+        recipientRole:
+            "doctor",
+
+        recipientDoctorId:
+            ownerDoctorId,
+
+        recipientDoctorName:
+            ownerDoctorName,
+
+        type:
+            "access-request",
+
+        title:
+            "Patient Access Request",
+
+        message:
+            currentDoctorName +
+            " has requested access to patient " +
+            patientName +
+            " (" +
+            patientId +
+            ").",
+
+        patientId:
+            patientId,
+
+        patientName:
+            patientName,
+
+        requestId:
+            request.id,
+
+        read:
+            false,
+
+        createdAt:
+            now.toISOString()
+
+    });
+
+
+    saveArray(
+        "notifications",
+        notifications
+    );
+
+
+    updateRequestButton();
+
+
+    showMessage(
+        "accessMessage",
+        "Access request sent to the assigned doctor.",
+        "success-message"
+    );
+
+}
+
+
+/* =========================================================
+   CONSULTATIONS
+   ========================================================= */
+
+function getConsultations() {
+
+    return getArray(
+        "consultations"
+    );
+
+}
+
+
+function saveConsultation() {
+
+    if (
+        !patient ||
+        !currentDoctor
+    ) {
+        return;
+    }
+
+
+    /*
+     * Only assigned Doctor can modify.
+     */
+    if (!isOwnerDoctor()) {
+
+        showMessage(
+            "consultationMessage",
+            "Only the assigned doctor can modify this consultation.",
+            "error-message"
+        );
+
+        return;
+    }
+
+
+    const symptoms =
+        document.getElementById(
+            "symptoms"
+        ).value.trim();
+
+
+    const diagnosis =
+        document.getElementById(
+            "diagnosis"
+        ).value.trim();
+
+
+    if (!symptoms) {
+
+        showMessage(
+            "consultationMessage",
+            "Please enter the patient's symptoms.",
+            "error-message"
+        );
+
+        return;
+    }
+
+
+    if (!diagnosis) {
+
+        showMessage(
+            "consultationMessage",
+            "Please enter the diagnosis.",
+            "error-message"
+        );
+
+        return;
+    }
+
+
+    const patientId =
+        getPatientId(patient);
+
+
+    const date =
+        todayDate();
+
+
+    let consultations =
+        getConsultations();
+
+
+    /*
+     * One consultation per
+     * patient + doctor + day.
+     */
+    const existingIndex =
+        consultations.findIndex(
+            function(item) {
+
+                return (
+                    normalize(
+                        item.patientId
+                    ) ===
+                    normalize(
+                        patientId
+                    ) &&
+
+                    normalize(
+                        item.doctorId
+                    ) ===
+                    normalize(
+                        currentDoctorId
+                    ) &&
+
+                    item.date ===
+                    date
+                );
+
+            }
+        );
+
+
+    const now =
+        new Date().toISOString();
+
+
+    if (existingIndex !== -1) {
+
+        const existing =
+            consultations[
+                existingIndex
+            ];
+
+
+        /*
+         * Same-day consultation
+         * remains editable.
+         */
+        if (
+            existing.date ===
+            todayDate()
+        ) {
+
+            existing.symptoms =
+                symptoms;
+
+            existing.diagnosis =
+                diagnosis;
+
+            existing.updatedAt =
+                now;
+
+            existing.doctorName =
+                currentDoctorName;
+
+        }
+
+    } else {
+
+        consultations.push({
+
+            id:
+                "CONS-" +
+                Date.now(),
+
+            patientId:
+                patientId,
+
+            patientName:
+                getPatientName(patient),
+
+            doctorId:
+                currentDoctorId,
+
+            doctorName:
+                currentDoctorName,
+
+            date:
+                date,
+
+            symptoms:
+                symptoms,
+
+            diagnosis:
+                diagnosis,
+
+            createdAt:
+                now,
+
+            updatedAt:
+                now
+
+        });
+
+    }
+
+
+    saveArray(
+        "consultations",
+        consultations
+    );
+
+
+    showMessage(
+        "consultationMessage",
+        "Consultation saved successfully.",
+        "success-message"
+    );
+
+
+    loadTodayConsultation();
+
+    loadConsultationHistory();
+
+}
+
+
+/* =========================================================
+   LOAD TODAY'S CONSULTATION
+   ========================================================= */
+
+function loadTodayConsultation() {
+
+    if (!patient) {
+        return;
+    }
+
+
+    const consultations =
+        getConsultations();
+
+
+    const patientId =
+        getPatientId(patient);
+
+
+    const today =
+        todayDate();
+
+
+    const consultation =
+        consultations.find(
+            function(item) {
+
+                return (
+                    normalize(
+                        item.patientId
+                    ) ===
+                    normalize(
+                        patientId
+                    ) &&
+
+                    normalize(
+                        item.doctorId
+                    ) ===
+                    normalize(
+                        currentDoctorId
+                    ) &&
+
+                    item.date ===
+                    today
+                );
+
+            }
+        );
+
+
+    document.getElementById(
+        "consultationDate"
+    ).value =
+        today;
+
+
+    if (consultation) {
+
+        document.getElementById(
+            "symptoms"
+        ).value =
+            consultation.symptoms ||
+            "";
+
+
+        document.getElementById(
+            "diagnosis"
+        ).value =
+            consultation.diagnosis ||
+            "";
+
+    } else {
+
+        document.getElementById(
+            "symptoms"
+        ).value =
+            "";
+
+        document.getElementById(
+            "diagnosis"
+        ).value =
+            "";
+
+    }
+
+}
+
+
+/* =========================================================
+   CONSULTATION HISTORY
+   ========================================================= */
+
+function loadConsultationHistory() {
+
+    const container =
+        document.getElementById(
+            "consultationHistory"
+        );
+
+
+    if (!patient) {
+
+        container.innerHTML =
+            "<p>No patient found.</p>";
+
+        return;
+    }
+
+
+    const patientId =
+        getPatientId(patient);
+
+
+    const consultations =
+        getConsultations()
+            .filter(
+                function(item) {
+
+                    return normalize(
+                        item.patientId
+                    ) ===
+                    normalize(
+                        patientId
+                    );
+
+                }
+            )
+            .sort(
+                function(a, b) {
+
+                    const dateA =
+                        new Date(
+                            a.updatedAt ||
+                            a.createdAt ||
+                            a.date
+                        );
+
+
+                    const dateB =
+                        new Date(
+                            b.updatedAt ||
+                            b.createdAt ||
+                            b.date
+                        );
+
+
+                    return dateB - dateA;
+
+                }
+            );
+
+
+    if (!consultations.length) {
+
+        container.innerHTML =
+            "<p>No consultation history found.</p>";
+
+        return;
+    }
+
+
+    container.innerHTML =
+        consultations
+            .map(
+                function(item) {
+
+                    const isToday =
+                        item.date ===
+                        todayDate();
+
+
+                    return `
+
+                        <div class="consultation-item">
+
+                            <h4>
+                                Consultation -
+                                ${escapeHTML(
+                                    item.date
+                                )}
+                            </h4>
+
+
+                            <div class="record-meta">
+
+                                Doctor:
+                                ${escapeHTML(
+                                    item.doctorName ||
+                                    item.doctorId ||
+                                    "-"
+                                )}
+
+                                |
+
+                                Last Updated:
+                                ${escapeHTML(
+                                    formatDateTime(
+                                        item.updatedAt ||
+                                        item.createdAt
+                                    )
+                                )}
+
+                            </div>
+
+
+                            <div class="record-label">
+                                Symptoms
+                            </div>
+
+                            <div class="record-text">
+                                ${escapeHTML(
+                                    item.symptoms
+                                )}
+                            </div>
+
+
+                            <div class="record-label">
+                                Diagnosis
+                            </div>
+
+                            <div class="record-text">
+                                ${escapeHTML(
+                                    item.diagnosis
+                                )}
+                            </div>
+
+
+                            ${
+                                isToday
+                                ?
+                                `
+                                    <div
+                                        style="
+                                            margin-top:10px;
+                                            font-size:12px;
+                                            color:#0b6684;
+                                            font-weight:600;
+                                        "
+                                    >
+                                        Today's consultation can be edited.
+                                    </div>
+                                `
+                                :
+                                `
+                                    <div
+                                        style="
+                                            margin-top:10px;
+                                            font-size:12px;
+                                            color:#777;
+                                        "
+                                    >
+                                        Past consultation -
+                                        read only.
+                                    </div>
+                                `
+                            }
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
+   DOCTOR NOTES
+   ========================================================= */
+
+function getDoctorNotes() {
+
+    return getArray(
+        "doctorNotes"
+    );
+
+}
+
+
+function saveDoctorNote() {
+
+    if (
+        !patient ||
+        !currentDoctor
+    ) {
+        return;
+    }
+
+
+    /*
+     * Only assigned Doctor can add notes.
+     */
+    if (!isOwnerDoctor()) {
+
+        showMessage(
+            "noteMessage",
+            "Only the assigned doctor can add notes to this record.",
+            "error-message"
+        );
+
+        return;
+    }
+
+
+    const noteText =
+        document.getElementById(
+            "doctorNote"
+        ).value.trim();
+
+
+    if (!noteText) {
+
+        showMessage(
+            "noteMessage",
+            "Please enter a note before saving.",
+            "error-message"
+        );
+
+        return;
+    }
+
+
+    const notes =
+        getDoctorNotes();
+
+
+    const now =
+        new Date();
+
+
+    notes.push({
+
+        id:
+            "NOTE-" +
+            Date.now(),
+
+        patientId:
+            getPatientId(patient),
+
+        patientName:
+            getPatientName(patient),
+
+        doctorId:
+            currentDoctorId,
+
+        doctorName:
+            currentDoctorName,
+
+        date:
+            todayDate(),
+
+        note:
+            noteText,
+
+        createdAt:
+            now.toISOString()
+
+    });
+
+
+    saveArray(
+        "doctorNotes",
+        notes
+    );
+
+
+    document.getElementById(
+        "doctorNote"
+    ).value =
+        "";
+
+
+    showMessage(
+        "noteMessage",
+        "Doctor note saved successfully.",
+        "success-message"
+    );
+
+
+    loadNotes();
+
+}
+
+
+/* =========================================================
+   LOAD NOTES
+   ========================================================= */
+
+function loadNotes() {
+
+    const container =
+        document.getElementById(
+            "notesHistory"
+        );
+
+
+    if (!patient) {
+
+        container.innerHTML =
+            "<p>No notes found.</p>";
+
+        return;
+    }
+
+
+    const patientId =
+        getPatientId(patient);
+
+
+    const notes =
+        getDoctorNotes()
+            .filter(
+                function(item) {
+
+                    return normalize(
+                        item.patientId
+                    ) ===
+                    normalize(
+                        patientId
+                    );
+
+                }
+            )
+            .sort(
+                function(a, b) {
+
+                    return new Date(
+                        b.createdAt ||
+                        b.date
+                    ) -
+                    new Date(
+                        a.createdAt ||
+                        a.date
+                    );
+
+                }
+            );
+
+
+    if (!notes.length) {
+
+        container.innerHTML =
+            "<p>No notes found.</p>";
+
+        return;
+    }
+
+
+    container.innerHTML =
+        notes
+            .map(
+                function(item) {
+
+                    return `
+
+                        <div class="note-item">
+
+                            <h4>
+                                Note -
+                                ${escapeHTML(
+                                    item.date ||
+                                    "-"
+                                )}
+                            </h4>
+
+
+                            <div class="record-meta">
+
+                                Doctor:
+                                ${escapeHTML(
+                                    item.doctorName ||
+                                    item.doctorId ||
+                                    "-"
+                                )}
+
+                                |
+
+                                ${escapeHTML(
+                                    formatDateTime(
+                                        item.createdAt
+                                    )
+                                )}
+
+                            </div>
+
+
+                            <div class="record-text">
+
+                                ${escapeHTML(
+                                    item.note
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
+   APPROVED NON-OWNER = READ ONLY
+   ========================================================= */
+
+function applyAccessMode() {
+
+    const owner =
+        isOwnerDoctor();
+
+
+    const accepted =
+        hasAcceptedAccess();
+
+
+    if (owner) {
+
+        document.getElementById(
+            "consultationOwnerInfo"
+        ).classList.add(
+            "hidden"
+        );
+
+
+        document.getElementById(
+            "notesOwnerInfo"
+        ).classList.add(
+            "hidden"
+        );
+
+
+        return;
+    }
+
+
+    if (accepted) {
+
+        const consultationInfo =
+            document.getElementById(
+                "consultationOwnerInfo"
+            );
+
+
+        consultationInfo.classList.remove(
+            "hidden"
+        );
+
+
+        consultationInfo.textContent =
+            "View access has been granted by the assigned doctor. This medical record remains controlled by the assigned doctor.";
+
+
+        const notesInfo =
+            document.getElementById(
+                "notesOwnerInfo"
+            );
+
+
+        notesInfo.classList.remove(
+            "hidden"
+        );
+
+
+        notesInfo.textContent =
+            "You have approved view access. Only the assigned doctor can add or modify medical record information.";
+
+
+        /*
+         * Approved non-owner:
+         * VIEW ONLY.
+         */
+        document.getElementById(
+            "symptoms"
+        ).readOnly =
+            true;
+
+
+        document.getElementById(
+            "diagnosis"
+        ).readOnly =
+            true;
+
+
+        const consultationSave =
+            document.querySelector(
+                "#consultationEditor .save-btn"
+            );
+
+
+        if (consultationSave) {
+
+            consultationSave.classList.add(
+                "hidden"
+            );
+
+        }
+
+
+        document.getElementById(
+            "doctorNote"
+        ).disabled =
+            true;
+
+
+        const noteSave =
+            document.querySelector(
+                "#notesEditor .save-btn"
+            );
+
+
+        if (noteSave) {
+
+            noteSave.classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+function showMessage(
+    elementId,
+    text,
+    className
+) {
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+
+    element.className =
+        "message " +
+        className;
+
+
+    element.textContent =
+        text;
+
+
+    element.style.display =
+        "block";
+
+
+    setTimeout(
+        function() {
+
+            element.style.display =
+                "none";
+
+        },
+        4000
+    );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+function logoutDoctor() {
+
+    /*
+     * Do NOT clear:
+     *
+     * patients
+     * doctors
+     * appointments
+     * consultations
+     * prescriptions
+     * doctorNotes
+     * doctorAccessRequests
+     *
+     * Only remove compatibility
+     * Doctor session keys.
+     */
+
+    localStorage.removeItem(
+        "loggedInDoctor"
+    );
+
+
+    localStorage.removeItem(
+        "doctorSession"
+    );
+
+
+    localStorage.removeItem(
+        "currentDoctor"
+    );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+function initializePage() {
+
+    /*
+     * Patient must exist.
+     */
+    if (!patient) {
+
+        showAccessDenied();
+
+        return;
+    }
+
+
+    /*
+     * Doctor must be logged in.
+     */
+    if (!currentDoctor) {
+
+        showAccessDenied();
+
+        return;
+    }
+
+
+    /*
+     * Direct URL access protection.
+     *
+     * Owner:
+     * allowed.
+     *
+     * Accepted request:
+     * allowed read-only.
+     *
+     * Otherwise:
+     * denied.
+     */
+    const owner =
+        isOwnerDoctor();
+
+
+    const accepted =
+        hasAcceptedAccess();
+
+
+    if (
+        !owner &&
+        !accepted
+    ) {
+
+        displayPatientDetails();
+
+        showAccessDenied();
+
+        return;
+    }
+
+
+    /*
+     * Authorized.
+     */
+    displayPatientDetails();
+
+
+    document.getElementById(
+        "pageContent"
+    ).classList.remove(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "accessDenied"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    /*
+     * Pass patient ID to prescription page.
+     */
+    document.getElementById(
+        "prescriptionLink"
+    ).href =
+        "doctor-prescriptions.html?patientId=" +
+        encodeURIComponent(
+            getPatientId(patient)
+        );
+
+
+    loadTodayConsultation();
+
+    loadConsultationHistory();
+
+    loadNotes();
+
+    applyAccessMode();
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+initializePage();
+
+</script>
+
+</body>
+</html>

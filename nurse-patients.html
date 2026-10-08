@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Assigned Patients - Nurse
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+
+    <style>
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .page-intro {
+            margin-bottom: 20px;
+            color: #607d8b;
+        }
+
+
+        /* =========================================
+           SEARCH
+        ========================================= */
+
+        .search-card {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 20px;
+        }
+
+
+        .search-card label {
+            display: block;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+
+        #searchInput {
+            width: 100%;
+
+            max-width: 450px;
+
+            padding:
+                11px 14px;
+
+            border:
+                1px solid #c9d2d8;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            box-sizing: border-box;
+        }
+
+
+        #searchInput:focus {
+            outline: none;
+
+            border-color: #0b6684;
+        }
+
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .patient-table-card {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.08);
+
+            overflow-x: auto;
+        }
+
+
+        #patientTable {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin: 0;
+        }
+
+
+        #patientTable th {
+            background: #0b6684;
+
+            color: white;
+
+            padding:
+                13px 12px;
+
+            text-align: left;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        #patientTable td {
+            padding:
+                13px 12px;
+
+            border-bottom:
+                1px solid #e2e7e9;
+
+            vertical-align: middle;
+        }
+
+
+        #patientTable tbody tr:hover {
+            background: #f5f9fb;
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status-badge {
+            display: inline-block;
+
+            padding:
+                5px 10px;
+
+            border-radius: 15px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .status-stable {
+            background: #e8f5e9;
+
+            color: #287a32;
+        }
+
+
+        .status-monitoring {
+            background: #fff4d6;
+
+            color: #8a6500;
+        }
+
+
+        .status-critical {
+            background: #fde8e8;
+
+            color: #b42318;
+        }
+
+
+        .status-default {
+            background: #e9ecef;
+
+            color: #495057;
+        }
+
+
+        /* =========================================
+           VIEW BUTTON
+        ========================================= */
+
+        .view-button {
+            display: inline-block;
+
+            background: #0b6684;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding:
+                8px 13px;
+
+            border-radius: 6px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+
+        .view-button:hover {
+            background: #084f66;
+
+            color: white;
+        }
+
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty-message {
+            text-align: center;
+
+            padding: 35px 20px;
+
+            color: #68757d;
+        }
+
+
+        .empty-message h3 {
+            color: #455a64;
+
+            margin-bottom: 8px;
+        }
+
+
+        .empty-message p {
+            margin: 0;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 800px) {
+
+            .patient-table-card {
+                padding: 10px;
+            }
+
+
+            #patientTable {
+                min-width: 750px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span id="nurseName">
+                Nurse
+            </span>
+
+
+            <button
+                type="button"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Nurse
+                </h2>
+
+            </div>
+
+
+            <a href="nurse-dashboard.html">
+                Dashboard
+            </a>
+
+
+            <a
+                href="nurse-patients.html"
+                class="active"
+            >
+                Assigned Patients
+            </a>
+
+
+            <a href="nurse-medicine-schedule.html">
+                Medicine Schedule
+            </a>
+
+
+            <a href="nurse-ward-details.html">
+                Ward Details
+            </a>
+
+
+            <a href="nurse-patient-monitoring.html">
+                Patient Monitoring
+            </a>
+
+
+            <a href="nurse-icu-availability.html">
+                ICU Availability
+            </a>
+
+
+            <a href="nurse-shift-handover.html">
+                Shift Handover
+            </a>
+
+
+            <a href="nurse-prescriptions.html">
+                Prescriptions
+            </a>
+
+
+            <a href="nurse-profile.html">
+                My Profile
+            </a>
+
+
+            <a href="nurse-notifications.html">
+                Notifications
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Assigned Patients
+            </h1>
+
+
+            <p class="page-intro">
+                View the patients assigned to you.
+            </p>
+
+
+
+            <!-- =================================
+                 SEARCH
+            ================================== -->
+
+            <div class="search-card">
+
+                <label for="searchInput">
+                    Search Patient
+                </label>
+
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="🔍 Search by patient ID or name..."
+                >
+
+            </div>
+
+
+
+            <!-- =================================
+                 PATIENT TABLE
+            ================================== -->
+
+            <div class="patient-table-card">
+
+                <table id="patientTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Patient ID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Age
+                            </th>
+
+                            <th>
+                                Patient Type
+                            </th>
+
+                            <th>
+                                Disease / Complaint
+                            </th>
+
+                            <th>
+                                Ward / Room
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="patientTableBody">
+                    </tbody>
+
+                </table>
+
+
+                <div
+                    id="emptyMessage"
+                    class="empty-message"
+                    style="display:none;"
+                >
+
+                    <h3>
+                        No Assigned Patients
+                    </h3>
+
+                    <p>
+                        No patients are currently assigned
+                        to you.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System | Nurse Panel
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         SECURITY
+    ========================================= -->
+
+    <script src="../security.js"></script>
+
+
+
+    <script>
+
+        /* =========================================
+           HELPERS
+        ========================================= */
+
+        function getArray(
+            key
+        ) {
+
+            try {
+
+                const value =
+                    JSON.parse(
+                        localStorage.getItem(
+                            key
+                        ) || "[]"
+                    );
+
+
+                return Array.isArray(
+                    value
+                )
+                    ? value
+                    : [];
+
+            }
+
+            catch (error) {
+
+                return [];
+
+            }
+
+        }
+
+
+
+        function normalize(
+            value
+        ) {
+
+            return String(
+                value || ""
+            )
+            .trim()
+            .toLowerCase();
+
+        }
+
+
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(
+                value ?? ""
+            )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+
+
+        /* =========================================
+           PATIENT HELPERS
+        ========================================= */
+
+        function getPatientId(
+            patient
+        ) {
+
+            return (
+                patient.patientId ||
+                patient.id ||
+                ""
+            );
+
+        }
+
+
+
+        function getPatientName(
+            patient
+        ) {
+
+            return (
+                patient.fullName ||
+                patient.name ||
+                (
+                    (
+                        patient.firstName ||
+                        ""
+                    )
+                    +
+                    " "
+                    +
+                    (
+                        patient.lastName ||
+                        ""
+                    )
+                ).trim() ||
+                "-"
+            );
+
+        }
+
+
+
+        function getAge(
+            patient
+        ) {
+
+            if (
+                patient.age !==
+                undefined
+                &&
+                patient.age !==
+                null
+                &&
+                String(
+                    patient.age
+                ).trim() !== ""
+            ) {
+
+                return patient.age;
+
+            }
+
+
+            if (
+                patient.dateOfBirth
+            ) {
+
+                const dob =
+                    new Date(
+                        patient.dateOfBirth
+                    );
+
+
+                if (
+                    !isNaN(
+                        dob.getTime()
+                    )
+                ) {
+
+                    const today =
+                        new Date();
+
+
+                    let age =
+                        today.getFullYear()
+                        -
+                        dob.getFullYear();
+
+
+                    const monthDifference =
+                        today.getMonth()
+                        -
+                        dob.getMonth();
+
+
+                    if (
+                        monthDifference < 0
+                        ||
+                        (
+                            monthDifference === 0
+                            &&
+                            today.getDate()
+                            <
+                            dob.getDate()
+                        )
+                    ) {
+
+                        age--;
+
+                    }
+
+
+                    return age;
+
+                }
+
+            }
+
+
+            return "-";
+
+        }
+
+
+
+        function getPatientType(
+            patient
+        ) {
+
+            return (
+                patient.patientType ||
+                patient.type ||
+                "-"
+            );
+
+        }
+
+
+
+        function getDisease(
+            patient
+        ) {
+
+            return (
+                patient.chiefComplaint ||
+                patient.disease ||
+                patient.diagnosis ||
+                patient.problem ||
+                "-"
+            );
+
+        }
+
+
+
+        function getWard(
+            patient
+        ) {
+
+            return (
+                patient.ward ||
+                patient.wardName ||
+                patient.room ||
+                patient.roomNumber ||
+                "-"
+            );
+
+        }
+
+
+
+        function getStatus(
+            patient
+        ) {
+
+            return (
+                patient.status ||
+                patient.patientStatus ||
+                "Not Available"
+            );
+
+        }
+
+
+
+        /* =========================================
+           STATUS CLASS
+        ========================================= */
+
+        function getStatusClass(
+            status
+        ) {
+
+            const value =
+                normalize(
+                    status
+                );
+
+
+            if (
+                value === "stable"
+            ) {
+
+                return "status-stable";
+
+            }
+
+
+            if (
+                value === "monitoring"
+                ||
+                value === "under observation"
+            ) {
+
+                return "status-monitoring";
+
+            }
+
+
+            if (
+                value === "critical"
+                ||
+                value === "emergency"
+            ) {
+
+                return "status-critical";
+
+            }
+
+
+            return "status-default";
+
+        }
+
+
+
+        /* =========================================
+           CURRENT NURSE
+        ========================================= */
+
+        function getCurrentNurse() {
+
+            const nurses =
+                getArray(
+                    "nurses"
+                );
+
+
+            let currentStaff =
+                null;
+
+
+            try {
+
+                currentStaff =
+                    JSON.parse(
+                        sessionStorage.getItem(
+                            "currentStaff"
+                        ) || "null"
+                    );
+
+            }
+
+            catch (error) {
+
+                currentStaff =
+                    null;
+
+            }
+
+
+            const userPhone =
+                sessionStorage.getItem(
+                    "userPhone"
+                );
+
+
+            /*
+             * First match currentStaff
+             */
+
+            if (
+                currentStaff
+            ) {
+
+                const staffId =
+                    currentStaff.nurseId ||
+                    currentStaff.id;
+
+
+                const staffUsername =
+                    currentStaff.username;
+
+
+                const staffPhone =
+                    currentStaff.phone;
+
+
+                const found =
+                    nurses.find(
+                        function(nurse) {
+
+                            return (
+
+                                (
+                                    staffId
+                                    &&
+                                    String(
+                                        nurse.nurseId ||
+                                        nurse.id ||
+                                        ""
+                                    )
+                                    ===
+                                    String(
+                                        staffId
+                                    )
+                                )
+
+                                ||
+
+                                (
+                                    staffUsername
+                                    &&
+                                    normalize(
+                                        nurse.username
+                                    )
+                                    ===
+                                    normalize(
+                                        staffUsername
+                                    )
+                                )
+
+                                ||
+
+                                (
+                                    staffPhone
+                                    &&
+                                    String(
+                                        nurse.phone ||
+                                        ""
+                                    )
+                                    ===
+                                    String(
+                                        staffPhone
+                                    )
+                                )
+
+                            );
+
+                        }
+                    );
+
+
+                if (
+                    found
+                ) {
+
+                    return found;
+
+                }
+
+
+                return currentStaff;
+
+            }
+
+
+
+            /*
+             * Fallback to session phone
+             */
+
+            if (
+                userPhone
+            ) {
+
+                const found =
+                    nurses.find(
+                        function(nurse) {
+
+                            return String(
+                                nurse.phone ||
+                                ""
+                            )
+                            ===
+                            String(
+                                userPhone
+                            );
+
+                        }
+                    );
+
+
+                if (
+                    found
+                ) {
+
+                    return found;
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+
+        const currentNurse =
+            getCurrentNurse();
+
+
+
+        /* =========================================
+           NURSE NAME
+        ========================================= */
+
+        function displayNurseName() {
+
+            const name =
+                currentNurse
+                    ? (
+                        currentNurse.name ||
+                        currentNurse.fullName ||
+                        currentNurse.username ||
+                        "Nurse"
+                    )
+                    : "Nurse";
+
+
+            document.getElementById(
+                "nurseName"
+            ).textContent =
+                name;
+
+        }
+
+
+
+        /* =========================================
+           CHECK NURSE ASSIGNMENT
+        ========================================= */
+
+        function isPatientAssignedToNurse(
+            patient
+        ) {
+
+            /*
+             * Collect all possible values
+             * representing the logged-in nurse.
+             */
+
+            if (
+                !currentNurse
+            ) {
+
+                return false;
+
+            }
+
+
+            const nurseValues = [
+
+                currentNurse.nurseId,
+
+                currentNurse.id,
+
+                currentNurse.username,
+
+                currentNurse.name,
+
+                currentNurse.fullName,
+
+                currentNurse.phone
+
+            ]
+            .filter(
+                function(value) {
+
+                    return (
+                        value !==
+                        undefined
+                    )
+                    &&
+                    (
+                        value !==
+                        null
+                    )
+                    &&
+                    String(
+                        value
+                    ).trim() !== "";
+
+                }
+            )
+            .map(
+                function(value) {
+
+                    return normalize(
+                        value
+                    );
+
+                }
+            );
+
+
+            /*
+             * Collect possible duty-nurse
+             * fields from the patient.
+             */
+
+            const patientNurseValues = [
+
+                patient.dutyNurseId,
+
+                patient.dutyNurseID,
+
+                patient.dutyNurse,
+
+                patient.dutyNurseName,
+
+                patient.assignedNurseId,
+
+                patient.assignedNurseID,
+
+                patient.assignedNurse,
+
+                patient.assignedNurseName,
+
+                patient.nurseId,
+
+                patient.nurseID,
+
+                patient.nurse,
+
+                patient.nurseName,
+
+                patient.dutyNurseForDate
+
+            ]
+            .filter(
+                function(value) {
+
+                    return (
+                        value !==
+                        undefined
+                    )
+                    &&
+                    (
+                        value !==
+                        null
+                    )
+                    &&
+                    String(
+                        value
+                    ).trim() !== "";
+
+                }
+            )
+            .map(
+                function(value) {
+
+                    return normalize(
+                        value
+                    );
+
+                }
+            );
+
+
+            /*
+             * Patient has to contain
+             * an assignment matching
+             * the logged-in nurse.
+             */
+
+            return patientNurseValues.some(
+                function(value) {
+
+                    return nurseValues.includes(
+                        value
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =========================================
+           LOAD PATIENTS
+        ========================================= */
+
+        function loadPatients() {
+
+            const patients =
+                getArray(
+                    "patients"
+                );
+
+
+            /*
+             * Only show real registered
+             * patients assigned to this nurse.
+             */
+
+            const assignedPatients =
+                patients.filter(
+                    function(patient) {
+
+                        return isPatientAssignedToNurse(
+                            patient
+                        );
+
+                    }
+                );
+
+
+            renderPatients(
+                assignedPatients
+            );
+
+        }
+
+
+
+        /* =========================================
+           RENDER PATIENTS
+        ========================================= */
+
+        function renderPatients(
+            patients
+        ) {
+
+            const tbody =
+                document.getElementById(
+                    "patientTableBody"
+                );
+
+
+            const emptyMessage =
+                document.getElementById(
+                    "emptyMessage"
+                );
+
+
+            tbody.innerHTML =
+                "";
+
+
+            if (
+                !patients.length
+            ) {
+
+                emptyMessage.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            emptyMessage.style.display =
+                "none";
+
+
+            patients.forEach(
+                function(patient) {
+
+                    const patientId =
+                        getPatientId(
+                            patient
+                        );
+
+
+                    const patientName =
+                        getPatientName(
+                            patient
+                        );
+
+
+                    const age =
+                        getAge(
+                            patient
+                        );
+
+
+                    const patientType =
+                        getPatientType(
+                            patient
+                        );
+
+
+                    const disease =
+                        getDisease(
+                            patient
+                        );
+
+
+                    const ward =
+                        getWard(
+                            patient
+                        );
+
+
+                    const status =
+                        getStatus(
+                            patient
+                        );
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${escapeHtml(
+                                patientId
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                patientName
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                age
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                patientType
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                disease
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                ward
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="
+                                    status-badge
+                                    ${getStatusClass(
+                                        status
+                                    )}
+                                "
+                            >
+                                ${escapeHtml(
+                                    status
+                                )}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="
+                                    nurse-patient-details.html?patient=${encodeURIComponent(
+                                        patientId
+                                    )}
+                                "
+                                class="view-button"
+                            >
+                                View Details
+                            </a>
+
+                        </td>
+
+                    `;
+
+
+                    tbody.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =========================================
+           SEARCH
+        ========================================= */
+
+        function searchPatient() {
+
+            const input =
+                normalize(
+                    document.getElementById(
+                        "searchInput"
+                    ).value
+                );
+
+
+            const rows =
+                document
+                    .getElementById(
+                        "patientTableBody"
+                    )
+                    .getElementsByTagName(
+                        "tr"
+                    );
+
+
+            let visibleCount =
+                0;
+
+
+            for (
+                let i = 0;
+                i < rows.length;
+                i++
+            ) {
+
+                const rowText =
+                    normalize(
+                        rows[i].textContent
+                    );
+
+
+                if (
+                    rowText.includes(
+                        input
+                    )
+                ) {
+
+                    rows[i].style.display =
+                        "";
+
+                    visibleCount++;
+
+                }
+
+                else {
+
+                    rows[i].style.display =
+                        "none";
+
+                }
+
+            }
+
+
+            const emptyMessage =
+                document.getElementById(
+                    "emptyMessage"
+                );
+
+
+            /*
+             * Only show the empty message
+             * when the search produces
+             * no results AND there are rows.
+             */
+
+            if (
+                rows.length > 0
+                &&
+                visibleCount === 0
+            ) {
+
+                emptyMessage.style.display =
+                    "block";
+
+                emptyMessage.querySelector(
+                    "h3"
+                ).textContent =
+                    "No Matching Patients";
+
+                emptyMessage.querySelector(
+                    "p"
+                ).textContent =
+                    "No assigned patient matches your search.";
+
+            }
+
+            else if (
+                rows.length > 0
+            ) {
+
+                emptyMessage.style.display =
+                    "none";
+
+                emptyMessage.querySelector(
+                    "h3"
+                ).textContent =
+                    "No Assigned Patients";
+
+                emptyMessage.querySelector(
+                    "p"
+                ).textContent =
+                    "No patients are currently assigned to you.";
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        function logout() {
+
+            sessionStorage.clear();
+
+            window.location.href =
+                "../index.html";
+
+        }
+
+
+
+        /* =========================================
+           STORAGE UPDATE
+        ========================================= */
+
+        window.addEventListener(
+            "storage",
+            function(event) {
+
+                if (
+                    event.key ===
+                    "patients"
+                    ||
+                    event.key ===
+                    "nurses"
+                ) {
+
+                    loadPatients();
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================================
+           PAGE SHOW
+        ========================================= */
+
+        window.addEventListener(
+            "pageshow",
+            function() {
+
+                loadPatients();
+
+            }
+        );
+
+
+
+        /* =========================================
+           INITIAL LOAD
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                displayNurseName();
+
+                loadPatients();
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

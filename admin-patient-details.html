@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Details - Admin</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+
+        <h2>Hospital Management System</h2>
+
+        <div>
+            <span>Admin</span>
+
+            <a href="admin-dashboard.html">
+                <button>Dashboard</button>
+            </a>
+        </div>
+
+    </div>
+
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+
+            <a href="admin-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="admin-patients.html">
+                Patients
+            </a>
+
+            <a href="admin-doctors.html">
+                Doctors
+            </a>
+
+            <a href="admin-nurses.html">
+                Nurses
+            </a>
+
+            <a href="admin-appointments.html">
+                Appointments
+            </a>
+
+            <a href="admin-beds.html">
+                Beds
+            </a>
+
+            <a href="admin-medicines.html">
+                Medicines
+            </a>
+
+            <a href="admin-reports.html">
+                Reports
+            </a>
+
+            <a href="admin-notifications.html">
+                Notifications
+            </a>
+
+            <a href="admin-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <h1>Patient Details</h1>
+
+            <p>
+                View complete information about the selected patient.
+            </p>
+
+
+            <!-- BASIC INFORMATION -->
+            <div class="card">
+
+                <h2>Basic Information</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Patient ID</th>
+                        <td>P001</td>
+                    </tr>
+
+                    <tr>
+                        <th>Name</th>
+                        <td>Example Patient</td>
+                    </tr>
+
+                    <tr>
+                        <th>Age</th>
+                        <td>35</td>
+                    </tr>
+
+                    <tr>
+                        <th>Gender</th>
+                        <td>Male</td>
+                    </tr>
+
+                    <tr>
+                        <th>Phone</th>
+                        <td>9876543210</td>
+                    </tr>
+
+                    <tr>
+                        <th>Email</th>
+                        <td>patient@example.com</td>
+                    </tr>
+
+                    <tr>
+                        <th>Patient Type</th>
+                        <td>
+                            <strong>Outpatient</strong>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+
+            <!-- MEDICAL INFORMATION -->
+            <div class="card">
+
+                <h2>Medical Information</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Assigned Doctor</th>
+                        <td>Dr. Example</td>
+                    </tr>
+
+                    <tr>
+                        <th>Department</th>
+                        <td>General Medicine</td>
+                    </tr>
+
+                    <tr>
+                        <th>Diagnosis</th>
+                        <td>Example Diagnosis</td>
+                    </tr>
+
+                    <tr>
+                        <th>Admission Date</th>
+                        <td>-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Discharge Date</th>
+                        <td>-</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+
+            <!-- INPATIENT INFORMATION -->
+            <div class="card">
+
+                <h2>Inpatient Information</h2>
+
+                <table>
+
+                    <tr>
+                        <th>Ward</th>
+                        <td>-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Bed Number</th>
+                        <td>-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Surgery</th>
+                        <td>-</td>
+                    </tr>
+
+                    <tr>
+                        <th>Duty Nurse</th>
+                        <td>-</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+
+            <!-- PRESCRIPTION INFORMATION -->
+            <div class="card">
+
+                <h2>Prescription Information</h2>
+
+                <p>
+                    Prescription details will appear here after the
+                    doctor creates a prescription.
+                </p>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Morning</th>
+                            <th>Afternoon</th>
+                            <th>Evening</th>
+                            <th>Night</th>
+                            <th>Days</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>Example Medicine</td>
+
+                            <td>☑</td>
+
+                            <td>☐</td>
+
+                            <td>☑</td>
+
+                            <td>☐</td>
+
+                            <td>5</td>
+
+                            <td>
+                                Pending
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+            <div class="card">
+
+                <a href="admin-patients.html">
+                    <button>
+                        Back to Patients
+                    </button>
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

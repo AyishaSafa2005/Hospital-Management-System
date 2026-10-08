@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register Patient - Hospital Management System</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+    <style>
+
+        .registration-header {
+            margin-bottom: 25px;
+        }
+
+        .registration-header h1 {
+            margin-bottom: 8px;
+        }
+
+        .registration-header p {
+            color: #68757d;
+        }
+
+        .registration-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            border: 1px solid #e5edf1;
+        }
+
+        .patient-id-box {
+            background: #e8f4f8;
+            border: 1px solid #b9dce8;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 30px;
+        }
+
+        .patient-id-box span {
+            display: block;
+            color: #68757d;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .patient-id-box strong {
+            color: #0b5d7a;
+            font-size: 28px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #0b5d7a;
+            border-bottom: 2px solid #e8f4f8;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #455a64;
+            margin-bottom: 7px;
+        }
+
+        .required {
+            color: #d32f2f;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ccd8dd;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0b5d7a;
+            box-shadow: 0 0 0 3px rgba(11,93,122,0.1);
+        }
+
+        /* ACCOUNT SECTION */
+
+        .account-info {
+            background: #f5fafc;
+            border: 1px solid #d7e8ee;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .account-info p {
+            color: #68757d;
+            margin-top: 0;
+        }
+
+        .username-note,
+        .password-note {
+            font-size: 13px;
+            color: #68757d;
+            margin-top: 5px;
+        }
+
+        /* PATIENT TYPE */
+
+        .patient-type-options {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 20px;
+        }
+
+        .patient-type-option {
+            position: relative;
+        }
+
+        .patient-type-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .patient-type-label {
+            display: block;
+            padding: 22px;
+            border: 2px solid #d8e3e8;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .patient-type-label:hover {
+            border-color: #0b5d7a;
+            background: #f7fbfd;
+        }
+
+        .patient-type-option input:checked + .patient-type-label {
+            border-color: #0b5d7a;
+            background: #e8f4f8;
+        }
+
+        .type-icon {
+            font-size: 35px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .patient-type-label strong {
+            display: block;
+            color: #0b5d7a;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .patient-type-label small {
+            color: #68757d;
+        }
+
+        /* BUTTONS */
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e5edf1;
+        }
+
+        .cancel-btn,
+        .create-btn {
+            padding: 12px 25px;
+            border-radius: 7px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .cancel-btn {
+            background: white;
+            color: #455a64;
+            border: 1px solid #ccd8dd;
+        }
+
+        .create-btn {
+            background: #0b5d7a;
+            color: white;
+            border: none;
+        }
+
+        .create-btn:hover {
+            background: #08485e;
+        }
+
+        /* SUCCESS */
+
+        .success-message {
+            display: none;
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            color: #2e7d32;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .success-message strong {
+            display: block;
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .credential-box {
+            margin-top: 15px;
+            background: white;
+            border: 1px solid #c8e6c9;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .credential-box div {
+            margin: 7px 0;
+        }
+
+        .credential-box strong {
+            display: inline;
+            font-size: 16px;
+        }
+
+        @media (max-width:750px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-type-options {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .cancel-btn,
+            .create-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+        <div>
+
+            <span>Admin</span>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <a href="admin-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="admin-patients.html">
+                Patients
+            </a>
+
+            <a href="admin-doctors.html">
+                Doctors
+            </a>
+
+            <a href="admin-nurses.html">
+                Nurses
+            </a>
+
+            <a href="admin-appointments.html">
+                Appointments
+            </a>
+
+            <a href="admin-beds.html">
+                Beds
+            </a>
+
+            <a href="admin-medicines.html">
+                Medicines
+            </a>
+
+            <a href="admin-reports.html">
+                Reports
+            </a>
+
+            <a href="admin-notifications.html">
+                Notifications
+            </a>
+
+            <a href="admin-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+
+            <div class="registration-header">
+
+                <h1>
+                    Register New Patient
+                </h1>
+
+                <p>
+                    Create a patient account and generate a unique
+                    patient ID and login credentials.
+                </p>
+
+            </div>
+
+
+
+            <!-- SUCCESS MESSAGE -->
+
+            <div
+                class="success-message"
+                id="successMessage"
+            >
+
+                <strong>
+                    ✅ Patient Registered Successfully!
+                </strong>
+
+                <div>
+                    Patient ID:
+                    <strong id="createdPatientId"></strong>
+                </div>
+
+                <div class="credential-box">
+
+                    <div>
+                        Username:
+                        <strong id="createdUsername"></strong>
+                    </div>
+
+                    <div>
+                        Password:
+                        <strong id="createdPassword"></strong>
+                    </div>
+
+                    <div>
+                        Phone:
+                        <strong id="createdPhone"></strong>
+                    </div>
+
+                </div>
+
+                <p>
+                    Give these login details to the patient.
+                </p>
+
+            </div>
+
+
+
+            <!-- REGISTRATION CARD -->
+
+            <div class="registration-card">
+
+
+                <!-- PATIENT ID -->
+
+                <div class="patient-id-box">
+
+                    <span>
+                        Automatically Generated Patient ID
+                    </span>
+
+                    <strong id="patientId">
+                        1001
+                    </strong>
+
+                </div>
+
+
+
+                <form id="patientRegistrationForm">
+
+
+                    <!-- PERSONAL INFORMATION -->
+
+                    <div class="form-section">
+
+                        <h2>
+                            👤 Personal Information
+                        </h2>
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label for="fullName">
+                                    Full Name
+                                    <span class="required">*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    placeholder="Enter patient's full name"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="dob">
+                                    Date of Birth
+                                    <span class="required">*</span>
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="dob"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="gender">
+                                    Gender
+                                    <span class="required">*</span>
+                                </label>
+
+                                <select id="gender" required>
+
+                                    <option value="">
+                                        Select Gender
+                                    </option>
+
+                                    <option value="Male">
+                                        Male
+                                    </option>
+
+                                    <option value="Female">
+                                        Female
+                                    </option>
+
+                                    <option value="Other">
+                                        Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="bloodGroup">
+                                    Blood Group
+                                    <span class="required">*</span>
+                                </label>
+
+                                <select id="bloodGroup" required>
+
+                                    <option value="">
+                                        Select Blood Group
+                                    </option>
+
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ACCOUNT INFORMATION -->
+
+                    <div class="form-section">
+
+                        <h2>
+                            🔐 Patient Login Account
+                        </h2>
+
+                        <div class="account-info">
+
+                            <p>
+                                These credentials will be used by the
+                                patient to log in to the Hospital
+                                Management System.
+                            </p>
+
+
+                            <div class="form-grid">
+
+
+                                <!-- USERNAME -->
+
+                                <div class="form-group">
+
+                                    <label for="username">
+                                        Username
+                                        <span class="required">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        placeholder="Create username"
+                                        minlength="4"
+                                        required
+                                    >
+
+                                    <small class="username-note">
+                                        Minimum 4 characters.
+                                    </small>
+
+                                </div>
+
+
+
+                                <!-- PASSWORD -->
+
+                                <div class="form-group">
+
+                                    <label for="password">
+                                        Password
+                                        <span class="required">*</span>
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        placeholder="Create password"
+                                        minlength="6"
+                                        required
+                                    >
+
+                                    <small class="password-note">
+                                        Minimum 6 characters.
+                                    </small>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CONTACT INFORMATION -->
+
+                    <div class="form-section">
+
+                        <h2>
+                            📞 Contact Information
+                        </h2>
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label for="phone">
+                                    Phone Number
+                                    <span class="required">*</span>
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    placeholder="Enter 10-digit phone number"
+                                    maxlength="10"
+                                    inputmode="numeric"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="email">
+                                    Email Address
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="Enter email address"
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group full-width">
+
+                                <label for="address">
+                                    Address
+                                    <span class="required">*</span>
+                                </label>
+
+                                <textarea
+                                    id="address"
+                                    placeholder="Enter complete address"
+                                    required
+                                ></textarea>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="emergencyName">
+                                    Emergency Contact Name
+                                    <span class="required">*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="emergencyName"
+                                    placeholder="Emergency contact name"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="emergencyPhone">
+                                    Emergency Contact Number
+                                    <span class="required">*</span>
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="emergencyPhone"
+                                    placeholder="Emergency contact number"
+                                    maxlength="10"
+                                    inputmode="numeric"
+                                    required
+                                >
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PATIENT TYPE -->
+
+                    <div class="form-section">
+
+                        <h2>
+                            🏥 Patient Type
+                        </h2>
+
+                        <p>
+                            Select whether this patient is an
+                            inpatient or outpatient.
+                        </p>
+
+
+                        <div class="patient-type-options">
+
+
+                            <!-- INPATIENT -->
+
+                            <div class="patient-type-option">
+
+                                <input
+                                    type="radio"
+                                    id="inpatient"
+                                    name="patientType"
+                                    value="Inpatient"
+                                    required
+                                >
+
+                                <label
+                                    for="inpatient"
+                                    class="patient-type-label"
+                                >
+
+                                    <span class="type-icon">
+                                        🏥
+                                    </span>
+
+                                    <strong>
+                                        Inpatient
+                                    </strong>
+
+                                    <small>
+                                        Patient admitted to the
+                                        hospital for treatment.
+                                    </small>
+
+                                </label>
+
+                            </div>
+
+
+
+                            <!-- OUTPATIENT -->
+
+                            <div class="patient-type-option">
+
+                                <input
+                                    type="radio"
+                                    id="outpatient"
+                                    name="patientType"
+                                    value="Outpatient"
+                                >
+
+                                <label
+                                    for="outpatient"
+                                    class="patient-type-label"
+                                >
+
+                                    <span class="type-icon">
+                                        🩺
+                                    </span>
+
+                                    <strong>
+                                        Outpatient
+                                    </strong>
+
+                                    <small>
+                                        Patient visiting for
+                                        consultation or check-up.
+                                    </small>
+
+                                </label>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- MEDICAL ASSIGNMENT -->
+
+                    <div class="form-section">
+
+                        <h2>
+                            🩺 Medical Assignment
+                        </h2>
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label for="department">
+                                    Department
+                                    <span class="required">*</span>
+                                </label>
+
+                                <select
+                                    id="department"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Department
+                                    </option>
+
+                                    <option value="General Medicine">
+                                        General Medicine
+                                    </option>
+
+                                    <option value="Cardiology">
+                                        Cardiology
+                                    </option>
+
+                                    <option value="Neurology">
+                                        Neurology
+                                    </option>
+
+                                    <option value="Orthopedics">
+                                        Orthopedics
+                                    </option>
+
+                                    <option value="Pediatrics">
+                                        Pediatrics
+                                    </option>
+
+                                    <option value="Emergency">
+                                        Emergency
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="doctor">
+                                    Assigned Doctor
+                                </label>
+
+                                <select id="doctor">
+
+                                    <option value="">
+                                        Select Doctor
+                                    </option>
+
+                                    <option value="Dr. Example">
+                                        Dr. Example
+                                    </option>
+
+                                    <option value="Dr. Kumar">
+                                        Dr. Kumar
+                                    </option>
+
+                                    <option value="Dr. Priya">
+                                        Dr. Priya
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="form-actions">
+
+                        <button
+                            type="button"
+                            class="cancel-btn"
+                            onclick="window.location.href='admin-patients.html'"
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="create-btn"
+                        >
+                            Create Patient Account
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <script>
+
+        /* =========================================
+           PATIENT ID
+        ========================================= */
+
+        let nextPatientId =
+            parseInt(
+                localStorage.getItem("nextPatientId")
+            ) || 1001;
+
+
+        document.getElementById(
+            "patientId"
+        ).textContent = nextPatientId;
+
+
+
+        /* =========================================
+           FORM SUBMISSION
+        ========================================= */
+
+        document
+            .getElementById("patientRegistrationForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    /* BASIC VALUES */
+
+                    const fullName =
+                        document
+                            .getElementById("fullName")
+                            .value
+                            .trim();
+
+
+                    const username =
+                        document
+                            .getElementById("username")
+                            .value
+                            .trim();
+
+
+                    const password =
+                        document
+                            .getElementById("password")
+                            .value;
+
+
+                    const phone =
+                        document
+                            .getElementById("phone")
+                            .value
+                            .trim();
+
+
+                    const emergencyPhone =
+                        document
+                            .getElementById("emergencyPhone")
+                            .value
+                            .trim();
+
+
+
+                    /* PHONE VALIDATION */
+
+                    if (
+                        !/^[0-9]{10}$/.test(phone)
+                    ) {
+
+                        alert(
+                            "Please enter a valid 10-digit phone number."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        !/^[0-9]{10}$/.test(emergencyPhone)
+                    ) {
+
+                        alert(
+                            "Please enter a valid emergency contact number."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* USERNAME VALIDATION */
+
+                    if (username.length < 4) {
+
+                        alert(
+                            "Username must contain at least 4 characters."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* PASSWORD VALIDATION */
+
+                    if (password.length < 6) {
+
+                        alert(
+                            "Password must contain at least 6 characters."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* PATIENT TYPE */
+
+                    const patientType =
+                        document.querySelector(
+                            'input[name="patientType"]:checked'
+                        );
+
+
+                    if (!patientType) {
+
+                        alert(
+                            "Please select Inpatient or Outpatient."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* EXISTING PATIENTS */
+
+                    let patients =
+                        JSON.parse(
+                            localStorage.getItem("patients")
+                        ) || [];
+
+
+
+                    /* CHECK USERNAME */
+
+                    const usernameExists =
+                        patients.some(
+                            function(patient) {
+
+                                return (
+                                    patient.username &&
+                                    patient.username
+                                        .toLowerCase()
+                                    ===
+                                    username.toLowerCase()
+                                );
+
+                            }
+                        );
+
+
+                    if (usernameExists) {
+
+                        alert(
+                            "This username already exists. Please choose another username."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* PATIENT ID */
+
+                    const patientId =
+                        nextPatientId;
+
+
+
+                    /* CREATE PATIENT */
+
+                    const patient = {
+
+                        patientId:
+                            patientId,
+
+                        fullName:
+                            fullName,
+
+                        username:
+                            username,
+
+                        password:
+                            password,
+
+                        dob:
+                            document
+                                .getElementById("dob")
+                                .value,
+
+                        gender:
+                            document
+                                .getElementById("gender")
+                                .value,
+
+                        bloodGroup:
+                            document
+                                .getElementById("bloodGroup")
+                                .value,
+
+                        phone:
+                            phone,
+
+                        email:
+                            document
+                                .getElementById("email")
+                                .value
+                                .trim(),
+
+                        address:
+                            document
+                                .getElementById("address")
+                                .value
+                                .trim(),
+
+                        emergencyName:
+                            document
+                                .getElementById("emergencyName")
+                                .value
+                                .trim(),
+
+                        emergencyPhone:
+                            emergencyPhone,
+
+                        patientType:
+                            patientType.value,
+
+                        department:
+                            document
+                                .getElementById("department")
+                                .value,
+
+                        doctor:
+                            document
+                                .getElementById("doctor")
+                                .value,
+
+                        registrationDate:
+                            new Date()
+                                .toLocaleDateString()
+
+                    };
+
+
+
+                    /* SAVE PATIENT */
+
+                    patients.push(patient);
+
+
+                    localStorage.setItem(
+                        "patients",
+                        JSON.stringify(patients)
+                    );
+
+
+
+                    /* NEXT ID */
+
+                    nextPatientId++;
+
+
+                    localStorage.setItem(
+                        "nextPatientId",
+                        nextPatientId
+                    );
+
+
+
+                    /* SHOW SUCCESS */
+
+                    document.getElementById(
+                        "createdPatientId"
+                    ).textContent =
+                        patientId;
+
+
+                    document.getElementById(
+                        "createdUsername"
+                    ).textContent =
+                        username;
+
+
+                    document.getElementById(
+                        "createdPassword"
+                    ).textContent =
+                        password;
+
+
+                    document.getElementById(
+                        "createdPhone"
+                    ).textContent =
+                        phone;
+
+
+                    document.getElementById(
+                        "successMessage"
+                    ).style.display =
+                        "block";
+
+
+
+                    /* SCROLL TOP */
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+
+
+                    /* RESET FORM */
+
+                    document
+                        .getElementById(
+                            "patientRegistrationForm"
+                        )
+                        .reset();
+
+
+
+                    /* UPDATE NEXT ID */
+
+                    document.getElementById(
+                        "patientId"
+                    ).textContent =
+                        nextPatientId;
+
+                }
+            );
+
+
+
+        /* =========================================
+           ONLY NUMBERS FOR PHONE
+        ========================================= */
+
+        document
+            .getElementById("phone")
+            .addEventListener(
+                "input",
+                function() {
+
+                    this.value =
+                        this.value.replace(
+                            /[^0-9]/g,
+                            ""
+                        );
+
+                }
+            );
+
+
+        document
+            .getElementById("emergencyPhone")
+            .addEventListener(
+                "input",
+                function() {
+
+                    this.value =
+                        this.value.replace(
+                            /[^0-9]/g,
+                            ""
+                        );
+
+                }
+            );
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        function logout() {
+
+            sessionStorage.clear();
+
+            window.location.href =
+                "role-selection.html";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

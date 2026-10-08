@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor - My Profile</title>
+
+    <!-- SAME ADMIN DASHBOARD THEME -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+    <style>
+        .page-title {
+            margin-bottom: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e7e9;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #0b6684;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .profile-header h2 {
+            margin: 0 0 5px;
+            color: #0b6684;
+        }
+
+        .profile-header p {
+            margin: 0;
+            color: #777;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+
+        .profile-item {
+            padding: 14px;
+            background: #f8fafb;
+            border: 1px solid #e3e8ea;
+            border-radius: 8px;
+        }
+
+        .profile-label {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-value {
+            display: block;
+            color: #222;
+            word-break: break-word;
+        }
+
+        .profile-section {
+            margin-top: 20px;
+        }
+
+        .profile-section h3 {
+            color: #0b6684;
+            margin-top: 0;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-card {
+            padding: 18px;
+            background: #f8fafb;
+            border: 1px solid #e3e8ea;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .summary-card h4 {
+            margin: 0 0 8px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .summary-number {
+            font-size: 25px;
+            font-weight: 700;
+            color: #0b6684;
+        }
+
+        .info-box {
+            padding: 13px 15px;
+            background: #eef6f9;
+            border-left: 4px solid #0b6684;
+            border-radius: 4px;
+            color: #0b6684;
+        }
+
+        .empty-card {
+            text-align: center;
+            padding: 35px 20px;
+            color: #777;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            .profile-header {
+                align-items: flex-start;
+            }
+
+            .profile-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+
+    <div class="logo">
+        Hospital Management System
+    </div>
+
+    <div class="topbar-right">
+
+        <span id="doctorTopName">
+            Doctor
+        </span>
+
+        <a
+            href="../index.html"
+            onclick="logoutDoctor()"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <h3>Doctor Panel</h3>
+
+        <a href="doctor-dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="doctor-patients.html">
+            My Patients
+        </a>
+
+        <a href="doctor-appointments.html">
+            Appointments
+        </a>
+
+        <a href="doctor-records.html">
+            Records
+        </a>
+
+        <a href="doctor-prescriptions.html">
+            Prescriptions
+        </a>
+
+        <a href="doctor-access-requests.html">
+            Access Requests
+        </a>
+
+        <a href="doctor-profile.html">
+            My Profile
+        </a>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+    <main class="content">
+
+        <div class="card page-title">
+
+            <h2>
+                My Profile
+            </h2>
+
+            <p>
+                View your doctor account and professional information.
+            </p>
+
+        </div>
+
+
+        <!-- PROFILE -->
+        <div
+            id="profileCard"
+            class="card"
+        >
+
+            <div class="profile-header">
+
+                <div
+                    id="profileAvatar"
+                    class="profile-avatar"
+                >
+                    D
+                </div>
+
+                <div>
+
+                    <h2 id="profileName">
+                        Doctor
+                    </h2>
+
+                    <p id="profileRole">
+                        Doctor
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- BASIC INFORMATION -->
+            <div class="profile-section">
+
+                <h3>
+                    Personal Information
+                </h3>
+
+                <div class="profile-grid">
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Doctor ID
+                        </span>
+
+                        <span
+                            id="doctorId"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Full Name
+                        </span>
+
+                        <span
+                            id="doctorName"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Username
+                        </span>
+
+                        <span
+                            id="doctorUsername"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Email
+                        </span>
+
+                        <span
+                            id="doctorEmail"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Phone
+                        </span>
+
+                        <span
+                            id="doctorPhone"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Gender
+                        </span>
+
+                        <span
+                            id="doctorGender"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFESSIONAL INFORMATION -->
+            <div class="profile-section">
+
+                <h3>
+                    Professional Information
+                </h3>
+
+                <div class="profile-grid">
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Department
+                        </span>
+
+                        <span
+                            id="doctorDepartment"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Specialization
+                        </span>
+
+                        <span
+                            id="doctorSpecialization"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Qualification
+                        </span>
+
+                        <span
+                            id="doctorQualification"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Experience
+                        </span>
+
+                        <span
+                            id="doctorExperience"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            License / Registration No.
+                        </span>
+
+                        <span
+                            id="doctorLicense"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Joining Date
+                        </span>
+
+                        <span
+                            id="doctorJoiningDate"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADDITIONAL INFORMATION -->
+            <div class="profile-section">
+
+                <h3>
+                    Additional Information
+                </h3>
+
+                <div class="profile-grid">
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Address
+                        </span>
+
+                        <span
+                            id="doctorAddress"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            Status
+                        </span>
+
+                        <span
+                            id="doctorStatus"
+                            class="profile-value"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECURITY -->
+            <div class="profile-section">
+
+                <h3>
+                    Account Security
+                </h3>
+
+                <div class="info-box">
+
+                    Your password and other sensitive authentication
+                    information are not displayed on the doctor profile.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DOCTOR STATISTICS -->
+        <div
+            id="statisticsCard"
+            class="card profile-section"
+        >
+
+            <h3>
+                My Statistics
+            </h3>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+
+                    <h4>
+                        My Patients
+                    </h4>
+
+                    <div
+                        id="myPatientsCount"
+                        class="summary-number"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h4>
+                        Consultations
+                    </h4>
+
+                    <div
+                        id="consultationsCount"
+                        class="summary-number"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h4>
+                        Prescriptions
+                    </h4>
+
+                    <div
+                        id="prescriptionsCount"
+                        class="summary-number"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h4>
+                        Appointments
+                    </h4>
+
+                    <div
+                        id="appointmentsCount"
+                        class="summary-number"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LOGIN ERROR -->
+        <div
+            id="loginError"
+            class="card empty-card hidden"
+        >
+
+            <h3>
+                Doctor Login Required
+            </h3>
+
+            <p>
+                No logged-in doctor could be found.
+                Please log in using your doctor account.
+            </p>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <p>
+        © Hospital Management System
+    </p>
+
+</footer>
+
+
+<script src="../security.js"></script>
+
+
+<script>
+
+    /* =========================================================
+       DOCTOR SESSION
+       ========================================================= */
+
+    function getLoggedInDoctor() {
+
+        const possibleKeys = [
+            "loggedInDoctor",
+            "doctorSession",
+            "currentDoctor"
+        ];
+
+
+        for (
+            const key of possibleKeys
+        ) {
+
+            const raw =
+                localStorage.getItem(
+                    key
+                );
+
+
+            if (!raw) {
+                continue;
+            }
+
+
+            try {
+
+                const parsed =
+                    JSON.parse(
+                        raw
+                    );
+
+
+                if (
+                    parsed &&
+                    typeof parsed === "object"
+                ) {
+
+                    return parsed;
+
+                }
+
+            } catch (error) {
+
+                return {
+                    username: raw,
+                    name: raw
+                };
+
+            }
+
+        }
+
+
+        const hmsSession =
+            localStorage.getItem(
+                "hmsSession"
+            );
+
+
+        if (hmsSession) {
+
+            try {
+
+                const session =
+                    JSON.parse(
+                        hmsSession
+                    );
+
+
+                if (
+                    session &&
+                    (
+                        normalize(session.role) === "doctor" ||
+                        normalize(session.userType) === "doctor" ||
+                        normalize(session.userRole) === "doctor"
+                    )
+                ) {
+
+                    return session;
+
+                }
+
+            } catch (error) {
+                // Ignore invalid session.
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    const currentDoctor =
+        getLoggedInDoctor();
+
+
+    /* =========================================================
+       HELPERS
+       ========================================================= */
+
+    function normalize(
+        value
+    ) {
+
+        return String(
+            value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    }
+
+
+    function getArray(
+        key
+    ) {
+
+        try {
+
+            const value =
+                JSON.parse(
+                    localStorage.getItem(
+                        key
+                    ) || "[]"
+                );
+
+
+            return Array.isArray(
+                value
+            )
+                ? value
+                : [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function getDoctorId(
+        doctor
+    ) {
+
+        if (!doctor) {
+            return "";
+        }
+
+
+        return String(
+            doctor.doctorId ||
+            doctor.id ||
+            doctor.userId ||
+            doctor.username ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getDoctorName(
+        doctor
+    ) {
+
+        if (!doctor) {
+            return "Doctor";
+        }
+
+
+        return String(
+            doctor.name ||
+            doctor.fullName ||
+            doctor.doctorName ||
+            doctor.username ||
+            "Doctor"
+        ).trim();
+
+    }
+
+
+    function escapeHTML(
+        value
+    ) {
+
+        if (
+            value === null ||
+            value === undefined ||
+            value === ""
+        ) {
+
+            return "-";
+
+        }
+
+
+        return String(
+            value
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+    }
+
+
+    /* =========================================================
+       FIND DOCTOR IN SHARED DOCTOR DATA
+       ========================================================= */
+
+    function findDoctorProfile() {
+
+        if (!currentDoctor) {
+            return null;
+        }
+
+
+        const doctors =
+            getArray(
+                "doctors"
+            );
+
+
+        const currentId =
+            getDoctorId(
+                currentDoctor
+            );
+
+
+        const currentName =
+            getDoctorName(
+                currentDoctor
+            );
+
+
+        const currentUsername =
+            String(
+                currentDoctor.username ||
+                ""
+            ).trim();
+
+
+        /*
+         * First try Doctor ID.
+         */
+
+        let doctor =
+            doctors.find(
+                function(item) {
+
+                    const itemId =
+                        getDoctorId(
+                            item
+                        );
+
+
+                    return (
+                        currentId &&
+                        itemId &&
+                        normalize(
+                            currentId
+                        ) === normalize(
+                            itemId
+                        )
+                    );
+
+                }
+            );
+
+
+        if (doctor) {
+            return doctor;
+        }
+
+
+        /*
+         * Then try username.
+         */
+
+        doctor =
+            doctors.find(
+                function(item) {
+
+                    return (
+                        currentUsername &&
+                        item.username &&
+                        normalize(
+                            currentUsername
+                        ) === normalize(
+                            item.username
+                        )
+                    );
+
+                }
+            );
+
+
+        if (doctor) {
+            return doctor;
+        }
+
+
+        /*
+         * Finally try name.
+         */
+
+        doctor =
+            doctors.find(
+                function(item) {
+
+                    const itemName =
+                        getDoctorName(
+                            item
+                        );
+
+
+                    return (
+                        currentName &&
+                        itemName &&
+                        normalize(
+                            currentName
+                        ) === normalize(
+                            itemName
+                        )
+                    );
+
+                }
+            );
+
+
+        return doctor || currentDoctor;
+
+    }
+
+
+    const doctorProfile =
+        findDoctorProfile();
+
+
+    /* =========================================================
+       DISPLAY PROFILE
+       ========================================================= */
+
+    function displayProfile() {
+
+        if (!doctorProfile) {
+
+            document.getElementById(
+                "profileCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "statisticsCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "loginError"
+            ).classList.remove(
+                "hidden"
+            );
+
+
+            return;
+
+        }
+
+
+        const doctorName =
+            getDoctorName(
+                doctorProfile
+            );
+
+
+        const doctorId =
+            getDoctorId(
+                doctorProfile
+            );
+
+
+        document.getElementById(
+            "doctorTopName"
+        ).textContent =
+            doctorName;
+
+
+        document.getElementById(
+            "profileName"
+        ).textContent =
+            doctorName;
+
+
+        document.getElementById(
+            "profileRole"
+        ).textContent =
+            doctorProfile.specialization ||
+            doctorProfile.department ||
+            "Doctor";
+
+
+        document.getElementById(
+            "doctorId"
+        ).textContent =
+            doctorId || "-";
+
+
+        document.getElementById(
+            "doctorName"
+        ).textContent =
+            doctorName || "-";
+
+
+        document.getElementById(
+            "doctorUsername"
+        ).textContent =
+            doctorProfile.username || "-";
+
+
+        document.getElementById(
+            "doctorEmail"
+        ).textContent =
+            doctorProfile.email || "-";
+
+
+        document.getElementById(
+            "doctorPhone"
+        ).textContent =
+            doctorProfile.phone ||
+            doctorProfile.mobile ||
+            doctorProfile.contact ||
+            "-";
+
+
+        document.getElementById(
+            "doctorGender"
+        ).textContent =
+            doctorProfile.gender || "-";
+
+
+        document.getElementById(
+            "doctorDepartment"
+        ).textContent =
+            doctorProfile.department || "-";
+
+
+        document.getElementById(
+            "doctorSpecialization"
+        ).textContent =
+            doctorProfile.specialization ||
+            doctorProfile.speciality ||
+            doctorProfile.specialty ||
+            "-";
+
+
+        document.getElementById(
+            "doctorQualification"
+        ).textContent =
+            doctorProfile.qualification ||
+            doctorProfile.qualifications ||
+            doctorProfile.degree ||
+            doctorProfile.education ||
+            "-";
+
+
+        document.getElementById(
+            "doctorExperience"
+        ).textContent =
+            doctorProfile.experience ||
+            doctorProfile.yearsOfExperience ||
+            "-";
+
+
+        document.getElementById(
+            "doctorLicense"
+        ).textContent =
+            doctorProfile.licenseNumber ||
+            doctorProfile.registrationNumber ||
+            doctorProfile.licenseNo ||
+            doctorProfile.registrationNo ||
+            "-";
+
+
+        document.getElementById(
+            "doctorJoiningDate"
+        ).textContent =
+            doctorProfile.joiningDate ||
+            doctorProfile.dateOfJoining ||
+            "-";
+
+
+        document.getElementById(
+            "doctorAddress"
+        ).textContent =
+            doctorProfile.address ||
+            doctorProfile.place ||
+            doctorProfile.city ||
+            "-";
+
+
+        document.getElementById(
+            "doctorStatus"
+        ).textContent =
+            doctorProfile.status ||
+            doctorProfile.accountStatus ||
+            "Active";
+
+
+        /*
+         * Avatar initials.
+         */
+
+        const words =
+            doctorName
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean);
+
+
+        let initials =
+            "D";
+
+
+        if (words.length >= 2) {
+
+            initials =
+                words[0].charAt(0) +
+                words[words.length - 1].charAt(0);
+
+        } else if (
+            words.length === 1 &&
+            words[0]
+        ) {
+
+            initials =
+                words[0].charAt(0);
+
+        }
+
+
+        document.getElementById(
+            "profileAvatar"
+        ).textContent =
+            initials.toUpperCase();
+
+    }
+
+
+    /* =========================================================
+       STATISTICS
+       ========================================================= */
+
+    function isAssignedPatient(
+        patient
+    ) {
+
+        if (
+            !patient ||
+            !doctorProfile
+        ) {
+
+            return false;
+
+        }
+
+
+        const patientDoctorId =
+            String(
+                patient.assignedDoctorId ||
+                patient.doctorId ||
+                patient.assignedDoctorID ||
+                ""
+            ).trim();
+
+
+        const patientDoctorName =
+            String(
+                patient.assignedDoctorName ||
+                patient.assignedDoctor ||
+                patient.doctorName ||
+                ""
+            ).trim();
+
+
+        const doctorId =
+            getDoctorId(
+                doctorProfile
+            );
+
+
+        const doctorName =
+            getDoctorName(
+                doctorProfile
+            );
+
+
+        return (
+            (
+                patientDoctorId &&
+                doctorId &&
+                normalize(
+                    patientDoctorId
+                ) === normalize(
+                    doctorId
+                )
+            )
+            ||
+            (
+                patientDoctorName &&
+                doctorName &&
+                normalize(
+                    patientDoctorName
+                ) === normalize(
+                    doctorName
+                )
+            )
+        );
+
+    }
+
+
+    function calculateStatistics() {
+
+        if (!doctorProfile) {
+            return;
+        }
+
+
+        const doctorId =
+            getDoctorId(
+                doctorProfile
+            );
+
+
+        const doctorName =
+            getDoctorName(
+                doctorProfile
+            );
+
+
+        /* PATIENTS */
+
+        const patients =
+            getArray(
+                "patients"
+            );
+
+
+        const myPatients =
+            patients.filter(
+                function(patient) {
+
+                    return isAssignedPatient(
+                        patient
+                    );
+
+                }
+            );
+
+
+        document.getElementById(
+            "myPatientsCount"
+        ).textContent =
+            myPatients.length;
+
+
+        /* CONSULTATIONS */
+
+        const consultations =
+            getArray(
+                "consultations"
+            );
+
+
+        const myConsultations =
+            consultations.filter(
+                function(item) {
+
+                    return (
+                        (
+                            item.doctorId &&
+                            doctorId &&
+                            normalize(
+                                item.doctorId
+                            ) === normalize(
+                                doctorId
+                            )
+                        )
+                        ||
+                        (
+                            item.doctorName &&
+                            doctorName &&
+                            normalize(
+                                item.doctorName
+                            ) === normalize(
+                                doctorName
+                            )
+                        )
+                    );
+
+                }
+            );
+
+
+        document.getElementById(
+            "consultationsCount"
+        ).textContent =
+            myConsultations.length;
+
+
+        /* PRESCRIPTIONS */
+
+        const prescriptions =
+            getArray(
+                "prescriptions"
+            );
+
+
+        const myPrescriptions =
+            prescriptions.filter(
+                function(item) {
+
+                    return (
+                        (
+                            item.doctorId &&
+                            doctorId &&
+                            normalize(
+                                item.doctorId
+                            ) === normalize(
+                                doctorId
+                            )
+                        )
+                        ||
+                        (
+                            item.doctorName &&
+                            doctorName &&
+                            normalize(
+                                item.doctorName
+                            ) === normalize(
+                                doctorName
+                            )
+                        )
+                    );
+
+                }
+            );
+
+
+        document.getElementById(
+            "prescriptionsCount"
+        ).textContent =
+            myPrescriptions.length;
+
+
+        /* APPOINTMENTS */
+
+        const appointments =
+            getArray(
+                "appointments"
+            );
+
+
+        const myAppointments =
+            appointments.filter(
+                function(item) {
+
+                    const appointmentDoctorId =
+                        String(
+                            item.doctorId ||
+                            item.assignedDoctorId ||
+                            ""
+                        ).trim();
+
+
+                    const appointmentDoctorName =
+                        String(
+                            item.doctorName ||
+                            item.doctor ||
+                            item.assignedDoctorName ||
+                            ""
+                        ).trim();
+
+
+                    return (
+                        (
+                            appointmentDoctorId &&
+                            doctorId &&
+                            normalize(
+                                appointmentDoctorId
+                            ) === normalize(
+                                doctorId
+                            )
+                        )
+                        ||
+                        (
+                            appointmentDoctorName &&
+                            doctorName &&
+                            normalize(
+                                appointmentDoctorName
+                            ) === normalize(
+                                doctorName
+                            )
+                        )
+                    );
+
+                }
+            );
+
+
+        document.getElementById(
+            "appointmentsCount"
+        ).textContent =
+            myAppointments.length;
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+       ========================================================= */
+
+    function logoutDoctor() {
+
+        /*
+         * Do NOT clear hospital data.
+         * Only remove doctor session information.
+         */
+
+        localStorage.removeItem(
+            "loggedInDoctor"
+        );
+
+        localStorage.removeItem(
+            "doctorSession"
+        );
+
+        localStorage.removeItem(
+            "currentDoctor"
+        );
+
+    }
+
+
+    /* =========================================================
+       INITIALIZE
+       ========================================================= */
+
+    function initializePage() {
+
+        if (!currentDoctor) {
+
+            document.getElementById(
+                "profileCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "statisticsCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "loginError"
+            ).classList.remove(
+                "hidden"
+            );
+
+
+            return;
+
+        }
+
+
+        displayProfile();
+
+        calculateStatistics();
+
+    }
+
+
+    initializePage();
+
+</script>
+
+</body>
+</html>

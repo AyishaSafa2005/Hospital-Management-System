@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        My Appointments - Hospital Management System
+    </title>
+
+
+    <!-- COMMON HMS THEME -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+
+    <style>
+
+        /* =========================================
+           APPOINTMENT CARD
+        ========================================== */
+
+        .appointments-card {
+
+            background: #ffffff;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+
+            overflow-x: auto;
+
+        }
+
+
+        /* =========================================
+           TABLE
+        ========================================== */
+
+        .appointments-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 20px;
+
+            min-width: 750px;
+
+        }
+
+
+        .appointments-table th {
+
+            background: #0b6684;
+
+            color: #ffffff;
+
+            padding: 13px;
+
+            text-align: left;
+
+            font-weight: 600;
+
+        }
+
+
+        .appointments-table td {
+
+            padding: 13px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            color: #333333;
+
+        }
+
+
+        .appointments-table tr:hover td {
+
+            background: #f5fafc;
+
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================== */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 15px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .status-pending {
+
+            background: #fff4d6;
+
+            color: #8a6500;
+
+        }
+
+
+        .status-confirmed {
+
+            background: #e5f5eb;
+
+            color: #207245;
+
+        }
+
+
+        .status-completed {
+
+            background: #e5f0f8;
+
+            color: #245b7a;
+
+        }
+
+
+        .status-cancelled {
+
+            background: #fdeaea;
+
+            color: #a33;
+
+        }
+
+
+        .status-default {
+
+            background: #eeeeee;
+
+            color: #555555;
+
+        }
+
+
+        /* =========================================
+           EMPTY MESSAGE
+        ========================================== */
+
+        .no-appointments {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            background: #f7fafb;
+
+            border-radius: 10px;
+
+            margin-top: 20px;
+
+        }
+
+
+        .no-appointments h2 {
+
+            color: #0b6684;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .no-appointments p {
+
+            color: #666666;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .book-button {
+
+            display: inline-block;
+
+            background: #0b6684;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            padding: 11px 20px;
+
+            border-radius: 6px;
+
+            font-weight: 600;
+
+        }
+
+
+        .book-button:hover {
+
+            background: #084f67;
+
+        }
+
+
+        /* =========================================
+           SUMMARY
+        ========================================== */
+
+        .appointment-summary {
+
+            display: flex;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+            margin-top: 20px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .summary-box {
+
+            background: #f1f7fb;
+
+            border-left:
+                4px solid #0b6684;
+
+            padding: 15px 20px;
+
+            border-radius: 7px;
+
+            min-width: 150px;
+
+        }
+
+
+        .summary-box strong {
+
+            display: block;
+
+            font-size: 22px;
+
+            color: #0b6684;
+
+        }
+
+
+        .summary-box span {
+
+            color: #666666;
+
+            font-size: 14px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================== -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Patient
+            </span>
+
+
+            <button
+                type="button"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================== -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Patient
+                </h2>
+
+            </div>
+
+
+            <a href="patient-dashboard.html">
+                🏠 Dashboard
+            </a>
+
+
+            <a href="patient-book-appointment.html">
+                📅 Book Appointment
+            </a>
+
+
+            <a
+                href="patient-my-appointments.html"
+                class="active"
+            >
+                📋 My Appointments
+            </a>
+
+
+            <a href="patient-medical-records.html">
+                📄 Medical Records
+            </a>
+
+
+            <a href="patient-prescriptions.html">
+                💊 Prescriptions
+            </a>
+
+
+            <a href="patient-profile.html">
+                👤 Profile
+            </a>
+
+
+            <a href="patient-feedback.html">
+                ⭐ Feedback
+            </a>
+
+
+            <a href="patient-notifications.html">
+                🔔 Notifications
+            </a>
+
+
+            <a href="patient-billing.html">
+                💳 Billing
+            </a>
+
+
+            <a href="patient-lab-reports.html">
+                🧪 Lab Reports
+            </a>
+
+
+            <a href="patient-settings.html">
+                ⚙ Settings
+            </a>
+
+
+            <a href="../index.html">
+                🚪 Logout
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <main class="content">
+
+
+            <h1>
+                📋 My Appointments
+            </h1>
+
+
+            <p>
+                View your booked hospital appointments
+                and their current status.
+            </p>
+
+
+
+            <!-- =================================
+                 SUMMARY
+            ================================== -->
+
+            <div
+                class="appointment-summary"
+                id="appointmentSummary"
+            >
+
+                <div class="summary-box">
+
+                    <strong id="totalAppointments">
+                        0
+                    </strong>
+
+                    <span>
+                        Total Appointments
+                    </span>
+
+                </div>
+
+
+                <div class="summary-box">
+
+                    <strong id="pendingAppointments">
+                        0
+                    </strong>
+
+                    <span>
+                        Pending
+                    </span>
+
+                </div>
+
+
+                <div class="summary-box">
+
+                    <strong id="completedAppointments">
+                        0
+                    </strong>
+
+                    <span>
+                        Completed
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 APPOINTMENTS CARD
+            ================================== -->
+
+            <div class="appointments-card">
+
+                <div id="appointmentsContainer">
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+
+        const APPOINTMENT_STORAGE_KEY =
+            "appointments";
+
+
+
+        /* =========================================
+           CURRENT PATIENT
+        ========================================== */
+
+        function getCurrentPatient() {
+
+            const sessionPatient =
+                sessionStorage.getItem(
+                    "currentPatient"
+                );
+
+
+            if (sessionPatient) {
+
+                try {
+
+                    return JSON.parse(
+                        sessionPatient
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Unable to read current patient:",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+
+        /* =========================================
+           PATIENT ID
+        ========================================== */
+
+        function getPatientId(patient) {
+
+            if (!patient) {
+
+                return "";
+
+            }
+
+
+            return (
+
+                patient.patientId
+
+                ||
+
+                patient.id
+
+                ||
+
+                patient.patientID
+
+                ||
+
+                ""
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           PATIENT NAME
+        ========================================== */
+
+        function getPatientName(patient) {
+
+            if (!patient) {
+
+                return "";
+
+            }
+
+
+            return (
+
+                patient.fullName
+
+                ||
+
+                patient.name
+
+                ||
+
+                patient.patientName
+
+                ||
+
+                ""
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           GET ALL APPOINTMENTS
+        ========================================== */
+
+        function getAppointments() {
+
+            const savedAppointments =
+                localStorage.getItem(
+                    APPOINTMENT_STORAGE_KEY
+                );
+
+
+            if (!savedAppointments) {
+
+                return [];
+
+            }
+
+
+            try {
+
+                const appointments =
+                    JSON.parse(
+                        savedAppointments
+                    );
+
+
+                if (
+                    !Array.isArray(
+                        appointments
+                    )
+                ) {
+
+                    return [];
+
+                }
+
+
+                return appointments;
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to read appointments:",
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           GET CURRENT PATIENT APPOINTMENTS
+        ========================================== */
+
+        function getMyAppointments() {
+
+            const patient =
+                getCurrentPatient();
+
+
+            if (!patient) {
+
+                return [];
+
+            }
+
+
+            const patientId =
+                String(
+                    getPatientId(
+                        patient
+                    )
+                )
+                .trim();
+
+
+            const patientName =
+                String(
+                    getPatientName(
+                        patient
+                    )
+                )
+                .trim()
+                .toLowerCase();
+
+
+            const appointments =
+                getAppointments();
+
+
+            /*
+             * Primary matching:
+             * Patient ID.
+             */
+
+            if (patientId) {
+
+                return appointments.filter(
+                    function(appointment) {
+
+                        const appointmentPatientId =
+                            String(
+                                appointment.patientId
+                                ||
+                                appointment.patientID
+                                ||
+                                ""
+                            )
+                            .trim();
+
+
+                        return (
+                            appointmentPatientId ===
+                            patientId
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /*
+             * Fallback only when the
+             * current patient has no ID.
+             */
+
+            if (patientName) {
+
+                return appointments.filter(
+                    function(appointment) {
+
+                        const appointmentPatientName =
+                            String(
+                                appointment.patientName
+                                ||
+                                appointment.patient
+                                ||
+                                ""
+                            )
+                            .trim()
+                            .toLowerCase();
+
+
+                        return (
+                            appointmentPatientName ===
+                            patientName
+                        );
+
+                    }
+                );
+
+            }
+
+
+            return [];
+
+        }
+
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================== */
+
+        function escapeHtml(value) {
+
+            return String(
+                value ?? ""
+            )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+
+
+        /* =========================================
+           STATUS CLASS
+        ========================================== */
+
+        function getStatusClass(status) {
+
+            const normalizedStatus =
+                String(
+                    status || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            if (
+                normalizedStatus ===
+                "pending"
+            ) {
+
+                return "status-pending";
+
+            }
+
+
+            if (
+                normalizedStatus ===
+                "confirmed"
+            ) {
+
+                return "status-confirmed";
+
+            }
+
+
+            if (
+                normalizedStatus ===
+                "completed"
+            ) {
+
+                return "status-completed";
+
+            }
+
+
+            if (
+                normalizedStatus ===
+                "cancelled"
+                ||
+                normalizedStatus ===
+                "canceled"
+            ) {
+
+                return "status-cancelled";
+
+            }
+
+
+            return "status-default";
+
+        }
+
+
+
+        /* =========================================
+           FORMAT DATE
+        ========================================== */
+
+        function getDisplayDate(
+            appointment
+        ) {
+
+            if (
+                appointment.displayDate
+            ) {
+
+                return appointment.displayDate;
+
+            }
+
+
+            if (
+                appointment.date
+            ) {
+
+                const parts =
+                    String(
+                        appointment.date
+                    ).split("-");
+
+
+                if (
+                    parts.length === 3
+                ) {
+
+                    return (
+                        parts[2] +
+                        "-" +
+                        parts[1] +
+                        "-" +
+                        parts[0]
+                    );
+
+                }
+
+
+                return appointment.date;
+
+            }
+
+
+            return "—";
+
+        }
+
+
+
+        /* =========================================
+           FORMAT TIME
+        ========================================== */
+
+        function getDisplayTime(
+            appointment
+        ) {
+
+            if (
+                appointment.displayTime
+            ) {
+
+                return appointment.displayTime;
+
+            }
+
+
+            if (
+                appointment.time
+            ) {
+
+                const parts =
+                    String(
+                        appointment.time
+                    ).split(":");
+
+
+                if (
+                    parts.length >= 2
+                ) {
+
+                    let hour =
+                        parseInt(
+                            parts[0],
+                            10
+                        );
+
+
+                    const minute =
+                        parts[1];
+
+
+                    const period =
+                        hour >= 12
+                            ? "PM"
+                            : "AM";
+
+
+                    hour =
+                        hour % 12 || 12;
+
+
+                    return (
+                        hour +
+                        ":" +
+                        minute +
+                        " " +
+                        period
+                    );
+
+                }
+
+
+                return appointment.time;
+
+            }
+
+
+            return "—";
+
+        }
+
+
+
+        /* =========================================
+           RENDER APPOINTMENTS
+        ========================================== */
+
+        function renderAppointments() {
+
+            const container =
+                document.getElementById(
+                    "appointmentsContainer"
+                );
+
+
+            const myAppointments =
+                getMyAppointments();
+
+
+
+            /* -------------------------------------
+               UPDATE SUMMARY
+            ------------------------------------- */
+
+            document.getElementById(
+                "totalAppointments"
+            ).textContent =
+                myAppointments.length;
+
+
+            const pendingCount =
+                myAppointments.filter(
+                    function(appointment) {
+
+                        return (
+                            String(
+                                appointment.status
+                                ||
+                                appointment.appointmentStatus
+                                ||
+                                "Pending"
+                            )
+                            .toLowerCase() ===
+                            "pending"
+                        );
+
+                    }
+                ).length;
+
+
+            const completedCount =
+                myAppointments.filter(
+                    function(appointment) {
+
+                        return (
+                            String(
+                                appointment.status
+                                ||
+                                appointment.appointmentStatus
+                                ||
+                                ""
+                            )
+                            .toLowerCase() ===
+                            "completed"
+                        );
+
+                    }
+                ).length;
+
+
+            document.getElementById(
+                "pendingAppointments"
+            ).textContent =
+                pendingCount;
+
+
+            document.getElementById(
+                "completedAppointments"
+            ).textContent =
+                completedCount;
+
+
+
+            /* -------------------------------------
+               NO APPOINTMENTS
+            ------------------------------------- */
+
+            if (
+                myAppointments.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="no-appointments">
+
+                        <h2>
+                            No appointment booked yet.
+                        </h2>
+
+                        <p>
+                            You have not booked any
+                            appointments yet.
+                        </p>
+
+                        <a
+                            href="patient-book-appointment.html"
+                            class="book-button"
+                        >
+                            Book Appointment
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+
+            /* -------------------------------------
+               SORT NEWEST BOOKING FIRST
+            ------------------------------------- */
+
+            const sortedAppointments =
+                [...myAppointments].sort(
+                    function(a, b) {
+
+                        const dateA =
+                            a.createdAt
+                                ? new Date(
+                                    a.createdAt
+                                ).getTime()
+                                : 0;
+
+
+                        const dateB =
+                            b.createdAt
+                                ? new Date(
+                                    b.createdAt
+                                ).getTime()
+                                : 0;
+
+
+                        return dateB - dateA;
+
+                    }
+                );
+
+
+
+            /* -------------------------------------
+               TABLE
+            ------------------------------------- */
+
+            let tableHtml = `
+
+                <table class="appointments-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Appointment ID
+                            </th>
+
+                            <th>
+                                Doctor
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Time
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+            `;
+
+
+
+            sortedAppointments.forEach(
+                function(appointment) {
+
+
+                    const appointmentId =
+                        appointment.appointmentId
+                        ||
+                        appointment.id
+                        ||
+                        "—";
+
+
+                    const doctor =
+                        appointment.doctorName
+                        ||
+                        appointment.doctor
+                        ||
+                        "—";
+
+
+                    const department =
+                        appointment.department
+                        ||
+                        appointment.doctorDepartment
+                        ||
+                        "—";
+
+
+                    const date =
+                        getDisplayDate(
+                            appointment
+                        );
+
+
+                    const time =
+                        getDisplayTime(
+                            appointment
+                        );
+
+
+                    const status =
+                        appointment.status
+                        ||
+                        appointment.appointmentStatus
+                        ||
+                        "Pending";
+
+
+                    const statusClass =
+                        getStatusClass(
+                            status
+                        );
+
+
+
+                    tableHtml += `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHtml(
+                                    appointmentId
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    doctor
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    department
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    date
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    time
+                                )}
+                            </td>
+
+                            <td>
+
+                                <span
+                                    class="status ${statusClass}"
+                                >
+                                    ${escapeHtml(
+                                        status
+                                    )}
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            );
+
+
+
+            tableHtml += `
+
+                    </tbody>
+
+                </table>
+
+            `;
+
+
+            container.innerHTML =
+                tableHtml;
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================== */
+
+        function logout() {
+
+            sessionStorage.removeItem(
+                "currentPatient"
+            );
+
+
+            sessionStorage.removeItem(
+                "userRole"
+            );
+
+
+            sessionStorage.removeItem(
+                "userPhone"
+            );
+
+
+            sessionStorage.removeItem(
+                "hmsSession"
+            );
+
+
+            sessionStorage.removeItem(
+                "pendingLogin"
+            );
+
+
+            window.location.href =
+                "../index.html";
+
+        }
+
+
+
+        /* =========================================
+           STORAGE LISTENER
+
+           If another page updates appointments,
+           this page can refresh automatically.
+        ========================================== */
+
+        window.addEventListener(
+            "storage",
+            function(event) {
+
+                if (
+                    event.key ===
+                    APPOINTMENT_STORAGE_KEY
+                ) {
+
+                    renderAppointments();
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================================
+           PAGE LOAD
+        ========================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                renderAppointments();
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

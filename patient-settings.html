@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="logo">
+        <h2>🏥 HMS</h2>
+    </div>
+
+    <div class="title">
+        <h2>Hospital Management System</h2>
+    </div>
+
+    <div class="admin-info">
+        Welcome, Patient
+    </div>
+
+</header>
+
+<div class="container">
+
+    <aside class="sidebar">
+
+        <a href="patient-dashboard.html">🏠 Dashboard</a>
+        <a href="patient-book-appointment.html">📅 Book Appointment</a>
+        <a href="patient-my-appointments.html">📋 My Appointments</a>
+        <a href="patient-medical-records.html">📄 Medical Records</a>
+        <a href="patient-prescriptions.html">💊 Prescriptions</a>
+        <a href="patient-profile.html">👤 Profile</a>
+        <a href="patient-feedback.html">⭐ Feedback</a>
+        <a href="patient-notifications.html">🔔 Notifications</a>
+        <a href="patient-billing.html">💳 Billing</a>
+        <a href="patient-lab-reports.html">🧪 Lab Reports</a>
+        <a href="patient-settings.html">⚙ Settings</a>
+        <a href="index.html">🚪 Logout</a>
+
+    </aside>
+
+    <main class="content">
+
+        <h1>⚙ Account Settings</h1>
+
+        <div class="dashboard">
+
+            <div class="card">
+                <h2>Profile</h2>
+                <p>Update your personal information.</p>
+            </div>
+
+            <div class="card">
+                <h2>Password</h2>
+                <p>Change your account password.</p>
+            </div>
+
+            <div class="card">
+                <h2>Notifications</h2>
+                <p>Manage notification preferences.</p>
+            </div>
+
+            <div class="card">
+                <h2>Privacy</h2>
+                <p>Manage your privacy settings.</p>
+            </div>
+
+        </div>
+
+        <h2>Update Profile</h2>
+
+        <div class="form-container">
+
+            <input type="text" value="Shahala" placeholder="Full Name">
+
+            <input type="email" value="patient@gmail.com" placeholder="Email">
+
+            <input type="text" value="9876543210" placeholder="Mobile Number">
+
+            <button>Update Profile</button>
+
+        </div>
+
+        <br>
+
+        <h2>Change Password</h2>
+
+        <div class="form-container">
+
+            <input type="password" placeholder="Current Password">
+
+            <input type="password" placeholder="New Password">
+
+            <input type="password" placeholder="Confirm Password">
+
+            <button>Change Password</button>
+
+        </div>
+
+        <br>
+
+        <h2>Notification Preferences</h2>
+
+        <div class="card">
+
+            <p><input type="checkbox" checked> Appointment Reminders</p>
+
+            <p><input type="checkbox" checked> Medicine Reminders</p>
+
+            <p><input type="checkbox" checked> Lab Report Alerts</p>
+
+            <p><input type="checkbox"> Promotional Emails</p>
+
+            <button>Save Preferences</button>
+
+        </div>
+
+        <br>
+
+        <h2>Privacy Settings</h2>
+
+        <div class="card">
+
+            <p><input type="checkbox" checked> Allow Doctors to View Records</p>
+
+            <p><input type="checkbox"> Share Reports with Family</p>
+
+            <p><input type="checkbox" checked> Enable Two-Factor Authentication</p>
+
+            <button>Save Privacy Settings</button>
+
+        </div>
+
+        <br>
+
+        <h2>Account Actions</h2>
+
+        <div class="card">
+
+            <button>Download My Data</button>
+
+            <button>Deactivate Account</button>
+
+            <button onclick="window.location.href='index.html'">Logout</button>
+
+        </div>
+
+    </main>
+
+</div>
+
+<footer>
+    © 2026 Hospital Management System | Patient Panel
+</footer>
+
+</body>
+</html>

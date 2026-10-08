@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab Reports</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="logo">
+        <h2>🏥 HMS</h2>
+    </div>
+
+    <div class="title">
+        <h2>Hospital Management System</h2>
+    </div>
+
+    <div class="admin-info">
+        Welcome, Patient
+    </div>
+
+</header>
+
+<div class="container">
+
+    <aside class="sidebar">
+
+        <a href="patient-dashboard.html">🏠 Dashboard</a>
+        <a href="patient-book-appointment.html">📅 Book Appointment</a>
+        <a href="patient-my-appointments.html">📋 My Appointments</a>
+        <a href="patient-medical-records.html">📄 Medical Records</a>
+        <a href="patient-prescriptions.html">💊 Prescriptions</a>
+        <a href="patient-profile.html">👤 Profile</a>
+        <a href="patient-feedback.html">⭐ Feedback</a>
+        <a href="patient-notifications.html">🔔 Notifications</a>
+        <a href="patient-billing.html">💳 Billing</a>
+        <a href="patient-lab-reports.html">🧪 Lab Reports</a>
+        <a href="patient-settings.html">⚙ Settings</a>
+        <a href="index.html">🚪 Logout</a>
+
+    </aside>
+
+    <main class="content">
+
+        <h1>🧪 Lab Reports</h1>
+
+        <div class="dashboard">
+
+            <div class="card">
+                <h2>8</h2>
+                <p>Total Reports</p>
+            </div>
+
+            <div class="card">
+                <h2>2</h2>
+                <p>Pending Reports</p>
+            </div>
+
+            <div class="card">
+                <h2>6</h2>
+                <p>Completed Reports</p>
+            </div>
+
+            <div class="card">
+                <h2>Today</h2>
+                <p>Latest Report</p>
+            </div>
+
+        </div>
+
+        <h2>Available Lab Reports</h2>
+
+        <table>
+
+            <tr>
+                <th>Report ID</th>
+                <th>Test Name</th>
+                <th>Date</th>
+                <th>Doctor</th>
+                <th>Status</th>
+                <th>Download</th>
+            </tr>
+
+            <tr>
+                <td>LR001</td>
+                <td>Blood Test</td>
+                <td>12 July 2026</td>
+                <td>Dr. Rajesh</td>
+                <td>Completed</td>
+                <td><button>Download</button></td>
+            </tr>
+
+            <tr>
+                <td>LR002</td>
+                <td>Urine Test</td>
+                <td>15 July 2026</td>
+                <td>Dr. Priya</td>
+                <td>Completed</td>
+                <td><button>Download</button></td>
+            </tr>
+
+            <tr>
+                <td>LR003</td>
+                <td>X-Ray</td>
+                <td>18 July 2026</td>
+                <td>Dr. Ahmed</td>
+                <td>Completed</td>
+                <td><button>Download</button></td>
+            </tr>
+
+            <tr>
+                <td>LR004</td>
+                <td>ECG</td>
+                <td>20 July 2026</td>
+                <td>Dr. Sneha</td>
+                <td>Pending</td>
+                <td><button disabled>Pending</button></td>
+            </tr>
+
+            <tr>
+                <td>LR005</td>
+                <td>MRI Scan</td>
+                <td>22 July 2026</td>
+                <td>Dr. Kumar</td>
+                <td>Completed</td>
+                <td><button>Download</button></td>
+            </tr>
+
+        </table>
+
+        <br>
+
+        <div class="card">
+
+            <h2>Latest Report Summary</h2>
+
+            <p><strong>Test Name:</strong> Blood Test</p>
+            <p><strong>Report Date:</strong> 12 July 2026</p>
+            <p><strong>Doctor:</strong> Dr. Rajesh</p>
+            <p><strong>Status:</strong> Normal</p>
+            <p><strong>Remarks:</strong> All blood parameters are within the normal range.</p>
+
+            <br>
+
+            <button>📥 Download Latest Report</button>
+
+            <button onclick="window.print()">🖨 Print Report</button>
+
+        </div>
+
+    </main>
+
+</div>
+
+<footer>
+    © 2026 Hospital Management System | Patient Panel
+</footer>
+
+</body>
+</html>

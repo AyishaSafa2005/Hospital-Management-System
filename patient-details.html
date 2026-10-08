@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Patient Details | HMS</title>
+
+<link rel="stylesheet" href="doctor.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+
+<header class="topbar">
+
+
+<div class="logo">
+
+<i class="fa-solid fa-hospital"></i>
+
+<span>HMS</span>
+
+</div>
+
+
+
+
+<div class="search-box">
+
+<i class="fa-solid fa-search"></i>
+
+<input 
+type="text"
+placeholder="Search Patient...">
+
+</div>
+
+
+
+
+
+<div class="header-right">
+
+
+
+<div class="date-time">
+
+<span id="date"></span>
+
+<br>
+
+<small id="clock"></small>
+
+</div>
+
+
+
+
+
+<div class="notification">
+
+
+<i class="fa-solid fa-bell"></i>
+
+<span class="badge">4</span>
+
+
+
+<div class="notification-box">
+
+
+<h4>Notifications</h4>
+
+
+<ul class="notification-list">
+
+
+<li>🟢 Lab Report Uploaded</li>
+
+<li>💊 Prescription Updated</li>
+
+<li>📅 Follow Up Scheduled</li>
+
+<li>🚑 Patient Status Updated</li>
+
+
+</ul>
+
+
+<button id="markRead">
+
+Mark All Read
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="doctor-profile">
+
+
+<img src="https://i.pravatar.cc/100?img=12">
+
+
+<div>
+
+<h4>Dr. Surya</h4>
+
+<small>Cardiologist</small>
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</header>
+
+
+
+
+
+
+<!-- ================= CONTAINER ================= -->
+
+
+<div class="container">
+
+
+
+
+
+<!-- ================= SIDEBAR ================= -->
+
+
+<aside class="sidebar">
+
+
+<h2>Doctor Panel</h2>
+
+
+
+<ul>
+
+
+
+<li>
+
+<a href="doctor-dashboard.html">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+
+
+
+<li class="active">
+
+<a href="doctor-patients.html">
+
+<i class="fa-solid fa-users"></i>
+
+My Patients
+
+</a>
+
+</li>
+
+
+
+
+
+<li>
+
+<a href="doctor-appointments.html">
+
+<i class="fa-solid fa-calendar-days"></i>
+
+Appointments
+
+</a>
+
+</li>
+
+
+
+
+
+<li>
+
+<a href="doctor-prescriptions.html">
+
+<i class="fa-solid fa-pills"></i>
+
+Prescriptions
+
+</a>
+
+</li>
+
+
+
+
+
+<li>
+
+<a href="doctor-records.html">
+
+<i class="fa-solid fa-file-medical"></i>
+
+Medical Records
+
+</a>
+
+</li>
+
+
+
+
+
+<li>
+
+<a href="doctor-profile.html">
+
+<i class="fa-solid fa-user"></i>
+
+Profile
+
+</a>
+
+</li>
+
+
+
+
+
+<li>
+
+<a href="index.html">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</a>
+
+</li>
+
+
+
+</ul>
+
+
+</aside>
+
+
+
+
+
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+
+<main class="content">
+
+
+
+<h1>
+
+Patient Details
+
+</h1>
+
+
+
+<p class="subtitle">
+
+Complete Patient Medical Profile
+
+</p>
+
+
+
+
+
+
+
+<!-- ================= PATIENT PROFILE ================= -->
+
+
+
+<div class="patient-profile-card">
+
+
+
+<div class="patient-image">
+
+
+<i class="fa-solid fa-user"></i>
+
+
+</div>
+
+
+
+
+
+<div class="patient-info">
+
+
+
+<h2 id="pName"></h2>
+
+
+
+<p>
+<strong>Patient ID :</strong>
+<span id="pId"></span>
+</p>
+
+
+
+
+<p>
+<strong>Age :</strong>
+<span id="pAge"></span>
+</p>
+
+
+
+
+<p>
+<strong>Gender :</strong>
+<span id="pGender"></span>
+</p>
+
+
+
+
+<p>
+<strong>Blood Group :</strong>
+<span id="pBlood"></span>
+</p>
+
+
+
+
+<p>
+<strong>Disease :</strong>
+<span id="pDisease"></span>
+</p>
+
+
+
+
+<p>
+<strong>Status :</strong>
+<span id="pStatus"></span>
+</p>
+
+
+
+
+<p>
+<strong>Phone :</strong>
+<span id="pPhone"></span>
+</p>
+
+
+
+
+<p>
+<strong>Email :</strong>
+<span id="pEmail"></span>
+</p>
+
+
+
+
+<p>
+<strong>Address :</strong>
+<span id="pAddress"></span>
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+<!-- ================= EMERGENCY CONTACT ================= -->
+
+
+<div class="activity-box">
+
+
+<h2>
+
+<i class="fa-solid fa-phone"></i>
+
+Emergency Contact
+
+</h2>
+
+
+
+<p>
+<strong>Name :</strong>
+
+<span id="emergencyName"></span>
+
+</p>
+
+
+
+
+<p>
+<strong>Relation :</strong>
+
+<span id="relation"></span>
+
+</p>
+
+
+
+
+<p>
+<strong>Phone :</strong>
+
+<span id="emergencyPhone"></span>
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+<!-- ================= VITAL SIGNS ================= -->
+
+
+<h2>
+
+Current Vital Signs
+
+</h2>
+
+
+
+
+<div class="cards">
+
+
+<div class="card blue">
+
+<i class="fa-solid fa-heart-pulse"></i>
+
+<h2 id="bp"></h2>
+
+<p>Blood Pressure</p>
+
+</div>
+
+
+
+
+
+<div class="card red">
+
+<i class="fa-solid fa-heart"></i>
+
+<h2 id="heartRate"></h2>
+
+<p>Heart Rate</p>
+
+</div>
+
+
+
+
+
+<div class="card orange">
+
+<i class="fa-solid fa-temperature-three-quarters"></i>
+
+<h2 id="temperature"></h2>
+
+<p>Temperature</p>
+
+</div>
+
+
+
+
+
+<div class="card green">
+
+<i class="fa-solid fa-lungs"></i>
+
+<h2 id="oxygen"></h2>
+
+<p>Oxygen Level</p>
+
+</div>
+
+
+
+</div>
+
+<br>
+
+
+<!-- ================= ALLERGIES ================= -->
+
+
+<h2>
+
+Allergies
+
+</h2>
+
+
+
+<div class="activity-box">
+
+
+<ul id="allergies"></ul>
+
+
+</div>
+
+
+
+
+
+<br>
+
+
+
+
+
+<!-- ================= APPOINTMENT HISTORY ================= -->
+
+
+<h2>
+
+Appointment History
+
+</h2>
+
+
+
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Date</th>
+
+<th>Doctor</th>
+
+<th>Department</th>
+
+<th>Status</th>
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="appointments">
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= MEDICAL HISTORY ================= -->
+
+
+<h2>
+
+Medical History
+
+</h2>
+
+
+
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Date</th>
+
+<th>Diagnosis</th>
+
+<th>Treatment</th>
+
+<th>Status</th>
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody id="medicalHistory">
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= CURRENT MEDICATIONS ================= -->
+
+
+<h2>
+
+Current Medications
+
+</h2>
+
+
+
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Medicine</th>
+
+<th>Dosage</th>
+
+<th>Duration</th>
+
+<th>Timing</th>
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody id="medicines">
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= LIFESTYLE INFORMATION ================= -->
+
+
+<h2>
+
+Lifestyle Information
+
+</h2>
+
+
+
+
+<div class="activity-box">
+
+
+
+<p>
+
+<strong>Smoking :</strong>
+
+<span id="smoking"></span>
+
+</p>
+
+
+
+
+<p>
+
+<strong>Alcohol :</strong>
+
+<span id="alcohol"></span>
+
+</p>
+
+
+
+
+<p>
+
+<strong>Exercise :</strong>
+
+<span id="exercise"></span>
+
+</p>
+
+
+
+
+<p>
+
+<strong>Diet :</strong>
+
+<span id="diet"></span>
+
+</p>
+
+
+
+
+<p>
+
+<strong>Sleep :</strong>
+
+<span id="sleep"></span>
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= LAB REPORTS ================= -->
+
+
+<h2>
+
+Lab Reports
+
+</h2>
+
+
+
+
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Report</th>
+
+<th>Date</th>
+
+<th>Result</th>
+
+<th>Status</th>
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody id="reports">
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= DOCTOR NOTES ================= -->
+
+
+<h2>
+
+Doctor Notes
+
+</h2>
+
+
+
+
+
+<div class="activity-box">
+
+
+
+<textarea 
+id="doctorNotes"
+rows="8"
+style="width:100%;padding:15px;border-radius:10px;resize:none;">
+</textarea>
+
+
+
+
+
+<br><br>
+
+
+
+
+
+<button class="btn" id="saveNotes">
+
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+
+Save Notes
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= BILLING SUMMARY ================= -->
+
+
+<h2>
+
+Billing Summary
+
+</h2>
+
+
+
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Service</th>
+
+<th>Amount</th>
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody id="billing">
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= PATIENT TIMELINE ================= -->
+
+
+<h2>
+
+Patient Timeline
+
+</h2>
+
+
+
+
+
+<div class="activity-box">
+
+
+<ul id="timeline"></ul>
+
+
+</div>
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= BUTTONS ================= -->
+
+
+<div class="action-buttons">
+
+
+
+<button class="btn" onclick="window.print()">
+
+
+
+<i class="fa-solid fa-print"></i>
+
+
+Print Report
+
+
+</button>
+
+
+
+
+
+
+<button class="btn"
+onclick="location.href='doctor-patients.html'">
+
+
+
+<i class="fa-solid fa-arrow-left"></i>
+
+
+Back to Patients
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= FINAL REMARKS ================= -->
+
+
+<h2>
+
+Doctor's Final Remarks
+
+</h2>
+
+
+
+
+
+<div class="activity-box">
+
+
+<p id="remarks"></p>
+
+
+</div>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<!-- ================= NEXT FOLLOW UP ================= -->
+
+
+<h2>
+
+Next Follow-up
+
+</h2>
+
+
+
+
+
+<div class="cards">
+
+
+
+
+
+<div class="card blue">
+
+
+<i class="fa-solid fa-calendar-check"></i>
+
+
+<h2 id="nextDate"></h2>
+
+
+<p>
+
+Next Appointment
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="card green">
+
+
+<i class="fa-solid fa-user-doctor"></i>
+
+
+<h2>
+
+Dr. Surya
+
+</h2>
+
+
+<p>
+
+Consulting Doctor
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="card orange">
+
+
+<i class="fa-solid fa-clock"></i>
+
+
+<h2 id="nextTime"></h2>
+
+
+<p>
+
+Reporting Time
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="card red">
+
+
+<i class="fa-solid fa-hospital"></i>
+
+
+<h2 id="room"></h2>
+
+
+<p>
+
+Consultation Room
+
+</p>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</main>
+
+
+</div>
+
+
+
+
+
+
+
+<footer>
+
+
+© 2026 Hospital Management System | Doctor Panel
+
+
+</footer>
+<script src="doctor.js"></script>
+
+
+<script>
+
+
+const patients = {
+
+
+
+P001:{
+
+
+name:"Rahul Sharma",
+
+age:"32 Years",
+
+gender:"Male",
+
+blood:"O+",
+
+disease:"Viral Fever",
+
+status:"Stable",
+
+phone:"+91 9876543210",
+
+email:"rahul@gmail.com",
+
+address:"Bangalore, Karnataka",
+
+
+emergencyName:"Ramesh Sharma",
+
+relation:"Father",
+
+emergencyPhone:"+91 9988776655",
+
+
+
+bp:"120/80",
+
+heartRate:"76 bpm",
+
+temperature:"98.6°F",
+
+oxygen:"98%",
+
+
+
+allergies:[
+"❌ Penicillin Allergy",
+"❌ Dust Allergy",
+"✔ No Food Allergy"
+],
+
+
+
+appointments:[
+["10 July 2026","Dr. Surya","Cardiology","Completed"],
+["20 July 2026","Dr. Surya","General Medicine","Completed"],
+["05 Aug 2026","Dr. Surya","Follow Up","Upcoming"]
+],
+
+
+
+history:[
+["10 July 2026","Viral Fever","Medication","Recovered"],
+["25 July 2026","High Temperature","IV Fluids","Stable"]
+],
+
+
+
+medicines:[
+["Paracetamol 650mg","1 Tablet","5 Days","Morning & Night"],
+["Vitamin C","1 Tablet","10 Days","After Breakfast"]
+],
+
+
+
+smoking:"No",
+
+alcohol:"Occasionally",
+
+exercise:"4 Days / Week",
+
+diet:"Vegetarian",
+
+sleep:"7 Hours",
+
+
+
+reports:[
+["Blood Test","28 July 2026","Normal","Completed"],
+["ECG","29 July 2026","Normal","Completed"]
+],
+
+
+
+notes:"Patient recovering well. Continue medicines.",
+
+
+
+billing:[
+["Doctor Consultation","₹500"],
+["Blood Test","₹900"],
+["Medicines","₹850"]
+],
+
+
+
+timeline:[
+"🟢 Patient Registered",
+"🩺 Consultation Completed",
+"💊 Prescription Issued",
+"🧪 Blood Test Completed"
+],
+
+
+
+remarks:"Patient is responding well to treatment. Maintain healthy lifestyle.",
+
+
+
+nextDate:"05 Aug 2026",
+
+nextTime:"10:30 AM",
+
+room:"OPD-03"
+
+
+},
+
+
+
+
+
+
+
+P002:{
+
+
+name:"Priya Singh",
+
+age:"25 Years",
+
+gender:"Female",
+
+blood:"A+",
+
+
+disease:"Diabetes",
+
+status:"Critical",
+
+phone:"+91 9123456780",
+
+email:"priya@gmail.com",
+
+address:"Mysore, Karnataka",
+
+
+
+emergencyName:"Sunil Singh",
+
+relation:"Brother",
+
+emergencyPhone:"+91 9000012345",
+
+
+
+
+bp:"140/90",
+
+heartRate:"88 bpm",
+
+temperature:"99°F",
+
+oxygen:"96%",
+
+
+
+allergies:[
+"❌ Dust Allergy",
+"✔ No Medicine Allergy"
+],
+
+
+
+
+appointments:[
+["12 July 2026","Dr. Surya","Diabetology","Completed"],
+["02 Aug 2026","Dr. Surya","Diabetes Review","Follow-up"]
+],
+
+
+
+
+history:[
+["12 July 2026","Diabetes","Insulin Therapy","Under Treatment"]
+],
+
+
+
+
+medicines:[
+["Metformin","1 Tablet","30 Days","Morning"],
+["Insulin","Injection","15 Days","Night"]
+],
+
+
+
+
+smoking:"No",
+
+alcohol:"No",
+
+exercise:"Daily",
+
+diet:"Low Sugar Diet",
+
+sleep:"8 Hours",
+
+
+
+
+reports:[
+["Blood Sugar Test","01 Aug 2026","High","Completed"]
+],
+
+
+
+
+notes:"Monitor sugar levels regularly.",
+
+
+
+billing:[
+["Consultation","₹500"],
+["Blood Test","₹1000"]
+],
+
+
+
+
+timeline:[
+"🟢 Registered",
+"💊 Diabetes Treatment Started"
+],
+
+
+
+
+remarks:"Needs regular monitoring.",
+
+
+
+nextDate:"10 Aug 2026",
+
+nextTime:"11:00 AM",
+
+room:"OPD-02"
+
+
+},
+
+
+
+
+
+
+
+P003:{
+
+
+name:"Amit Kumar",
+
+age:"48 Years",
+
+gender:"Male",
+
+blood:"B+",
+
+
+disease:"Hypertension",
+
+status:"Stable",
+
+phone:"+91 9345678901",
+
+email:"amit@gmail.com",
+
+address:"Bangalore, Karnataka",
+
+
+
+emergencyName:"Raj Kumar",
+
+relation:"Brother",
+
+emergencyPhone:"+91 9876501234",
+
+
+
+bp:"130/85",
+
+heartRate:"82 bpm",
+
+temperature:"98.4°F",
+
+oxygen:"97%",
+
+
+
+
+allergies:[
+"✔ No Known Allergies"
+],
+
+
+
+
+appointments:[
+["15 July 2026","Dr. Surya","Neurology","Completed"],
+["08 Aug 2026","Dr. Surya","BP Check","Upcoming"]
+],
+
+
+
+
+history:[
+["15 July 2026","Hypertension","BP Medication","Stable"]
+],
+
+
+
+
+medicines:[
+["Amlodipine","1 Tablet","30 Days","Morning"],
+["Atenolol","1 Tablet","30 Days","Night"]
+],
+
+
+
+
+smoking:"No",
+
+alcohol:"No",
+
+exercise:"3 Days / Week",
+
+diet:"Low Salt Diet",
+
+sleep:"7 Hours",
+
+
+
+
+reports:[
+["ECG","30 July 2026","Normal","Completed"],
+["BP Report","31 July 2026","Controlled","Completed"]
+],
+
+
+
+
+notes:"Blood pressure under control.",
+
+
+
+billing:[
+["Consultation","₹500"],
+["ECG","₹1200"]
+],
+
+
+
+
+timeline:[
+"🟢 Patient Registered",
+"🩺 BP Monitoring Started",
+"💊 Medicine Updated"
+],
+
+
+
+
+remarks:"Continue regular BP monitoring.",
+
+
+
+nextDate:"08 Aug 2026",
+
+nextTime:"02:00 PM",
+
+room:"OPD-04"
+
+
+},
+
+P004:{
+
+
+name:"Neha Patel",
+
+age:"41 Years",
+
+gender:"Female",
+
+blood:"AB+",
+
+disease:"Asthma",
+
+status:"Recovering",
+
+phone:"+91 9988776655",
+
+email:"neha@gmail.com",
+
+address:"Mangalore, Karnataka",
+
+
+
+emergencyName:"Kiran Patel",
+
+relation:"Husband",
+
+emergencyPhone:"+91 9090909090",
+
+
+
+bp:"118/78",
+
+heartRate:"74 bpm",
+
+temperature:"98.2°F",
+
+oxygen:"99%",
+
+
+
+allergies:[
+"❌ Dust Allergy",
+"❌ Pollen Allergy"
+],
+
+
+
+appointments:[
+["18 July 2026","Dr. Surya","Pulmonology","Completed"],
+["12 Aug 2026","Dr. Surya","Asthma Review","Upcoming"]
+],
+
+
+
+history:[
+["18 July 2026","Asthma Attack","Inhaler Therapy","Recovered"]
+],
+
+
+
+medicines:[
+["Inhaler","2 Puffs","30 Days","Morning"],
+["Montelukast","1 Tablet","15 Days","Night"]
+],
+
+
+
+smoking:"No",
+
+alcohol:"No",
+
+exercise:"Light Exercise",
+
+diet:"Healthy Diet",
+
+sleep:"8 Hours",
+
+
+
+reports:[
+["Chest X-Ray","02 Aug 2026","Normal","Completed"]
+],
+
+
+
+notes:"Patient recovering. Continue inhaler usage.",
+
+
+
+billing:[
+["Consultation","₹500"],
+["X-Ray","₹1500"]
+],
+
+
+
+timeline:[
+"🟢 Registered",
+"🫁 Asthma Treatment Started",
+"💊 Medication Given"
+],
+
+
+
+remarks:"Avoid dust and maintain respiratory health.",
+
+
+
+nextDate:"12 Aug 2026",
+
+nextTime:"04:30 PM",
+
+room:"OPD-05"
+
+
+},
+
+
+
+
+
+
+
+P005:{
+
+
+name:"Arjun Reddy",
+
+age:"36 Years",
+
+gender:"Male",
+
+blood:"O-",
+
+disease:"Heart Disease",
+
+status:"Critical",
+
+phone:"+91 9871234567",
+
+email:"arjun@gmail.com",
+
+address:"Hyderabad, Telangana",
+
+
+
+emergencyName:"Ravi Reddy",
+
+relation:"Father",
+
+emergencyPhone:"+91 8765432109",
+
+
+
+bp:"150/95",
+
+heartRate:"95 bpm",
+
+temperature:"99°F",
+
+oxygen:"94%",
+
+
+
+allergies:[
+"❌ Penicillin Allergy"
+],
+
+
+
+appointments:[
+["20 July 2026","Dr. Surya","Cardiology","Completed"],
+["15 Aug 2026","Dr. Surya","Heart Checkup","Upcoming"]
+],
+
+
+
+history:[
+["20 July 2026","Heart Disease","Cardiac Treatment","Under Treatment"]
+],
+
+
+
+medicines:[
+["Aspirin","1 Tablet","30 Days","Morning"],
+["Statin","1 Tablet","30 Days","Night"]
+],
+
+
+
+smoking:"Former Smoker",
+
+alcohol:"No",
+
+exercise:"Not Allowed",
+
+diet:"Heart Healthy Diet",
+
+sleep:"6 Hours",
+
+
+
+reports:[
+["ECG","03 Aug 2026","Abnormal","Completed"],
+["Echo Test","04 Aug 2026","Review Needed","Pending"]
+],
+
+
+
+notes:"Patient requires continuous monitoring.",
+
+
+
+billing:[
+["Consultation","₹500"],
+["ECG","₹1200"],
+["Medicine","₹2000"]
+],
+
+
+
+timeline:[
+"🟢 Registered",
+"❤️ Cardiac Test Completed",
+"💊 Medication Started"
+],
+
+
+
+remarks:"Monitor heart condition carefully.",
+
+
+
+nextDate:"15 Aug 2026",
+
+nextTime:"09:30 AM",
+
+room:"CARD-01"
+
+
+},
+
+
+
+
+
+
+
+P006:{
+
+
+name:"Anjali Verma",
+
+age:"29 Years",
+
+gender:"Female",
+
+blood:"B+",
+
+disease:"Migraine",
+
+status:"Stable",
+
+phone:"+91 9012345678",
+
+email:"anjali@gmail.com",
+
+address:"Chennai, Tamil Nadu",
+
+
+
+emergencyName:"Meena Verma",
+
+relation:"Mother",
+
+emergencyPhone:"+91 8123456789",
+
+
+
+bp:"115/75",
+
+heartRate:"72 bpm",
+
+temperature:"98.5°F",
+
+oxygen:"98%",
+
+
+
+allergies:[
+"✔ No Known Allergies"
+],
+
+
+
+appointments:[
+["22 July 2026","Dr. Surya","Neurology","Completed"],
+["18 Aug 2026","Dr. Surya","Migraine Review","Upcoming"]
+],
+
+
+
+history:[
+["22 July 2026","Migraine","Pain Management","Stable"]
+],
+
+
+
+medicines:[
+["Pain Relief Tablet","1 Tablet","10 Days","When Needed"],
+["Vitamin B Complex","1 Tablet","30 Days","Morning"]
+],
+
+
+
+smoking:"No",
+
+alcohol:"No",
+
+exercise:"Daily",
+
+diet:"Balanced Diet",
+
+sleep:"8 Hours",
+
+
+
+reports:[
+["Brain Scan","05 Aug 2026","Normal","Completed"]
+],
+
+
+
+notes:"Reduce stress and maintain sleep schedule.",
+
+
+
+billing:[
+["Consultation","₹500"],
+["Scan","₹2500"]
+],
+
+
+
+timeline:[
+"🟢 Registered",
+"🧠 Neurology Consultation",
+"💊 Medicine Prescribed"
+],
+
+
+
+remarks:"Patient condition stable.",
+
+
+
+nextDate:"18 Aug 2026",
+
+nextTime:"03:00 PM",
+
+room:"NEURO-02"
+
+
+}
+
+
+
+};
+
+
+
+
+// ================= GET PATIENT ID =================
+
+
+let id = new URLSearchParams(window.location.search).get("id") || "P001";
+
+
+let patient = patients[id];
+
+
+if(!patient){
+
+patient = patients.P001;
+
+}
+
+
+
+
+// ================= LOAD DETAILS =================
+
+
+document.getElementById("pName").innerHTML=patient.name;
+
+document.getElementById("pId").innerHTML=id;
+
+document.getElementById("pAge").innerHTML=patient.age;
+
+document.getElementById("pGender").innerHTML=patient.gender;
+
+document.getElementById("pBlood").innerHTML=patient.blood;
+
+document.getElementById("pDisease").innerHTML=patient.disease;
+
+document.getElementById("pStatus").innerHTML=patient.status;
+
+document.getElementById("pPhone").innerHTML=patient.phone;
+
+document.getElementById("pEmail").innerHTML=patient.email;
+
+document.getElementById("pAddress").innerHTML=patient.address;
+
+
+
+
+document.getElementById("emergencyName").innerHTML=patient.emergencyName;
+
+document.getElementById("relation").innerHTML=patient.relation;
+
+document.getElementById("emergencyPhone").innerHTML=patient.emergencyPhone;
+
+
+
+
+document.getElementById("bp").innerHTML=patient.bp;
+
+document.getElementById("heartRate").innerHTML=patient.heartRate;
+
+document.getElementById("temperature").innerHTML=patient.temperature;
+
+document.getElementById("oxygen").innerHTML=patient.oxygen;
+
+
+
+
+document.getElementById("smoking").innerHTML=patient.smoking;
+
+document.getElementById("alcohol").innerHTML=patient.alcohol;
+
+document.getElementById("exercise").innerHTML=patient.exercise;
+
+document.getElementById("diet").innerHTML=patient.diet;
+
+document.getElementById("sleep").innerHTML=patient.sleep;
+
+
+
+
+document.getElementById("doctorNotes").value=patient.notes;
+
+document.getElementById("remarks").innerHTML=patient.remarks;
+
+document.getElementById("nextDate").innerHTML=patient.nextDate;
+
+document.getElementById("nextTime").innerHTML=patient.nextTime;
+
+document.getElementById("room").innerHTML=patient.room;
+
+
+
+
+document.getElementById("allergies").innerHTML =
+patient.allergies.map(a=>`<li>${a}</li>`).join("");
+
+
+
+
+document.getElementById("appointments").innerHTML =
+patient.appointments.map(a=>`
+<tr>
+<td>${a[0]}</td>
+<td>${a[1]}</td>
+<td>${a[2]}</td>
+<td>${a[3]}</td>
+</tr>
+`).join("");
+
+
+
+
+document.getElementById("medicalHistory").innerHTML =
+patient.history.map(a=>`
+<tr>
+<td>${a[0]}</td>
+<td>${a[1]}</td>
+<td>${a[2]}</td>
+<td>${a[3]}</td>
+</tr>
+`).join("");
+
+
+
+
+document.getElementById("medicines").innerHTML =
+patient.medicines.map(a=>`
+<tr>
+<td>${a[0]}</td>
+<td>${a[1]}</td>
+<td>${a[2]}</td>
+<td>${a[3]}</td>
+</tr>
+`).join("");
+
+
+
+
+document.getElementById("reports").innerHTML =
+patient.reports.map(a=>`
+<tr>
+<td>${a[0]}</td>
+<td>${a[1]}</td>
+<td>${a[2]}</td>
+<td>${a[3]}</td>
+</tr>
+`).join("");
+
+
+
+
+document.getElementById("billing").innerHTML =
+patient.billing.map(a=>`
+<tr>
+<td>${a[0]}</td>
+<td>${a[1]}</td>
+</tr>
+`).join("");
+
+
+
+
+document.getElementById("timeline").innerHTML =
+patient.timeline.map(t=>`<li>${t}</li>`).join("");
+
+
+
+
+
+document.getElementById("saveNotes").onclick=function(){
+
+alert("Doctor notes saved successfully");
+
+};
+
+
+</script>
+
+
+</body>
+
+</html>

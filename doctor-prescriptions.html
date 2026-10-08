@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor - Prescriptions</title>
+
+    <!-- SAME ADMIN THEME -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+    <style>
+        .page-title {
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 16px;
+            background: #0b6684;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            opacity: 0.9;
+        }
+
+        .patient-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            padding: 13px;
+            background: #f8fafb;
+            border: 1px solid #e3e8ea;
+            border-radius: 8px;
+        }
+
+        .summary-label {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .summary-value {
+            display: block;
+            word-break: break-word;
+        }
+
+        .medicine-row {
+            border: 1px solid #dfe5e8;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 16px;
+            background: #fafcfd;
+        }
+
+        .medicine-row h4 {
+            margin-top: 0;
+            color: #0b6684;
+        }
+
+        .medicine-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ccd5d9;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .medicine-input:focus {
+            outline: none;
+            border-color: #0b6684;
+        }
+
+        .field-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .field-group {
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 8px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .checkbox-option input {
+            cursor: pointer;
+        }
+
+        .duration-input {
+            width: 180px;
+            padding: 10px;
+            border: 1px solid #ccd5d9;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .primary-btn,
+        .secondary-btn,
+        .danger-btn {
+            border: none;
+            padding: 10px 17px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .primary-btn {
+            background: #0b6684;
+            color: white;
+        }
+
+        .secondary-btn {
+            background: #e8f1f4;
+            color: #0b6684;
+        }
+
+        .danger-btn {
+            background: #f4dddd;
+            color: #9d2c2c;
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover,
+        .danger-btn:hover {
+            opacity: 0.9;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 14px;
+        }
+
+        .success-message {
+            background: #e9f7ef;
+            color: #207044;
+        }
+
+        .error-message {
+            background: #fdecec;
+            color: #a22a2a;
+        }
+
+        .info-message {
+            background: #eef6f9;
+            color: #0b6684;
+        }
+
+        .routing-box {
+            padding: 15px;
+            border-left: 4px solid #0b6684;
+            background: #eef6f9;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .routing-box strong {
+            color: #0b6684;
+        }
+
+        .prescription-card {
+            border: 1px solid #dfe5e8;
+            border-radius: 8px;
+            padding: 17px;
+            margin-bottom: 15px;
+            background: #fafcfd;
+        }
+
+        .prescription-card h4 {
+            margin: 0 0 8px;
+            color: #0b6684;
+        }
+
+        .prescription-meta {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .medicine-display {
+            border-top: 1px solid #e5e8ea;
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+
+        .medicine-display strong {
+            color: #333;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #e8f4f8;
+            color: #0b6684;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .empty-message {
+            color: #777;
+            padding: 10px 0;
+        }
+
+        .status-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .status-badge.pending {
+            background: #fff4d6;
+            color: #8a6500;
+        }
+
+        .status-badge.dispensed {
+            background: #e9f7ef;
+            color: #207044;
+        }
+
+        .status-badge.sent {
+            background: #eef6f9;
+            color: #0b6684;
+        }
+
+        .recipient-line {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .access-box {
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+        .access-box h2 {
+            color: #a22a2a;
+        }
+
+        @media (max-width: 600px) {
+            .duration-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+
+    <div class="logo">
+        Hospital Management System
+    </div>
+
+    <div class="topbar-right">
+        <span id="doctorTopName">Doctor</span>
+
+        <a href="../index.html" onclick="logoutDoctor()">
+            Logout
+        </a>
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <h3>Doctor Panel</h3>
+
+        <a href="doctor-dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="doctor-patients.html">
+            My Patients
+        </a>
+
+        <a href="doctor-appointments.html">
+            Appointments
+        </a>
+
+        <a href="doctor-records.html">
+            Records
+        </a>
+
+        <a href="doctor-prescriptions.html">
+            Prescriptions
+        </a>
+
+        <a href="doctor-access-requests.html">
+            Access Requests
+        </a>
+
+        <a href="doctor-profile.html">
+            My Profile
+        </a>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+    <main class="content">
+
+        <a
+            href="doctor-patients.html"
+            class="back-btn"
+        >
+            ← Back to My Patients
+        </a>
+
+
+        <!-- PAGE TITLE -->
+        <div class="card page-title">
+
+            <h2>
+                Prescriptions
+            </h2>
+
+            <p>
+                Create and manage prescriptions for your patients.
+            </p>
+
+        </div>
+
+
+        <!-- PATIENT INFORMATION -->
+        <div
+            id="patientSection"
+            class="card section-card"
+        >
+
+            <h3>
+                Patient Information
+            </h3>
+
+            <div class="patient-summary">
+
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Patient ID
+                    </span>
+
+                    <span
+                        id="patientId"
+                        class="summary-value"
+                    >
+                        -
+                    </span>
+                </div>
+
+
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Patient Name
+                    </span>
+
+                    <span
+                        id="patientName"
+                        class="summary-value"
+                    >
+                        -
+                    </span>
+                </div>
+
+
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Patient Type
+                    </span>
+
+                    <span
+                        id="patientType"
+                        class="summary-value"
+                    >
+                        -
+                    </span>
+                </div>
+
+
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Department
+                    </span>
+
+                    <span
+                        id="department"
+                        class="summary-value"
+                    >
+                        -
+                    </span>
+                </div>
+
+
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Room Number
+                    </span>
+
+                    <span
+                        id="roomNumber"
+                        class="summary-value"
+                    >
+                        -
+                    </span>
+                </div>
+
+
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Duty Nurse
+                    </span>
+
+                    <span
+                        id="dutyNurse"
+                        class="summary-value"
+                    >
+                        -
+                    </span>
+                </div>
+
+
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Assigned Doctor
+                    </span>
+
+                    <span
+                        id="assignedDoctor"
+                        class="summary-value"
+                    >
+                        -
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- ROUTING -->
+            <div
+                id="routingBox"
+                class="routing-box"
+            >
+                <strong>
+                    Prescription Routing:
+                </strong>
+
+                <span id="routingText">
+                    -
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- NO PATIENT SELECTED -->
+        <div
+            id="noPatientCard"
+            class="card access-box hidden"
+        >
+
+            <h2>
+                Select a Patient
+            </h2>
+
+            <p>
+                Select one of your assigned patients below to create a prescription.
+            </p>
+
+            <div style="max-width:600px;margin:20px auto 0;text-align:left;">
+                <label for="prescriptionPatientSelect" class="field-label">
+                    My Patients
+                </label>
+
+                <select
+                    id="prescriptionPatientSelect"
+                    class="medicine-input"
+                    style="background:white;"
+                >
+                    <option value="">Select a patient</option>
+                </select>
+
+                <div
+                    id="prescriptionPatientListMessage"
+                    class="message info-message"
+                    style="display:none;"
+                ></div>
+
+                <div class="button-row" style="justify-content:center;">
+                    <button
+                        type="button"
+                        class="primary-btn"
+                        onclick="openSelectedPatient()"
+                    >
+                        Continue with Patient
+                    </button>
+
+                    <a
+                        href="doctor-patients.html"
+                        class="secondary-btn"
+                        style="display:inline-block;text-decoration:none;"
+                    >
+                        View My Patients
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ACCESS DENIED -->
+        <div
+            id="accessDenied"
+            class="card access-box hidden"
+        >
+
+            <h2>
+                Access Required
+            </h2>
+
+            <p id="accessDeniedText">
+                You do not have permission to create a prescription for this patient.
+            </p>
+
+        </div>
+
+
+        <!-- PRESCRIPTION FORM -->
+        <div
+            id="prescriptionFormCard"
+            class="card section-card"
+        >
+
+            <h3>
+                New Prescription
+            </h3>
+
+            <p>
+                Add one or more medicines and specify the dosage schedule.
+            </p>
+
+
+            <div id="medicineList">
+
+                <!-- MEDICINE ROW WILL BE CREATED BY JAVASCRIPT -->
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="addMedicine()"
+                >
+                    + Add Medicine
+                </button>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="savePrescription()"
+                >
+                    Save Prescription
+                </button>
+
+            </div>
+
+
+            <div
+                id="prescriptionMessage"
+                class="message"
+            ></div>
+
+        </div>
+
+
+        <!-- PRESCRIPTION HISTORY -->
+        <div
+            id="historyCard"
+            class="card section-card"
+        >
+
+            <h3>
+                Prescription History
+            </h3>
+
+            <div id="prescriptionHistory">
+
+                <p class="empty-message">
+                    No prescriptions found.
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <p>
+        © Hospital Management System
+    </p>
+
+</footer>
+
+
+<script src="../security.js"></script>
+
+
+<script>
+
+    /* =========================================================
+       DOCTOR SESSION
+       ========================================================= */
+
+    function getLoggedInDoctor() {
+
+        /*
+         * Admin-created doctors are stored in
+         * sessionStorage["currentStaff"] at login.
+         * Use the same doctor identity as My Patients.
+         */
+        const currentStaffRaw =
+            sessionStorage.getItem("currentStaff");
+
+        if (currentStaffRaw) {
+            try {
+                const currentStaff =
+                    JSON.parse(currentStaffRaw);
+
+                if (
+                    currentStaff &&
+                    typeof currentStaff === "object"
+                ) {
+                    return currentStaff;
+                }
+            } catch (error) {
+                // Continue with compatibility session keys.
+            }
+        }
+
+        const possibleKeys = [
+            "loggedInDoctor",
+            "doctorSession",
+            "currentDoctor"
+        ];
+
+        for (const key of possibleKeys) {
+
+            const raw =
+                localStorage.getItem(key);
+
+            if (!raw) {
+                continue;
+            }
+
+            try {
+
+                const parsed =
+                    JSON.parse(raw);
+
+                if (
+                    parsed &&
+                    typeof parsed === "object"
+                ) {
+
+                    return parsed;
+
+                }
+
+            } catch (error) {
+
+                return {
+                    username: raw,
+                    name: raw
+                };
+
+            }
+
+        }
+
+
+        const hmsSession =
+            localStorage.getItem("hmsSession");
+
+
+        if (hmsSession) {
+
+            try {
+
+                const session =
+                    JSON.parse(hmsSession);
+
+
+                if (
+                    session &&
+                    (
+                        normalize(session.role) === "doctor" ||
+                        normalize(session.userType) === "doctor" ||
+                        normalize(session.userRole) === "doctor"
+                    )
+                ) {
+
+                    return session;
+
+                }
+
+            } catch (error) {
+                // Ignore invalid session.
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    const currentDoctor =
+        getLoggedInDoctor();
+
+
+    function getDoctorId(doctor) {
+
+        if (!doctor) {
+            return "";
+        }
+
+        return String(
+            doctor.doctorId ||
+            doctor.id ||
+            doctor.userId ||
+            doctor.username ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getDoctorName(doctor) {
+
+        if (!doctor) {
+            return "Doctor";
+        }
+
+        return String(
+            doctor.name ||
+            doctor.fullName ||
+            doctor.doctorName ||
+            doctor.username ||
+            "Doctor"
+        ).trim();
+
+    }
+
+
+    const currentDoctorId =
+        getDoctorId(currentDoctor);
+
+
+    const currentDoctorName =
+        getDoctorName(currentDoctor);
+
+
+    document.getElementById(
+        "doctorTopName"
+    ).textContent =
+        currentDoctorName;
+
+
+    /* =========================================================
+       HELPERS
+       ========================================================= */
+
+    function normalize(value) {
+
+        return String(value || "")
+            .trim()
+            .toLowerCase();
+
+    }
+
+
+    function getArray(key) {
+
+        try {
+
+            const value =
+                JSON.parse(
+                    localStorage.getItem(key) || "[]"
+                );
+
+            return Array.isArray(value)
+                ? value
+                : [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function saveArray(key, value) {
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(value)
+        );
+
+    }
+
+
+    function escapeHTML(value) {
+
+        if (
+            value === null ||
+            value === undefined ||
+            value === ""
+        ) {
+
+            return "-";
+
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function getPatientId(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+        return String(
+            patient.patientId ||
+            patient.id ||
+            patient.patientID ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getPatientName(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+        return String(
+            patient.fullName ||
+            patient.name ||
+            patient.patientName ||
+            patient.username ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getPatientType(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+        return String(
+            patient.patientType ||
+            patient.type ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getAssignedDoctorId(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+        return String(
+            patient.assignedDoctorId ||
+            patient.doctorId ||
+            patient.assignedDoctorID ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getAssignedDoctorName(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+        return String(
+            patient.assignedDoctorName ||
+            patient.assignedDoctor ||
+            patient.doctorName ||
+            patient.doctor ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getRoomNumber(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+        return String(
+            patient.roomNumber ||
+            patient.room ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getDepartment(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+        return String(
+            patient.department ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getDutyNurse(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+        return String(
+            patient.dutyNurseName ||
+            patient.dutyNurse ||
+            patient.assignedNurseName ||
+            patient.assignedNurse ||
+            ""
+        ).trim();
+
+    }
+
+
+    function todayDate() {
+
+        const now =
+            new Date();
+
+        const year =
+            now.getFullYear();
+
+        const month =
+            String(
+                now.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                now.getDate()
+            ).padStart(2, "0");
+
+        return (
+            year +
+            "-" +
+            month +
+            "-" +
+            day
+        );
+
+    }
+
+
+    /* =========================================================
+       MY PATIENTS SELECTOR
+       ========================================================= */
+
+    function getMyPatientsForPrescription() {
+
+        const allPatients =
+            getArray("patients");
+
+        if (!currentDoctor) {
+            return [];
+        }
+
+        return allPatients.filter(function(item) {
+
+            const assignedId =
+                getAssignedDoctorId(item);
+
+            const assignedName =
+                getAssignedDoctorName(item);
+
+            const idMatches =
+                assignedId &&
+                currentDoctorId &&
+                normalize(assignedId) ===
+                normalize(currentDoctorId);
+
+            const nameMatches =
+                assignedName &&
+                currentDoctorName &&
+                normalize(assignedName) ===
+                normalize(currentDoctorName);
+
+            return idMatches || nameMatches;
+        });
+    }
+
+
+    function populatePrescriptionPatientSelector() {
+
+        const select =
+            document.getElementById(
+                "prescriptionPatientSelect"
+            );
+
+        const message =
+            document.getElementById(
+                "prescriptionPatientListMessage"
+            );
+
+        if (!select) {
+            return;
+        }
+
+        select.innerHTML =
+            '<option value="">Select a patient</option>';
+
+        const myPatients =
+            getMyPatientsForPrescription();
+
+        myPatients.sort(function(a, b) {
+            return getPatientName(a).localeCompare(
+                getPatientName(b)
+            );
+        });
+
+        myPatients.forEach(function(item) {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                getPatientId(item);
+
+            option.textContent =
+                getPatientId(item) +
+                " — " +
+                (getPatientName(item) || "Unnamed Patient");
+
+            select.appendChild(option);
+        });
+
+        if (message) {
+
+            if (!myPatients.length) {
+                message.textContent =
+                    "No patients are currently assigned to this doctor.";
+                message.style.display = "block";
+            } else {
+                message.style.display = "none";
+            }
+        }
+    }
+
+
+    function openSelectedPatient() {
+
+        const select =
+            document.getElementById(
+                "prescriptionPatientSelect"
+            );
+
+        if (!select || !select.value) {
+
+            showMessage(
+                "prescriptionPatientListMessage",
+                "Please select a patient first.",
+                "error-message"
+            );
+
+            return;
+        }
+
+        window.location.href =
+            "doctor-prescriptions.html?patientId=" +
+            encodeURIComponent(select.value);
+    }
+
+
+    /* =========================================================
+       GET PATIENT FROM URL
+       ========================================================= */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const requestedPatientId =
+        params.get("patientId") ||
+        params.get("id") ||
+        "";
+
+
+    const patients =
+        getArray("patients");
+
+
+    const patient =
+        patients.find(function(item) {
+
+            return normalize(
+                getPatientId(item)
+            ) === normalize(
+                requestedPatientId
+            );
+
+        });
+
+
+    /* =========================================================
+       OWNER CHECK
+       ========================================================= */
+
+    function isOwnerDoctor() {
+
+        if (
+            !patient ||
+            !currentDoctor
+        ) {
+
+            return false;
+
+        }
+
+
+        const assignedId =
+            getAssignedDoctorId(patient);
+
+
+        const assignedName =
+            getAssignedDoctorName(patient);
+
+
+        if (
+            assignedId &&
+            currentDoctorId &&
+            normalize(assignedId) ===
+            normalize(currentDoctorId)
+        ) {
+
+            return true;
+
+        }
+
+
+        if (
+            assignedName &&
+            currentDoctorName &&
+            normalize(assignedName) ===
+            normalize(currentDoctorName)
+        ) {
+
+            return true;
+
+        }
+
+
+        return false;
+
+    }
+
+
+    /* =========================================================
+       APPROVED ACCESS CHECK
+       ========================================================= */
+
+    function hasAcceptedAccess() {
+
+        if (
+            !patient ||
+            !currentDoctor
+        ) {
+
+            return false;
+
+        }
+
+
+        if (isOwnerDoctor()) {
+
+            return true;
+
+        }
+
+
+        const requests =
+            getArray(
+                "doctorAccessRequests"
+            );
+
+
+        const patientId =
+            getPatientId(patient);
+
+
+        const ownerId =
+            getAssignedDoctorId(patient);
+
+
+        const ownerName =
+            getAssignedDoctorName(patient);
+
+
+        return requests.some(function(request) {
+
+            const requestPatientId =
+                request.patientId ||
+                request.patientID;
+
+
+            const requesterId =
+                request.requesterDoctorId ||
+                request.requesterId ||
+                request.doctorId;
+
+
+            const requestOwnerId =
+                request.ownerDoctorId ||
+                request.ownerId;
+
+
+            const requestOwnerName =
+                request.ownerDoctorName ||
+                request.ownerName;
+
+
+            const status =
+                normalize(request.status);
+
+
+            const patientMatches =
+                normalize(
+                    requestPatientId
+                ) === normalize(
+                    patientId
+                );
+
+
+            const requesterMatches =
+                normalize(
+                    requesterId
+                ) === normalize(
+                    currentDoctorId
+                );
+
+
+            const ownerMatches =
+                (
+                    ownerId &&
+                    requestOwnerId &&
+                    normalize(
+                        requestOwnerId
+                    ) === normalize(
+                        ownerId
+                    )
+                )
+                ||
+                (
+                    ownerName &&
+                    requestOwnerName &&
+                    normalize(
+                        requestOwnerName
+                    ) === normalize(
+                        ownerName
+                    )
+                );
+
+
+            return (
+                patientMatches &&
+                requesterMatches &&
+                ownerMatches &&
+                status === "accepted"
+            );
+
+        });
+
+    }
+
+
+    /* =========================================================
+       DISPLAY PATIENT
+       ========================================================= */
+
+    function displayPatient() {
+
+        if (!patient) {
+            return;
+        }
+
+
+        document.getElementById(
+            "patientId"
+        ).textContent =
+            getPatientId(patient) || "-";
+
+
+        document.getElementById(
+            "patientName"
+        ).textContent =
+            getPatientName(patient) || "-";
+
+
+        document.getElementById(
+            "patientType"
+        ).textContent =
+            getPatientType(patient) || "-";
+
+
+        document.getElementById(
+            "department"
+        ).textContent =
+            getDepartment(patient) || "-";
+
+
+        document.getElementById(
+            "roomNumber"
+        ).textContent =
+            getRoomNumber(patient) || "-";
+
+
+        document.getElementById(
+            "dutyNurse"
+        ).textContent =
+            getDutyNurse(patient) || "-";
+
+
+        document.getElementById(
+            "assignedDoctor"
+        ).textContent =
+            getAssignedDoctorName(patient) ||
+            getAssignedDoctorId(patient) ||
+            "-";
+
+
+        updateRouting();
+
+    }
+
+
+    /* =========================================================
+       PRESCRIPTION ROUTING
+       ========================================================= */
+
+    function isInpatient() {
+
+        const type =
+            normalize(
+                getPatientType(patient)
+            );
+
+
+        return (
+            type === "inpatient" ||
+            type === "in-patient" ||
+            type === "in patient"
+        );
+
+    }
+
+
+    function updateRouting() {
+
+        const routingText =
+            document.getElementById(
+                "routingText"
+            );
+
+
+        if (!patient) {
+
+            routingText.textContent =
+                "-";
+
+            return;
+
+        }
+
+
+        if (isInpatient()) {
+
+            const department =
+                getDepartment(patient) ||
+                "Department not assigned";
+
+
+            const nurse =
+                getDutyNurse(patient) ||
+                "Duty nurse not assigned";
+
+
+            const room =
+                getRoomNumber(patient) ||
+                "Room not assigned";
+
+
+            routingText.innerHTML =
+                `
+                    Doctor →
+                    ${escapeHTML(department)}
+                    →
+                    Duty Nurse:
+                    ${escapeHTML(nurse)}
+                    →
+                    Patient
+                    (Room:
+                    ${escapeHTML(room)})
+                `;
+
+        } else {
+
+            routingText.innerHTML =
+                `
+                    Doctor →
+                    Pharmacy →
+                    Patient
+                `;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       MEDICINE ROW
+       ========================================================= */
+
+    let medicineCounter = 0;
+
+
+    function addMedicine() {
+
+        medicineCounter++;
+
+
+        const id =
+            medicineCounter;
+
+
+        const medicineList =
+            document.getElementById(
+                "medicineList"
+            );
+
+
+        const medicineRow =
+            document.createElement(
+                "div"
+            );
+
+
+        medicineRow.className =
+            "medicine-row";
+
+
+        medicineRow.dataset.medicineId =
+            id;
+
+
+        medicineRow.innerHTML =
+            `
+                <h4>
+                    Medicine ${id}
+                </h4>
+
+                <div class="field-group">
+
+                    <label class="field-label">
+                        Medicine Name
+                    </label>
+
+                    <input
+                        type="text"
+                        class="medicine-input medicine-name"
+                        placeholder="Enter medicine name"
+                    >
+
+                </div>
+
+
+                <div class="field-group">
+
+                    <label class="field-label">
+                        Time
+                    </label>
+
+                    <div class="checkbox-group">
+
+                        <label class="checkbox-option">
+                            <input
+                                type="checkbox"
+                                class="medicine-time"
+                                value="Morning"
+                            >
+                            Morning
+                        </label>
+
+
+                        <label class="checkbox-option">
+                            <input
+                                type="checkbox"
+                                class="medicine-time"
+                                value="Afternoon"
+                            >
+                            Afternoon
+                        </label>
+
+
+                        <label class="checkbox-option">
+                            <input
+                                type="checkbox"
+                                class="medicine-time"
+                                value="Evening"
+                            >
+                            Evening
+                        </label>
+
+
+                        <label class="checkbox-option">
+                            <input
+                                type="checkbox"
+                                class="medicine-time"
+                                value="Night"
+                            >
+                            Night
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field-group">
+
+                    <label class="field-label">
+                        Food Instruction
+                    </label>
+
+                    <div class="checkbox-group">
+
+                        <label class="checkbox-option">
+                            <input
+                                type="checkbox"
+                                class="food-instruction"
+                                value="Before Food"
+                            >
+                            Before Food
+                        </label>
+
+
+                        <label class="checkbox-option">
+                            <input
+                                type="checkbox"
+                                class="food-instruction"
+                                value="After Food"
+                            >
+                            After Food
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field-group">
+
+                    <label class="field-label">
+                        Duration
+                    </label>
+
+                    <input
+                        type="text"
+                        class="duration-input medicine-duration"
+                        placeholder="e.g. 5 days"
+                    >
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="danger-btn"
+                    onclick="removeMedicine(this)"
+                >
+                    Remove Medicine
+                </button>
+            `;
+
+
+        medicineList.appendChild(
+            medicineRow
+        );
+
+    }
+
+
+    function removeMedicine(button) {
+
+        const row =
+            button.closest(
+                ".medicine-row"
+            );
+
+
+        if (row) {
+
+            row.remove();
+
+        }
+
+
+        renumberMedicines();
+
+    }
+
+
+    function renumberMedicines() {
+
+        const rows =
+            document.querySelectorAll(
+                ".medicine-row"
+            );
+
+
+        rows.forEach(function(row, index) {
+
+            const number =
+                index + 1;
+
+
+            const heading =
+                row.querySelector("h4");
+
+
+            if (heading) {
+
+                heading.textContent =
+                    "Medicine " + number;
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       READ MEDICINES FROM FORM
+       ========================================================= */
+
+    function collectMedicines() {
+
+        const rows =
+            document.querySelectorAll(
+                ".medicine-row"
+            );
+
+
+        const medicines = [];
+
+
+        for (
+            let index = 0;
+            index < rows.length;
+            index++
+        ) {
+
+            const row =
+                rows[index];
+
+
+            const medicineName =
+                row.querySelector(
+                    ".medicine-name"
+                ).value.trim();
+
+
+            const duration =
+                row.querySelector(
+                    ".medicine-duration"
+                ).value.trim();
+
+
+            const timeBoxes =
+                row.querySelectorAll(
+                    ".medicine-time:checked"
+                );
+
+
+            const foodBoxes =
+                row.querySelectorAll(
+                    ".food-instruction:checked"
+                );
+
+
+            const times =
+                Array.from(
+                    timeBoxes
+                ).map(function(box) {
+
+                    return box.value;
+
+                });
+
+
+            const foodInstructions =
+                Array.from(
+                    foodBoxes
+                ).map(function(box) {
+
+                    return box.value;
+
+                });
+
+
+            if (!medicineName) {
+
+                return {
+                    error:
+                        "Please enter the medicine name for Medicine " +
+                        (index + 1) +
+                        "."
+
+                };
+
+            }
+
+
+            if (!times.length) {
+
+                return {
+                    error:
+                        "Please select at least one time for " +
+                        medicineName +
+                        "."
+
+                };
+
+            }
+
+
+            if (!foodInstructions.length) {
+
+                return {
+                    error:
+                        "Please select Before Food or After Food for " +
+                        medicineName +
+                        "."
+
+                };
+
+            }
+
+
+            if (!duration) {
+
+                return {
+                    error:
+                        "Please enter the duration for " +
+                        medicineName +
+                        "."
+
+                };
+
+            }
+
+
+            medicines.push({
+
+                medicineName:
+                    medicineName,
+
+                times:
+                    times,
+
+                foodInstructions:
+                    foodInstructions,
+
+                duration:
+                    duration
+
+            });
+
+        }
+
+
+        if (!medicines.length) {
+
+            return {
+                error:
+                    "Please add at least one medicine."
+            };
+
+        }
+
+
+        return {
+            medicines:
+                medicines
+        };
+
+    }
+
+
+    /* =========================================================
+       SAVE PRESCRIPTION
+       ========================================================= */
+
+    function savePrescription() {
+
+        if (!currentDoctor) {
+
+            showMessage(
+                "prescriptionMessage",
+                "Please log in as a doctor first.",
+                "error-message"
+            );
+
+            return;
+
+        }
+
+
+        if (!patient) {
+
+            showMessage(
+                "prescriptionMessage",
+                "Please select a patient first.",
+                "error-message"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Only the assigned doctor can create
+         * a prescription.
+         */
+
+        if (!isOwnerDoctor()) {
+
+            showMessage(
+                "prescriptionMessage",
+                "Only the patient's assigned doctor can create a prescription.",
+                "error-message"
+            );
+
+            return;
+
+        }
+
+
+        const result =
+            collectMedicines();
+
+
+        if (result.error) {
+
+            showMessage(
+                "prescriptionMessage",
+                result.error,
+                "error-message"
+            );
+
+            return;
+
+        }
+
+
+        const prescriptions =
+            getArray(
+                "prescriptions"
+            );
+
+
+        const now =
+            new Date();
+
+
+        const patientType =
+            getPatientType(patient);
+
+
+        const inpatient =
+            isInpatient();
+
+
+        /*
+         * Create prescription record.
+         */
+
+        const prescription = {
+
+            id:
+                "RX-" +
+                Date.now() +
+                "-" +
+                Math.floor(
+                    Math.random() * 10000
+                ),
+
+            prescriptionId:
+                "RX-" +
+                Date.now(),
+
+            patientId:
+                getPatientId(patient),
+
+            patientName:
+                getPatientName(patient),
+
+            doctorId:
+                currentDoctorId,
+
+            doctorName:
+                currentDoctorName,
+
+            patientType:
+                patientType,
+
+            department:
+                getDepartment(patient),
+
+            roomNumber:
+                getRoomNumber(patient),
+
+            dutyNurse:
+                getDutyNurse(patient),
+
+            dutyNurseName:
+                getDutyNurse(patient),
+
+            medicines:
+                result.medicines,
+
+            prescriptionDate:
+                todayDate(),
+
+            date:
+                todayDate(),
+
+            createdAt:
+                now.toISOString(),
+
+            // The receiving side can update these fields in localStorage.
+            // For outpatient prescriptions, Pharmacy owns the dispensing status.
+            // For inpatient prescriptions, the selected department forwards it
+            // to the duty nurse assigned for that day.
+            status:
+                "Pending",
+
+            pharmacyStatus:
+                inpatient ? "" : "Pending",
+
+            nurseStatus:
+                inpatient ? "Pending" : "",
+
+            routing:
+                inpatient
+                    ? "Doctor → " +
+                      (getDepartment(patient) || "Department") +
+                      " → Duty Nurse → Patient"
+                    : "Doctor → Pharmacy → Patient",
+
+            destination:
+                inpatient
+                    ? getDutyNurse(patient)
+                    : "Pharmacy",
+
+            destinationRole:
+                inpatient ? "Nurse" : "Pharmacy",
+
+            destinationDepartment:
+                inpatient ? getDepartment(patient) : "",
+
+            dutyNurseForDate:
+                inpatient ? getDutyNurse(patient) : "",
+
+            prescriptionStatus:
+                "Pending"
+
+        };
+
+
+        prescriptions.push(
+            prescription
+        );
+
+
+        saveArray(
+            "prescriptions",
+            prescriptions
+        );
+
+
+        /*
+         * Add a notification so the receiving
+         * side can later identify the prescription.
+         */
+
+        createPrescriptionNotification(
+            prescription
+        );
+
+
+        showMessage(
+            "prescriptionMessage",
+            inpatient
+                ? "Prescription submitted to " +
+                  (getDepartment(patient) || "the department") +
+                  " for the duty nurse."
+                : "Prescription submitted to Pharmacy. Status is now Pending and will update here when Pharmacy dispenses it.",
+            "success-message"
+        );
+
+
+        /*
+         * Clear form and create a fresh
+         * medicine row.
+         */
+
+        document.getElementById(
+            "medicineList"
+        ).innerHTML = "";
+
+
+        medicineCounter = 0;
+
+
+        addMedicine();
+
+
+        loadPrescriptionHistory();
+
+    }
+
+
+    /* =========================================================
+       NOTIFICATION
+       ========================================================= */
+
+    function createPrescriptionNotification(
+        prescription
+    ) {
+
+        const notifications =
+            getArray(
+                "notifications"
+            );
+
+
+        const patientId =
+            prescription.patientId;
+
+
+        const patientName =
+            prescription.patientName;
+
+
+        if (
+            prescription.patientType &&
+            isInpatient()
+        ) {
+
+            notifications.push({
+
+                id:
+                    "NOTIF-RX-" +
+                    Date.now(),
+
+                type:
+                    "Prescription",
+
+                category:
+                    "Prescription",
+
+                recipientRole:
+                    "Nurse",
+
+                recipientId:
+                    prescription.dutyNurse || "",
+
+                department:
+                    prescription.department || "",
+
+                patientId:
+                    patientId,
+
+                patientName:
+                    patientName,
+
+                message:
+                    "New inpatient prescription for " +
+                    patientName +
+                    " (" +
+                    patientId +
+                    ") — Department: " +
+                    (prescription.department || "-") +
+                    " — Duty Nurse: " +
+                    (prescription.dutyNurse || "-") +
+                    " — Room: " +
+                    (prescription.roomNumber || "-"),
+
+                prescriptionId:
+                    prescription.prescriptionId,
+
+                status:
+                    "Unread",
+
+                createdAt:
+                    new Date().toISOString()
+
+            });
+
+        } else {
+
+            notifications.push({
+
+                id:
+                    "NOTIF-RX-" +
+                    Date.now(),
+
+                type:
+                    "Prescription",
+
+                category:
+                    "Prescription",
+
+                recipientRole:
+                    "Pharmacy",
+
+                recipientId:
+                    "Pharmacy",
+
+                department:
+                    "",
+
+                patientId:
+                    patientId,
+
+                patientName:
+                    patientName,
+
+                message:
+                    "New outpatient prescription for " +
+                    patientName +
+                    " (" +
+                    patientId +
+                    ") — Please dispense the prescribed medicines.",
+
+                prescriptionId:
+                    prescription.prescriptionId,
+
+                prescriptionStatus:
+                    "Pending",
+
+                status:
+                    "Unread",
+
+                createdAt:
+                    new Date().toISOString()
+
+            });
+
+        }
+
+
+        saveArray(
+            "notifications",
+            notifications
+        );
+
+    }
+
+
+    /* =========================================================
+       PRESCRIPTION HISTORY
+       ========================================================= */
+
+    function loadPrescriptionHistory() {
+
+        const container =
+            document.getElementById(
+                "prescriptionHistory"
+            );
+
+
+        if (!patient) {
+
+            container.innerHTML =
+                `
+                    <p class="empty-message">
+                        No patient selected.
+                    </p>
+                `;
+
+            return;
+
+        }
+
+
+        const patientId =
+            getPatientId(patient);
+
+
+        const prescriptions =
+            getArray(
+                "prescriptions"
+            )
+            .filter(function(item) {
+
+                return normalize(
+                    item.patientId
+                ) === normalize(
+                    patientId
+                );
+
+            })
+            .sort(function(a, b) {
+
+                return new Date(
+                    b.createdAt ||
+                    b.date ||
+                    b.prescriptionDate
+                ) -
+                new Date(
+                    a.createdAt ||
+                    a.date ||
+                    a.prescriptionDate
+                );
+
+            });
+
+
+        if (!prescriptions.length) {
+
+            container.innerHTML =
+                `
+                    <p class="empty-message">
+                        No prescriptions found for this patient.
+                    </p>
+                `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            prescriptions.map(function(
+                prescription
+            ) {
+
+                const medicines =
+                    Array.isArray(
+                        prescription.medicines
+                    )
+                        ? prescription.medicines
+                        : [];
+
+
+                return `
+                    <div class="prescription-card">
+
+                        <h4>
+                            Prescription
+                            ${escapeHTML(
+                                prescription.prescriptionId ||
+                                prescription.id ||
+                                "-"
+                            )}
+                        </h4>
+
+
+                        <div class="prescription-meta">
+
+                            Date:
+                            ${escapeHTML(
+                                prescription.prescriptionDate ||
+                                prescription.date ||
+                                "-"
+                            )}
+
+                            |
+                            Doctor:
+                            ${escapeHTML(
+                                prescription.doctorName ||
+                                prescription.doctorId ||
+                                "-"
+                            )}
+
+                            |
+                            Status:
+                            <span class="status-badge ${normalize(
+                                prescription.pharmacyStatus ||
+                                prescription.nurseStatus ||
+                                prescription.prescriptionStatus ||
+                                prescription.status ||
+                                "Pending"
+                            )}">
+                                ${escapeHTML(
+                                    prescription.pharmacyStatus ||
+                                    prescription.nurseStatus ||
+                                    prescription.prescriptionStatus ||
+                                    prescription.status ||
+                                    "Pending"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="prescription-meta">
+
+                            Patient Type:
+                            ${escapeHTML(
+                                prescription.patientType ||
+                                "-"
+                            )}
+
+                            |
+                            Department:
+                            ${escapeHTML(
+                                prescription.department ||
+                                "-"
+                            )}
+
+                            |
+                            Room:
+                            ${escapeHTML(
+                                prescription.roomNumber ||
+                                "-"
+                            )}
+
+                        </div>
+
+
+                        <div class="prescription-meta">
+
+                            Routing:
+                            ${escapeHTML(
+                                prescription.routing ||
+                                "-"
+                            )}
+
+                            ${
+                                prescription.dutyNurse
+                                ? `
+                                    |
+                                    Duty Nurse:
+                                    ${escapeHTML(
+                                        prescription.dutyNurse
+                                    )}
+                                `
+                                : ""
+                            }
+
+                        </div>
+
+                        <div class="recipient-line">
+                            ${
+                                normalize(prescription.patientType) === "inpatient" ||
+                                normalize(prescription.patientType) === "in-patient" ||
+                                normalize(prescription.patientType) === "in patient"
+                                ? "Sent to Department: " +
+                                  escapeHTML(prescription.department || "-") +
+                                  " → Duty Nurse: " +
+                                  escapeHTML(
+                                      prescription.dutyNurseForDate ||
+                                      prescription.dutyNurse ||
+                                      "-"
+                                  )
+                                : "Sent to: Pharmacy"
+                            }
+                        </div>
+
+                        ${
+                            medicines.length
+                            ? medicines.map(function(
+                                medicine
+                            ) {
+
+                                return `
+                                    <div class="medicine-display">
+
+                                        <strong>
+                                            ${escapeHTML(
+                                                medicine.medicineName
+                                            )}
+                                        </strong>
+
+                                        <div>
+                                            Time:
+                                            ${escapeHTML(
+                                                Array.isArray(
+                                                    medicine.times
+                                                )
+                                                    ? medicine.times.join(
+                                                        ", "
+                                                    )
+                                                    : medicine.time ||
+                                                      "-"
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            Food:
+                                            ${escapeHTML(
+                                                Array.isArray(
+                                                    medicine.foodInstructions
+                                                )
+                                                    ? medicine.foodInstructions.join(
+                                                        ", "
+                                                    )
+                                                    : medicine.foodInstruction ||
+                                                      "-"
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            Duration:
+                                            ${escapeHTML(
+                                                medicine.duration ||
+                                                "-"
+                                            )}
+                                        </div>
+
+                                    </div>
+                                `;
+
+                            }).join("")
+                            : `
+                                <p>
+                                    No medicine details available.
+                                </p>
+                            `
+                        }
+
+                    </div>
+                `;
+
+            }).join("");
+
+    }
+
+
+    /* =========================================================
+       MESSAGE
+       ========================================================= */
+
+    function showMessage(
+        elementId,
+        text,
+        className
+    ) {
+
+        const element =
+            document.getElementById(
+                elementId
+            );
+
+
+        element.className =
+            "message " +
+            className;
+
+
+        element.textContent =
+            text;
+
+
+        element.style.display =
+            "block";
+
+
+        setTimeout(function() {
+
+            element.style.display =
+                "none";
+
+        }, 4500);
+
+    }
+
+
+    /* =========================================================
+       ACCESS CONTROL
+       ========================================================= */
+
+    function checkAccess() {
+
+        /*
+         * No patient in URL.
+         */
+
+        if (!requestedPatientId) {
+
+            document.getElementById(
+                "patientSection"
+            ).classList.add(
+                "hidden"
+            );
+
+            document.getElementById(
+                "prescriptionFormCard"
+            ).classList.add(
+                "hidden"
+            );
+
+            document.getElementById(
+                "historyCard"
+            ).classList.add(
+                "hidden"
+            );
+
+            document.getElementById(
+                "accessDenied"
+            ).classList.add(
+                "hidden"
+            );
+
+            document.getElementById(
+                "noPatientCard"
+            ).classList.remove(
+                "hidden"
+            );
+
+            populatePrescriptionPatientSelector();
+
+            return false;
+
+        }
+
+
+        /*
+         * Patient doesn't exist.
+         */
+
+        if (!patient) {
+
+            document.getElementById(
+                "patientSection"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "prescriptionFormCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "historyCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "accessDenied"
+            ).classList.remove(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "accessDeniedText"
+            ).textContent =
+                "The requested patient could not be found.";
+
+
+            return false;
+
+        }
+
+
+        /*
+         * Doctor not logged in.
+         */
+
+        if (!currentDoctor) {
+
+            document.getElementById(
+                "patientSection"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "prescriptionFormCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "historyCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "accessDenied"
+            ).classList.remove(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "accessDeniedText"
+            ).textContent =
+                "Please log in as a doctor to access prescriptions.";
+
+
+            return false;
+
+        }
+
+
+        /*
+         * Prescription editing is restricted
+         * to the assigned doctor.
+         *
+         * An approved Doctor B can view the
+         * patient's prescription history, but
+         * cannot create prescriptions.
+         */
+
+        if (!isOwnerDoctor()) {
+
+            if (hasAcceptedAccess()) {
+
+                displayPatient();
+
+
+                document.getElementById(
+                    "prescriptionFormCard"
+                ).classList.add(
+                    "hidden"
+                );
+
+
+                document.getElementById(
+                    "accessDenied"
+                ).classList.add(
+                    "hidden"
+                );
+
+
+                document.getElementById(
+                    "historyCard"
+                ).classList.remove(
+                    "hidden"
+                );
+
+
+                return true;
+
+            }
+
+
+            document.getElementById(
+                "patientSection"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "prescriptionFormCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "historyCard"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "accessDenied"
+            ).classList.remove(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "accessDeniedText"
+            ).textContent =
+                "Only the assigned doctor can create prescriptions for this patient. You do not currently have prescription access.";
+
+
+            return false;
+
+        }
+
+
+        /*
+         * Owner has full prescription access.
+         */
+
+        displayPatient();
+
+
+        document.getElementById(
+            "patientSection"
+        ).classList.remove(
+            "hidden"
+        );
+
+
+        document.getElementById(
+            "prescriptionFormCard"
+        ).classList.remove(
+            "hidden"
+        );
+
+
+        document.getElementById(
+            "historyCard"
+        ).classList.remove(
+            "hidden"
+        );
+
+
+        document.getElementById(
+            "accessDenied"
+        ).classList.add(
+            "hidden"
+        );
+
+
+        return true;
+
+    }
+
+
+    // If Pharmacy/Nurse updates the prescription in another tab,
+    // refresh the Doctor's visible status automatically.
+    window.addEventListener("storage", function(event) {
+        if (event.key === "prescriptions") {
+            loadPrescriptionHistory();
+        }
+    });
+
+    /* =========================================================
+       LOGOUT
+       ========================================================= */
+
+    function logoutDoctor() {
+
+        /*
+         * Do NOT clear patient, doctor,
+         * prescription or appointment data.
+         */
+
+        sessionStorage.removeItem(
+            "currentStaff"
+        );
+
+        sessionStorage.removeItem(
+            "pendingLogin"
+        );
+
+        sessionStorage.removeItem(
+            "userRole"
+        );
+
+        sessionStorage.removeItem(
+            "userPhone"
+        );
+
+        localStorage.removeItem(
+            "loggedInDoctor"
+        );
+
+        localStorage.removeItem(
+            "doctorSession"
+        );
+
+        localStorage.removeItem(
+            "currentDoctor"
+        );
+
+    }
+
+
+    /* =========================================================
+       INITIALIZE
+       ========================================================= */
+
+    function initializePage() {
+
+        const allowed =
+            checkAccess();
+
+
+        if (!allowed) {
+            return;
+        }
+
+
+        /*
+         * Load existing prescriptions.
+         */
+
+        loadPrescriptionHistory();
+
+
+        /*
+         * Only owner gets a new medicine row.
+         */
+
+        if (isOwnerDoctor()) {
+
+            addMedicine();
+
+        }
+
+    }
+
+
+    initializePage();
+
+</script>
+
+</body>
+</html>

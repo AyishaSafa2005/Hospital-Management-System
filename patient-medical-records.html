@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Medical Records - Hospital Management System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+
+    <style>
+
+        /* =========================================
+           PAGE CARDS
+        ========================================== */
+
+        .record-card {
+
+            background: #ffffff;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        /* =========================================
+           PATIENT INFORMATION
+        ========================================== */
+
+        .patient-info {
+
+            background: #f1f7fb;
+
+            padding: 20px;
+
+            border-left:
+                4px solid #0b6684;
+
+            border-radius: 8px;
+
+        }
+
+
+        .patient-info-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(200px, 1fr)
+                );
+
+            gap: 15px;
+
+            margin-top: 15px;
+
+        }
+
+
+        .info-item {
+
+            background: #ffffff;
+
+            padding: 12px;
+
+            border-radius: 6px;
+
+        }
+
+
+        .info-label {
+
+            display: block;
+
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .info-value {
+
+            font-weight: 600;
+
+            color: #263238;
+
+        }
+
+
+        /* =========================================
+           SUMMARY
+        ========================================== */
+
+        .summary-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px, 1fr)
+                );
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .summary-card {
+
+            background: #ffffff;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.07);
+
+            border-left:
+                4px solid #0b6684;
+
+        }
+
+
+        .summary-card h2 {
+
+            margin: 0 0 5px;
+
+            color: #0b6684;
+
+        }
+
+
+        .summary-card p {
+
+            margin: 0;
+
+            color: #666;
+
+        }
+
+
+        /* =========================================
+           CONSULTATION
+        ========================================== */
+
+        .consultation-item {
+
+            border:
+                1px solid #e0e6e9;
+
+            border-radius: 8px;
+
+            padding: 20px;
+
+            margin-bottom: 15px;
+
+            background: #ffffff;
+
+        }
+
+
+        .consultation-item h3 {
+
+            color: #0b6684;
+
+            margin-top: 0;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .record-meta {
+
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .record-section {
+
+            margin-top: 12px;
+
+        }
+
+
+        .record-label {
+
+            font-weight: 700;
+
+            color: #263238;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .record-text {
+
+            background: #f7fafb;
+
+            padding: 12px;
+
+            border-radius: 6px;
+
+            color: #444;
+
+            white-space: pre-wrap;
+
+        }
+
+
+        /* =========================================
+           NOTES
+        ========================================== */
+
+        .note-item {
+
+            border:
+                1px solid #e0e6e9;
+
+            border-radius: 8px;
+
+            padding: 18px;
+
+            margin-bottom: 15px;
+
+            background: #ffffff;
+
+        }
+
+
+        .note-item h3 {
+
+            color: #0b6684;
+
+            margin-top: 0;
+
+        }
+
+
+        /* =========================================
+           EMPTY STATE
+        ========================================== */
+
+        .empty-state {
+
+            text-align: center;
+
+            padding: 40px 20px;
+
+            background: #f7fafb;
+
+            border-radius: 10px;
+
+        }
+
+
+        .empty-state h2 {
+
+            color: #0b6684;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .empty-state p {
+
+            color: #666;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .book-button {
+
+            display: inline-block;
+
+            background: #0b6684;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            padding: 11px 20px;
+
+            border-radius: 6px;
+
+            font-weight: 600;
+
+        }
+
+
+        .book-button:hover {
+
+            background: #084f67;
+
+        }
+
+
+        /* =========================================
+           WARNING
+        ========================================== */
+
+        .patient-error {
+
+            background: #fff4f4;
+
+            color: #a33;
+
+            border:
+                1px solid #efb4b1;
+
+            padding: 15px;
+
+            border-radius: 7px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================== -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Patient
+            </span>
+
+
+            <button
+                type="button"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================== -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Patient
+                </h2>
+
+            </div>
+
+
+            <a href="patient-dashboard.html">
+                🏠 Dashboard
+            </a>
+
+
+            <a href="patient-book-appointment.html">
+                📅 Book Appointment
+            </a>
+
+
+            <a href="patient-my-appointments.html">
+                📋 My Appointments
+            </a>
+
+
+            <a
+                href="patient-medical-records.html"
+                class="active"
+            >
+                📄 Medical Records
+            </a>
+
+
+            <a href="patient-prescriptions.html">
+                💊 Prescriptions
+            </a>
+
+
+            <a href="patient-profile.html">
+                👤 Profile
+            </a>
+
+
+            <a href="patient-feedback.html">
+                ⭐ Feedback
+            </a>
+
+
+            <a href="patient-notifications.html">
+                🔔 Notifications
+            </a>
+
+
+            <a href="patient-billing.html">
+                💳 Billing
+            </a>
+
+
+            <a href="patient-lab-reports.html">
+                🧪 Lab Reports
+            </a>
+
+
+            <a href="patient-settings.html">
+                ⚙ Settings
+            </a>
+
+
+            <a href="../index.html">
+                🚪 Logout
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <main class="content">
+
+
+            <h1>
+                📄 Medical Records
+            </h1>
+
+
+            <p>
+                View your consultation history,
+                diagnoses, symptoms and doctor's notes.
+            </p>
+
+
+
+            <!-- =================================
+                 PATIENT INFORMATION
+            ================================== -->
+
+            <div class="record-card">
+
+                <div class="patient-info">
+
+                    <h2>
+                        Patient Information
+                    </h2>
+
+
+                    <div
+                        class="patient-info-grid"
+                        id="patientInformation"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SUMMARY
+            ================================== -->
+
+            <div class="summary-grid">
+
+
+                <div class="summary-card">
+
+                    <h2
+                        id="totalRecords"
+                    >
+                        0
+                    </h2>
+
+                    <p>
+                        Total Medical Records
+                    </p>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h2
+                        id="totalConsultations"
+                    >
+                        0
+                    </h2>
+
+                    <p>
+                        Consultations
+                    </p>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h2
+                        id="totalNotes"
+                    >
+                        0
+                    </h2>
+
+                    <p>
+                        Doctor Notes
+                    </p>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h2
+                        id="lastVisit"
+                    >
+                        —
+                    </h2>
+
+                    <p>
+                        Last Recorded Visit
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 CONSULTATION HISTORY
+            ================================== -->
+
+            <div class="record-card">
+
+                <h2>
+                    Consultation History
+                </h2>
+
+
+                <div
+                    id="consultationContainer"
+                >
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 DOCTOR NOTES
+            ================================== -->
+
+            <div class="record-card">
+
+                <h2>
+                    Doctor Notes
+                </h2>
+
+
+                <div
+                    id="notesContainer"
+                >
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+
+        /* =========================================
+           STORAGE KEYS
+        ========================================== */
+
+        const CONSULTATION_KEY =
+            "consultations";
+
+
+        const DOCTOR_NOTES_KEY =
+            "doctorNotes";
+
+
+        const PATIENT_KEY =
+            "currentPatient";
+
+
+
+        /* =========================================
+           CURRENT PATIENT
+        ========================================== */
+
+        function getCurrentPatient() {
+
+            const patientData =
+                sessionStorage.getItem(
+                    PATIENT_KEY
+                );
+
+
+            if (!patientData) {
+
+                return null;
+
+            }
+
+
+            try {
+
+                return JSON.parse(
+                    patientData
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to read patient session:",
+                    error
+                );
+
+                return null;
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           PATIENT ID
+        ========================================== */
+
+        function getPatientId(patient) {
+
+            if (!patient) {
+
+                return "";
+
+            }
+
+
+            return (
+
+                patient.patientId
+
+                ||
+
+                patient.id
+
+                ||
+
+                patient.patientID
+
+                ||
+
+                ""
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           PATIENT NAME
+        ========================================== */
+
+        function getPatientName(patient) {
+
+            if (!patient) {
+
+                return "";
+
+            }
+
+
+            return (
+
+                patient.fullName
+
+                ||
+
+                patient.name
+
+                ||
+
+                patient.patientName
+
+                ||
+
+                ""
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           GET ARRAY FROM STORAGE
+        ========================================== */
+
+        function getArray(key) {
+
+            const saved =
+                localStorage.getItem(
+                    key
+                );
+
+
+            if (!saved) {
+
+                return [];
+
+            }
+
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        saved
+                    );
+
+
+                return Array.isArray(data)
+                    ? data
+                    : [];
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to read " +
+                    key +
+                    ":",
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           NORMALIZE
+        ========================================== */
+
+        function normalize(value) {
+
+            return String(
+                value ?? ""
+            )
+            .trim()
+            .toLowerCase();
+
+        }
+
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================== */
+
+        function escapeHTML(value) {
+
+            return String(
+                value ?? ""
+            )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+
+
+        /* =========================================
+           DATE FORMAT
+        ========================================== */
+
+        function formatDate(value) {
+
+            if (!value) {
+
+                return "—";
+
+            }
+
+
+            const date =
+                String(value);
+
+
+            /*
+             * YYYY-MM-DD
+             */
+
+            const parts =
+                date.split("-");
+
+
+            if (
+                parts.length === 3 &&
+                parts[0].length === 4
+            ) {
+
+                return (
+                    parts[2] +
+                    "-" +
+                    parts[1] +
+                    "-" +
+                    parts[0]
+                );
+
+            }
+
+
+            return date;
+
+        }
+
+
+
+        /* =========================================
+           DATE/TIME FORMAT
+        ========================================== */
+
+        function formatDateTime(value) {
+
+            if (!value) {
+
+                return "—";
+
+            }
+
+
+            const date =
+                new Date(value);
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return String(value);
+
+            }
+
+
+            return date.toLocaleString();
+
+        }
+
+
+
+        /* =========================================
+           LOAD PATIENT INFORMATION
+        ========================================== */
+
+        function loadPatientInformation() {
+
+            const patient =
+                getCurrentPatient();
+
+
+            const container =
+                document.getElementById(
+                    "patientInformation"
+                );
+
+
+            if (!patient) {
+
+                container.innerHTML = `
+
+                    <div class="patient-error">
+
+                        Unable to identify the
+                        logged-in patient.
+
+                        Please login again.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            const patientName =
+                getPatientName(
+                    patient
+                );
+
+
+            const patientId =
+                getPatientId(
+                    patient
+                );
+
+
+            const age =
+                patient.age
+                ||
+                "—";
+
+
+            const gender =
+                patient.gender
+                ||
+                "—";
+
+
+            const bloodGroup =
+                patient.bloodGroup
+                ||
+                "—";
+
+
+            const phone =
+                patient.phone
+                ||
+                "—";
+
+
+            const allergies =
+                patient.allergies
+                ||
+                patient.allergy
+                ||
+                "—";
+
+
+            container.innerHTML = `
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Patient Name
+                    </span>
+
+                    <span class="info-value">
+                        ${escapeHTML(
+                            patientName ||
+                            "—"
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Patient ID
+                    </span>
+
+                    <span class="info-value">
+                        ${escapeHTML(
+                            patientId ||
+                            "—"
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Age
+                    </span>
+
+                    <span class="info-value">
+                        ${escapeHTML(
+                            age
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Gender
+                    </span>
+
+                    <span class="info-value">
+                        ${escapeHTML(
+                            gender
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Blood Group
+                    </span>
+
+                    <span class="info-value">
+                        ${escapeHTML(
+                            bloodGroup
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Phone
+                    </span>
+
+                    <span class="info-value">
+                        ${escapeHTML(
+                            phone
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Allergies
+                    </span>
+
+                    <span class="info-value">
+                        ${escapeHTML(
+                            allergies
+                        )}
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+
+
+
+        /* =========================================
+           GET PATIENT CONSULTATIONS
+        ========================================== */
+
+        function getPatientConsultations() {
+
+            const patient =
+                getCurrentPatient();
+
+
+            if (!patient) {
+
+                return [];
+
+            }
+
+
+            const patientId =
+                getPatientId(
+                    patient
+                );
+
+
+            if (!patientId) {
+
+                return [];
+
+            }
+
+
+            return getArray(
+                CONSULTATION_KEY
+            )
+            .filter(
+                function(item) {
+
+                    return (
+                        normalize(
+                            item.patientId
+                        ) ===
+                        normalize(
+                            patientId
+                        )
+                    );
+
+                }
+            )
+            .sort(
+                function(a, b) {
+
+                    const dateA =
+                        new Date(
+                            a.updatedAt
+                            ||
+                            a.createdAt
+                            ||
+                            a.date
+                        );
+
+
+                    const dateB =
+                        new Date(
+                            b.updatedAt
+                            ||
+                            b.createdAt
+                            ||
+                            b.date
+                        );
+
+
+                    return (
+                        dateB - dateA
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =========================================
+           GET PATIENT NOTES
+        ========================================== */
+
+        function getPatientNotes() {
+
+            const patient =
+                getCurrentPatient();
+
+
+            if (!patient) {
+
+                return [];
+
+            }
+
+
+            const patientId =
+                getPatientId(
+                    patient
+                );
+
+
+            if (!patientId) {
+
+                return [];
+
+            }
+
+
+            return getArray(
+                DOCTOR_NOTES_KEY
+            )
+            .filter(
+                function(item) {
+
+                    return (
+                        normalize(
+                            item.patientId
+                        ) ===
+                        normalize(
+                            patientId
+                        )
+                    );
+
+                }
+            )
+            .sort(
+                function(a, b) {
+
+                    const dateA =
+                        new Date(
+                            a.createdAt
+                            ||
+                            a.date
+                        );
+
+
+                    const dateB =
+                        new Date(
+                            b.createdAt
+                            ||
+                            b.date
+                        );
+
+
+                    return (
+                        dateB - dateA
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =========================================
+           RENDER CONSULTATIONS
+        ========================================== */
+
+        function renderConsultations(
+            consultations
+        ) {
+
+            const container =
+                document.getElementById(
+                    "consultationContainer"
+                );
+
+
+            if (
+                consultations.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <h2>
+                            No medical records found yet.
+                        </h2>
+
+                        <p>
+                            No consultation has been
+                            recorded for your account yet.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                consultations
+                .map(
+                    function(item) {
+
+                        const doctor =
+                            item.doctorName
+                            ||
+                            item.doctorId
+                            ||
+                            "—";
+
+
+                        const date =
+                            formatDate(
+                                item.date
+                            );
+
+
+                        const symptoms =
+                            item.symptoms
+                            ||
+                            "Not recorded";
+
+
+                        const diagnosis =
+                            item.diagnosis
+                            ||
+                            "Not recorded";
+
+
+                        return `
+
+                            <div
+                                class="consultation-item"
+                            >
+
+                                <h3>
+
+                                    Consultation -
+                                    ${escapeHTML(
+                                        date
+                                    )}
+
+                                </h3>
+
+
+                                <div
+                                    class="record-meta"
+                                >
+
+                                    Doctor:
+                                    <strong>
+                                        ${escapeHTML(
+                                            doctor
+                                        )}
+                                    </strong>
+
+                                    &nbsp; | &nbsp;
+
+                                    Recorded:
+                                    ${escapeHTML(
+                                        formatDateTime(
+                                            item.updatedAt
+                                            ||
+                                            item.createdAt
+                                        )
+                                    )}
+
+                                </div>
+
+
+                                <div
+                                    class="record-section"
+                                >
+
+                                    <div
+                                        class="record-label"
+                                    >
+                                        Symptoms
+                                    </div>
+
+
+                                    <div
+                                        class="record-text"
+                                    >
+                                        ${escapeHTML(
+                                            symptoms
+                                        )}
+                                    </div>
+
+                                </div>
+
+
+                                <div
+                                    class="record-section"
+                                >
+
+                                    <div
+                                        class="record-label"
+                                    >
+                                        Diagnosis
+                                    </div>
+
+
+                                    <div
+                                        class="record-text"
+                                    >
+                                        ${escapeHTML(
+                                            diagnosis
+                                        )}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+        }
+
+
+
+        /* =========================================
+           RENDER NOTES
+        ========================================== */
+
+        function renderNotes(
+            notes
+        ) {
+
+            const container =
+                document.getElementById(
+                    "notesContainer"
+                );
+
+
+            if (
+                notes.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <h2>
+                            No doctor notes found.
+                        </h2>
+
+                        <p>
+                            No doctor's notes have
+                            been recorded for you yet.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                notes
+                .map(
+                    function(item) {
+
+                        const doctor =
+                            item.doctorName
+                            ||
+                            item.doctorId
+                            ||
+                            "—";
+
+
+                        const date =
+                            formatDate(
+                                item.date
+                            );
+
+
+                        const note =
+                            item.note
+                            ||
+                            "No note available.";
+
+
+                        return `
+
+                            <div
+                                class="note-item"
+                            >
+
+                                <h3>
+
+                                    Doctor Note -
+                                    ${escapeHTML(
+                                        date
+                                    )}
+
+                                </h3>
+
+
+                                <div
+                                    class="record-meta"
+                                >
+
+                                    Doctor:
+                                    <strong>
+                                        ${escapeHTML(
+                                            doctor
+                                        )}
+                                    </strong>
+
+                                    &nbsp; | &nbsp;
+
+                                    Recorded:
+                                    ${escapeHTML(
+                                        formatDateTime(
+                                            item.createdAt
+                                        )
+                                    )}
+
+                                </div>
+
+
+                                <div
+                                    class="record-text"
+                                >
+
+                                    ${escapeHTML(
+                                        note
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+        }
+
+
+
+        /* =========================================
+           SUMMARY
+        ========================================== */
+
+        function updateSummary(
+            consultations,
+            notes
+        ) {
+
+            const totalRecords =
+                consultations.length +
+                notes.length;
+
+
+            document.getElementById(
+                "totalRecords"
+            ).textContent =
+                totalRecords;
+
+
+            document.getElementById(
+                "totalConsultations"
+            ).textContent =
+                consultations.length;
+
+
+            document.getElementById(
+                "totalNotes"
+            ).textContent =
+                notes.length;
+
+
+            if (
+                consultations.length === 0 &&
+                notes.length === 0
+            ) {
+
+                document.getElementById(
+                    "lastVisit"
+                ).textContent =
+                    "—";
+
+                return;
+
+            }
+
+
+            let latestDate = null;
+
+
+            consultations.forEach(
+                function(item) {
+
+                    const date =
+                        new Date(
+                            item.updatedAt
+                            ||
+                            item.createdAt
+                            ||
+                            item.date
+                        );
+
+
+                    if (
+                        !isNaN(
+                            date.getTime()
+                        ) &&
+                        (
+                            !latestDate ||
+                            date > latestDate
+                        )
+                    ) {
+
+                        latestDate =
+                            date;
+
+                    }
+
+                }
+            );
+
+
+            notes.forEach(
+                function(item) {
+
+                    const date =
+                        new Date(
+                            item.createdAt
+                            ||
+                            item.date
+                        );
+
+
+                    if (
+                        !isNaN(
+                            date.getTime()
+                        ) &&
+                        (
+                            !latestDate ||
+                            date > latestDate
+                        )
+                    ) {
+
+                        latestDate =
+                            date;
+
+                    }
+
+                }
+            );
+
+
+            document.getElementById(
+                "lastVisit"
+            ).textContent =
+                latestDate
+                    ? latestDate.toLocaleDateString()
+                    : "—";
+
+        }
+
+
+
+        /* =========================================
+           LOAD EVERYTHING
+        ========================================== */
+
+        function loadMedicalRecords() {
+
+            loadPatientInformation();
+
+
+            const consultations =
+                getPatientConsultations();
+
+
+            const notes =
+                getPatientNotes();
+
+
+            updateSummary(
+                consultations,
+                notes
+            );
+
+
+            renderConsultations(
+                consultations
+            );
+
+
+            renderNotes(
+                notes
+            );
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================== */
+
+        function logout() {
+
+            sessionStorage.removeItem(
+                "currentPatient"
+            );
+
+
+            sessionStorage.removeItem(
+                "userRole"
+            );
+
+
+            sessionStorage.removeItem(
+                "userPhone"
+            );
+
+
+            sessionStorage.removeItem(
+                "hmsSession"
+            );
+
+
+            sessionStorage.removeItem(
+                "pendingLogin"
+            );
+
+
+            window.location.href =
+                "../index.html";
+
+        }
+
+
+
+        /* =========================================
+           AUTO REFRESH WHEN RECORDS CHANGE
+        ========================================== */
+
+        window.addEventListener(
+            "storage",
+            function(event) {
+
+                if (
+                    event.key ===
+                    CONSULTATION_KEY
+                    ||
+                    event.key ===
+                    DOCTOR_NOTES_KEY
+                ) {
+
+                    loadMedicalRecords();
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================================
+           PAGE LOAD
+        ========================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadMedicalRecords();
+
+            }
+        );
+
+    </script>
+
+
+    <!-- EXISTING SECURITY -->
+
+    <script src="../security.js"></script>
+
+
+</body>
+
+</html>

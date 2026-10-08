@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Registration - Hospital Management System</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #e8f4f8, #f7fbfd);
+            min-height: 100vh;
+            color: #263238;
+        }
+
+        /* HEADER */
+
+        .register-header {
+            height: 75px;
+            background: #0b5d7a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 7%;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        }
+
+        .register-logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+
+        /* MAIN */
+
+        .register-wrapper {
+            padding: 45px 20px;
+
+            display: flex;
+            justify-content: center;
+        }
+
+
+        /* CARD */
+
+        .register-card {
+            width: 100%;
+            max-width: 900px;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            box-shadow: 0 12px 35px rgba(0,0,0,0.10);
+        }
+
+
+        /* TITLE */
+
+        .register-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .register-title h1 {
+            color: #0b5d7a;
+
+            margin: 0 0 8px;
+
+            font-size: 32px;
+        }
+
+        .register-title p {
+            color: #68757d;
+            margin: 0;
+        }
+
+
+        /* FORM GRID */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+
+        /* LABEL */
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            color: #37474f;
+        }
+
+        .required {
+            color: #d32f2f;
+        }
+
+
+        /* INPUTS */
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #ccd8dd;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0b5d7a;
+
+            box-shadow:
+                0 0 0 3px rgba(11,93,122,0.10);
+        }
+
+
+        /* PHONE */
+
+        .phone-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .country-code {
+            width: 75px !important;
+
+            background: #f2f6f8 !important;
+
+            text-align: center;
+
+            color: #53666f;
+
+            font-weight: bold;
+        }
+
+        .phone-input-wrapper {
+            flex: 1;
+
+            position: relative;
+        }
+
+        .phone-input-wrapper input {
+            width: 100%;
+
+            padding-right: 48px;
+
+            letter-spacing: 2px;
+        }
+
+        .phone-toggle {
+            position: absolute;
+
+            right: 10px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            padding: 4px;
+        }
+
+        .phone-help {
+            color: #71808a;
+
+            font-size: 12px;
+
+            margin-top: 6px;
+        }
+
+
+        /* PATIENT TYPE */
+
+        .patient-type-box {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+        }
+
+        .type-option {
+            border: 1px solid #ccd8dd;
+
+            border-radius: 8px;
+
+            padding: 13px;
+
+            cursor: pointer;
+
+            text-align: center;
+
+            color: #37474f;
+
+            transition: 0.2s;
+        }
+
+        .type-option:hover {
+            border-color: #0b5d7a;
+
+            background: #f3fafc;
+        }
+
+        .type-option input {
+            width: auto;
+            margin-right: 6px;
+        }
+
+
+        /* BUTTON */
+
+        .register-btn {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 15px;
+
+            background: #0b5d7a;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .register-btn:hover {
+            background: #08485e;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* MESSAGE */
+
+        .message {
+            display: none;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            line-height: 1.6;
+        }
+
+        .success {
+            background: #e9f7ef;
+
+            color: #176b3a;
+
+            border: 1px solid #a9dfbd;
+        }
+
+        .error {
+            background: #fdeaea;
+
+            color: #b52b27;
+
+            border: 1px solid #efb1ae;
+        }
+
+
+        /* LOGIN LINK */
+
+        .login-link {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #68757d;
+        }
+
+        .login-link a {
+            color: #0b5d7a;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            background: #083f52;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 20px;
+
+            font-size: 14px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .register-card {
+                padding: 25px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .register-title h1 {
+                font-size: 27px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="register-header">
+
+        <div class="register-logo">
+            🏥 Hospital Management System
+        </div>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main class="register-wrapper">
+
+        <div class="register-card">
+
+
+            <!-- TITLE -->
+
+            <div class="register-title">
+
+                <h1>
+                    Register Patient
+                </h1>
+
+                <p>
+                    Create a new patient account
+                    in the hospital system.
+                </p>
+
+            </div>
+
+
+
+            <!-- FORM -->
+
+            <form id="registerForm">
+
+
+                <div class="form-grid">
+
+
+                    <!-- FULL NAME -->
+
+                    <div class="form-group">
+
+                        <label for="fullName">
+
+                            Full Name
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            placeholder="Enter patient's full name"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- USERNAME -->
+
+                    <div class="form-group">
+
+                        <label for="username">
+
+                            Username
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Create username"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="password">
+
+                            Password
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Create password"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="confirmPassword">
+
+                            Confirm Password
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm password"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- AGE -->
+
+                    <div class="form-group">
+
+                        <label for="age">
+
+                            Age
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            min="0"
+                            max="120"
+                            placeholder="Enter age"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- GENDER -->
+
+                    <div class="form-group">
+
+                        <label for="gender">
+
+                            Gender
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <select
+                            id="gender"
+                            required
+                        >
+
+                            <option value="">
+                                Select gender
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+
+                            <option value="Female">
+                                Female
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- BLOOD GROUP -->
+
+                    <div class="form-group">
+
+                        <label for="bloodGroup">
+
+                            Blood Group
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <select
+                            id="bloodGroup"
+                            required
+                        >
+
+                            <option value="">
+                                Select blood group
+                            </option>
+
+                            <option value="A+">
+                                A+
+                            </option>
+
+                            <option value="A-">
+                                A-
+                            </option>
+
+                            <option value="B+">
+                                B+
+                            </option>
+
+                            <option value="B-">
+                                B-
+                            </option>
+
+                            <option value="AB+">
+                                AB+
+                            </option>
+
+                            <option value="AB-">
+                                AB-
+                            </option>
+
+                            <option value="O+">
+                                O+
+                            </option>
+
+                            <option value="O-">
+                                O-
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group">
+
+                        <label for="phone">
+
+                            Phone Number
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <div class="phone-wrapper">
+
+
+                            <input
+                                type="text"
+                                value="+91"
+                                class="country-code"
+                                readonly
+                            >
+
+
+                            <div class="phone-input-wrapper">
+
+                                <input
+                                    type="text"
+                                    id="phone"
+                                    placeholder="Enter 10-digit phone number"
+                                    maxlength="10"
+                                    inputmode="numeric"
+                                    autocomplete="tel"
+                                    required
+                                >
+
+
+                                <button
+                                    type="button"
+                                    class="phone-toggle"
+                                    id="phoneToggle"
+                                    title="Show phone number"
+                                >
+                                    👁
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="phone-help">
+
+                            First 6 digits are masked.
+                            Only the last 4 digits are visible.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PATIENT TYPE -->
+
+                    <div class="form-group full-width">
+
+                        <label>
+
+                            Patient Type
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <div class="patient-type-box">
+
+
+                            <label class="type-option">
+
+                                <input
+                                    type="radio"
+                                    name="patientType"
+                                    value="Inpatient"
+                                    required
+                                >
+
+                                🛏️ Inpatient
+
+                            </label>
+
+
+                            <label class="type-option">
+
+                                <input
+                                    type="radio"
+                                    name="patientType"
+                                    value="Outpatient"
+                                >
+
+                                🩺 Outpatient
+
+                            </label>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- REGISTER -->
+
+                <button
+                    type="submit"
+                    class="register-btn"
+                >
+
+                    Create Patient Account
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="message"
+                class="message"
+            >
+            </div>
+
+
+
+            <!-- LOGIN -->
+
+            <div class="login-link">
+
+                Already have an account?
+
+                <a href="login.html?role=patient">
+                    Login here
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 Hospital Management System
+
+    </footer>
+
+
+
+    <script>
+
+        /* =====================================
+           PHONE MASKING
+        ===================================== */
+
+        let actualPhone = "";
+
+        let showingFullPhone = false;
+
+
+        const phoneInput =
+            document.getElementById(
+                "phone"
+            );
+
+
+        const phoneToggle =
+            document.getElementById(
+                "phoneToggle"
+            );
+
+
+        /*
+         * Create masked display.
+         *
+         * Example:
+         *
+         * 9876543210
+         *
+         * becomes:
+         *
+         * ******3210
+         */
+
+        function getMaskedPhone(
+            phone
+        ) {
+
+            if (!phone) {
+                return "";
+            }
+
+
+            if (phone.length <= 6) {
+
+                return "*".repeat(
+                    phone.length
+                );
+
+            }
+
+
+            return (
+                "*".repeat(
+                    phone.length - 4
+                )
+                +
+                phone.slice(-4)
+            );
+
+        }
+
+
+
+        /* =====================================
+           PHONE TYPING
+        ===================================== */
+
+        phoneInput.addEventListener(
+            "input",
+            function(event) {
+
+                /*
+                 * IMPORTANT:
+                 *
+                 * Do not read the masked
+                 * value as the actual number.
+                 *
+                 * Keep the real number separately.
+                 */
+
+                let newDigits =
+                    event.data || "";
+
+
+                /*
+                 * If the user is typing,
+                 * determine the digits from
+                 * the current input.
+                 *
+                 * Because the visible value
+                 * contains *, we maintain
+                 * actualPhone separately.
+                 */
+
+
+                if (
+                    event.inputType ===
+                    "deleteContentBackward"
+                ) {
+
+                    actualPhone =
+                        actualPhone.slice(
+                            0,
+                            -1
+                        );
+
+                }
+
+                else {
+
+                    /*
+                     * Only accept numeric input.
+                     */
+
+                    const digits =
+                        newDigits.replace(
+                            /[^0-9]/g,
+                            ""
+                        );
+
+
+                    if (digits) {
+
+                        actualPhone +=
+                            digits;
+
+                    }
+
+                }
+
+
+                /*
+                 * Maximum 10 digits.
+                 */
+
+                actualPhone =
+                    actualPhone.slice(
+                        0,
+                        10
+                    );
+
+
+                /*
+                 * Display masked version.
+                 */
+
+                if (
+                    showingFullPhone
+                ) {
+
+                    phoneInput.value =
+                        actualPhone;
+
+                }
+
+                else {
+
+                    phoneInput.value =
+                        getMaskedPhone(
+                            actualPhone
+                        );
+
+                }
+
+
+                /*
+                 * Put cursor at end.
+                 */
+
+                phoneInput.setSelectionRange(
+                    phoneInput.value.length,
+                    phoneInput.value.length
+                );
+
+            }
+        );
+
+
+
+        /* =====================================
+           PHONE TOGGLE
+        ===================================== */
+
+        phoneToggle.addEventListener(
+            "click",
+            function() {
+
+                showingFullPhone =
+                    !showingFullPhone;
+
+
+                if (
+                    showingFullPhone
+                ) {
+
+                    phoneInput.value =
+                        actualPhone;
+
+                    phoneToggle.textContent =
+                        "🙈";
+
+                    phoneToggle.title =
+                        "Hide phone number";
+
+                }
+
+                else {
+
+                    phoneInput.value =
+                        getMaskedPhone(
+                            actualPhone
+                        );
+
+                    phoneToggle.textContent =
+                        "👁";
+
+                    phoneToggle.title =
+                        "Show phone number";
+
+                }
+
+            }
+        );
+
+
+
+        /* =====================================
+           REGISTRATION
+        ===================================== */
+
+        document
+            .getElementById(
+                "registerForm"
+            )
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    const message =
+                        document.getElementById(
+                            "message"
+                        );
+
+
+                    message.style.display =
+                        "none";
+
+
+                    /* =========================
+                       GET DATA
+                    ========================= */
+
+                    const fullName =
+                        document
+                            .getElementById(
+                                "fullName"
+                            )
+                            .value
+                            .trim();
+
+
+                    const username =
+                        document
+                            .getElementById(
+                                "username"
+                            )
+                            .value
+                            .trim();
+
+
+                    const password =
+                        document
+                            .getElementById(
+                                "password"
+                            )
+                            .value;
+
+
+                    const confirmPassword =
+                        document
+                            .getElementById(
+                                "confirmPassword"
+                            )
+                            .value;
+
+
+                    const age =
+                        document
+                            .getElementById(
+                                "age"
+                            )
+                            .value;
+
+
+                    const gender =
+                        document
+                            .getElementById(
+                                "gender"
+                            )
+                            .value;
+
+
+                    const bloodGroup =
+                        document
+                            .getElementById(
+                                "bloodGroup"
+                            )
+                            .value;
+
+
+                    const phone =
+                        actualPhone;
+
+
+                    const patientTypeElement =
+                        document.querySelector(
+                            'input[name="patientType"]:checked'
+                        );
+
+
+                    const patientType =
+                        patientTypeElement
+                            ? patientTypeElement.value
+                            : "";
+
+
+
+                    /* =========================
+                       VALIDATION
+                    ========================= */
+
+                    if (
+                        !fullName ||
+                        !username ||
+                        !password ||
+                        !age ||
+                        !gender ||
+                        !bloodGroup ||
+                        !phone ||
+                        !patientType
+                    ) {
+
+                        showError(
+                            "Please complete all required fields."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        password !==
+                        confirmPassword
+                    ) {
+
+                        showError(
+                            "Passwords do not match."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        !/^[0-9]{10}$/.test(
+                            phone
+                        )
+                    ) {
+
+                        showError(
+                            "Please enter a valid 10-digit phone number."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* =========================
+                       GET PATIENTS
+                    ========================= */
+
+                    let patients =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "patients"
+                            )
+                        ) || [];
+
+
+                    /* =========================
+                       CHECK USERNAME
+                    ========================= */
+
+                    const usernameExists =
+                        patients.some(
+                            function(patient) {
+
+                                return (
+                                    patient.username &&
+                                    patient.username
+                                        .toLowerCase()
+                                    ===
+                                    username
+                                        .toLowerCase()
+                                );
+
+                            }
+                        );
+
+
+                    if (
+                        usernameExists
+                    ) {
+
+                        showError(
+                            "This username is already registered."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* =========================
+                       CHECK PHONE
+                    ========================= */
+
+                    const phoneExists =
+                        patients.some(
+                            function(patient) {
+
+                                return (
+                                    patient.phone
+                                    ===
+                                    phone
+                                );
+
+                            }
+                        );
+
+
+                    if (
+                        phoneExists
+                    ) {
+
+                        showError(
+                            "This phone number is already registered."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* =========================
+                       UNIQUE PATIENT ID
+                    ========================= */
+
+                    let nextPatientId =
+                        parseInt(
+                            localStorage.getItem(
+                                "nextPatientId"
+                            )
+                        ) || 1001;
+
+
+                    const patientId =
+                        nextPatientId;
+
+
+                    localStorage.setItem(
+                        "nextPatientId",
+                        String(
+                            nextPatientId + 1
+                        )
+                    );
+
+
+
+                    /* =========================
+                       PATIENT OBJECT
+                    ========================= */
+
+                    const newPatient = {
+
+                        patientId:
+                            patientId,
+
+                        fullName:
+                            fullName,
+
+                        username:
+                            username,
+
+                        password:
+                            password,
+
+                        phone:
+                            phone,
+
+                        age:
+                            age,
+
+                        gender:
+                            gender,
+
+                        bloodGroup:
+                            bloodGroup,
+
+                        patientType:
+                            patientType,
+
+                        createdAt:
+                            new Date()
+                                .toISOString()
+
+                    };
+
+
+
+                    /* =========================
+                       SAVE
+                    ========================= */
+
+                    patients.push(
+                        newPatient
+                    );
+
+
+                    localStorage.setItem(
+                        "patients",
+                        JSON.stringify(
+                            patients
+                        )
+                    );
+
+
+
+                    /* =========================
+                       SUCCESS
+                    ========================= */
+
+                    message.className =
+                        "message success";
+
+
+                    message.innerHTML =
+
+                        "<strong>" +
+                        "Patient Registered Successfully!" +
+                        "</strong><br><br>" +
+
+                        "Patient ID: <strong>" +
+                        patientId +
+                        "</strong><br>" +
+
+                        "Patient Name: <strong>" +
+                        escapeHtml(
+                            fullName
+                        ) +
+                        "</strong><br>" +
+
+                        "Patient Type: <strong>" +
+                        escapeHtml(
+                            patientType
+                        ) +
+                        "</strong><br>" +
+
+                        "Phone: <strong>" +
+                        getMaskedPhone(
+                            phone
+                        ) +
+                        "</strong>";
+
+
+                    message.style.display =
+                        "block";
+
+
+
+                    /* =========================
+                       RESET FORM
+                    ========================= */
+
+                    document
+                        .getElementById(
+                            "registerForm"
+                        )
+                        .reset();
+
+
+                    actualPhone =
+                        "";
+
+                    showingFullPhone =
+                        false;
+
+                    phoneInput.value =
+                        "";
+
+                    phoneToggle.textContent =
+                        "👁";
+
+                    phoneToggle.title =
+                        "Show phone number";
+
+                }
+            );
+
+
+
+        /* =====================================
+           ERROR
+        ===================================== */
+
+        function showError(
+            text
+        ) {
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            message.className =
+                "message error";
+
+
+            message.textContent =
+                text;
+
+
+            message.style.display =
+                "block";
+
+        }
+
+
+
+        /* =====================================
+           SAFE TEXT
+        ===================================== */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+    </script>
+
+</body>
+
+</html>

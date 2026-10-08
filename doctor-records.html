@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor - Medical Records</title>
+
+    <!-- SAME ADMIN DASHBOARD THEME -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+    <style>
+        .page-title {
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 14px;
+            border: 1px solid #ccd5d9;
+            border-radius: 7px;
+            font-family: inherit;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #0b6684;
+        }
+
+        .record-card {
+            border: 1px solid #e0e6e8;
+            border-radius: 9px;
+            padding: 18px;
+            margin-bottom: 18px;
+            background: #fafcfd;
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .record-header h3 {
+            margin: 0 0 5px;
+            color: #0b6684;
+        }
+
+        .record-id {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            background: #e8f4f8;
+            color: #0b6684;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .patient-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .detail-item {
+            padding: 11px;
+            background: white;
+            border: 1px solid #e5e9eb;
+            border-radius: 7px;
+        }
+
+        .detail-label {
+            display: block;
+            color: #777;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            display: block;
+            word-break: break-word;
+        }
+
+        .record-section {
+            border-top: 1px solid #e2e7e9;
+            padding-top: 14px;
+            margin-top: 14px;
+        }
+
+        .record-section h4 {
+            margin: 0 0 9px;
+            color: #0b6684;
+        }
+
+        .consultation-item,
+        .note-item,
+        .prescription-item {
+            padding: 13px;
+            background: white;
+            border: 1px solid #e4e8ea;
+            border-radius: 7px;
+            margin-bottom: 10px;
+        }
+
+        .meta {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #444;
+            margin-top: 8px;
+            margin-bottom: 3px;
+        }
+
+        .text {
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .medicine-line {
+            padding: 9px 0;
+            border-top: 1px solid #edf0f1;
+        }
+
+        .medicine-line:first-child {
+            border-top: none;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .primary-btn {
+            background: #0b6684;
+            color: white;
+        }
+
+        .secondary-btn {
+            background: #e8f1f4;
+            color: #0b6684;
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover {
+            opacity: 0.9;
+        }
+
+        .empty-card {
+            text-align: center;
+            padding: 35px 20px;
+            color: #777;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+
+        .error-message {
+            background: #fdecec;
+            color: #a22a2a;
+        }
+
+        .info-message {
+            background: #eef6f9;
+            color: #0b6684;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .access-info {
+            padding: 12px 14px;
+            background: #eef6f9;
+            border-left: 4px solid #0b6684;
+            border-radius: 4px;
+            margin-bottom: 18px;
+            color: #0b6684;
+        }
+
+        @media (max-width: 600px) {
+            .patient-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+
+    <div class="logo">
+        Hospital Management System
+    </div>
+
+    <div class="topbar-right">
+
+        <span id="doctorTopName">
+            Doctor
+        </span>
+
+        <a
+            href="../index.html"
+            onclick="logoutDoctor()"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <h3>Doctor Panel</h3>
+
+        <a href="doctor-dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="doctor-patients.html">
+            My Patients
+        </a>
+
+        <a href="doctor-appointments.html">
+            Appointments
+        </a>
+
+        <a href="doctor-records.html">
+            Records
+        </a>
+
+        <a href="doctor-prescriptions.html">
+            Prescriptions
+        </a>
+
+        <a href="doctor-access-requests.html">
+            Access Requests
+        </a>
+
+        <a href="doctor-profile.html">
+            My Profile
+        </a>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+    <main class="content">
+
+        <div class="card page-title">
+
+            <h2>
+                Medical Records
+            </h2>
+
+            <p>
+                View consultation history, diagnosis, notes and prescriptions for patients you are authorized to access.
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH -->
+        <div class="card">
+
+            <input
+                type="text"
+                id="searchInput"
+                class="search-box"
+                placeholder="Search by Patient ID, name, phone, department or blood group..."
+                oninput="renderRecords()"
+            >
+
+        </div>
+
+
+        <!-- ACCESS INFO -->
+        <div
+            id="accessInfo"
+            class="access-info hidden"
+        >
+        </div>
+
+
+        <!-- RECORDS -->
+        <div id="recordsContainer">
+
+            <div class="card empty-card">
+
+                Loading records...
+
+            </div>
+
+        </div>
+
+
+        <!-- NO RECORDS -->
+        <div
+            id="noRecords"
+            class="card empty-card hidden"
+        >
+
+            <h3>
+                No Records Found
+            </h3>
+
+            <p>
+                No medical records are currently available for your patients.
+            </p>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <p>
+        © Hospital Management System
+    </p>
+
+</footer>
+
+
+<script src="../security.js"></script>
+
+
+<script>
+
+    /* =========================================================
+       DOCTOR SESSION
+       ========================================================= */
+
+    function getLoggedInDoctor() {
+
+        const possibleKeys = [
+            "loggedInDoctor",
+            "doctorSession",
+            "currentDoctor"
+        ];
+
+
+        for (const key of possibleKeys) {
+
+            const raw =
+                localStorage.getItem(key);
+
+
+            if (!raw) {
+                continue;
+            }
+
+
+            try {
+
+                const parsed =
+                    JSON.parse(raw);
+
+
+                if (
+                    parsed &&
+                    typeof parsed === "object"
+                ) {
+
+                    return parsed;
+
+                }
+
+            } catch (error) {
+
+                return {
+                    username: raw,
+                    name: raw
+                };
+
+            }
+
+        }
+
+
+        const hmsSession =
+            localStorage.getItem(
+                "hmsSession"
+            );
+
+
+        if (hmsSession) {
+
+            try {
+
+                const session =
+                    JSON.parse(
+                        hmsSession
+                    );
+
+
+                if (
+                    session &&
+                    (
+                        normalize(session.role) === "doctor" ||
+                        normalize(session.userType) === "doctor" ||
+                        normalize(session.userRole) === "doctor"
+                    )
+                ) {
+
+                    return session;
+
+                }
+
+            } catch (error) {
+                // Ignore invalid session.
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    const currentDoctor =
+        getLoggedInDoctor();
+
+
+    function getDoctorId(doctor) {
+
+        if (!doctor) {
+            return "";
+        }
+
+
+        return String(
+            doctor.doctorId ||
+            doctor.id ||
+            doctor.userId ||
+            doctor.username ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getDoctorName(doctor) {
+
+        if (!doctor) {
+            return "Doctor";
+        }
+
+
+        return String(
+            doctor.name ||
+            doctor.fullName ||
+            doctor.doctorName ||
+            doctor.username ||
+            "Doctor"
+        ).trim();
+
+    }
+
+
+    const currentDoctorId =
+        getDoctorId(
+            currentDoctor
+        );
+
+
+    const currentDoctorName =
+        getDoctorName(
+            currentDoctor
+        );
+
+
+    document.getElementById(
+        "doctorTopName"
+    ).textContent =
+        currentDoctorName;
+
+
+    /* =========================================================
+       HELPERS
+       ========================================================= */
+
+    function normalize(value) {
+
+        return String(
+            value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    }
+
+
+    function getArray(key) {
+
+        try {
+
+            const value =
+                JSON.parse(
+                    localStorage.getItem(
+                        key
+                    ) || "[]"
+                );
+
+
+            return Array.isArray(value)
+                ? value
+                : [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function escapeHTML(value) {
+
+        if (
+            value === null ||
+            value === undefined ||
+            value === ""
+        ) {
+
+            return "-";
+
+        }
+
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function getPatientId(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+
+        return String(
+            patient.patientId ||
+            patient.id ||
+            patient.patientID ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getPatientName(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+
+        return String(
+            patient.fullName ||
+            patient.name ||
+            patient.patientName ||
+            patient.username ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getAssignedDoctorId(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+
+        return String(
+            patient.assignedDoctorId ||
+            patient.doctorId ||
+            patient.assignedDoctorID ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getAssignedDoctorName(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+
+        return String(
+            patient.assignedDoctorName ||
+            patient.assignedDoctor ||
+            patient.doctorName ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getPatientType(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+
+        return String(
+            patient.patientType ||
+            patient.type ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getDepartment(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+
+        return String(
+            patient.department ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getRoomNumber(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+
+        return String(
+            patient.roomNumber ||
+            patient.room ||
+            ""
+        ).trim();
+
+    }
+
+
+    function getDutyNurse(patient) {
+
+        if (!patient) {
+            return "";
+        }
+
+
+        return String(
+            patient.dutyNurseName ||
+            patient.dutyNurse ||
+            patient.assignedNurseName ||
+            patient.assignedNurse ||
+            ""
+        ).trim();
+
+    }
+
+
+    /* =========================================================
+       ACCESS CONTROL
+       ========================================================= */
+
+    function isOwnerDoctor(patient) {
+
+        if (
+            !patient ||
+            !currentDoctor
+        ) {
+
+            return false;
+
+        }
+
+
+        const assignedId =
+            getAssignedDoctorId(
+                patient
+            );
+
+
+        const assignedName =
+            getAssignedDoctorName(
+                patient
+            );
+
+
+        if (
+            assignedId &&
+            currentDoctorId &&
+            normalize(
+                assignedId
+            ) === normalize(
+                currentDoctorId
+            )
+        ) {
+
+            return true;
+
+        }
+
+
+        if (
+            assignedName &&
+            currentDoctorName &&
+            normalize(
+                assignedName
+            ) === normalize(
+                currentDoctorName
+            )
+        ) {
+
+            return true;
+
+        }
+
+
+        return false;
+
+    }
+
+
+    function hasAcceptedAccess(patient) {
+
+        if (
+            !patient ||
+            !currentDoctor
+        ) {
+
+            return false;
+
+        }
+
+
+        if (
+            isOwnerDoctor(
+                patient
+            )
+        ) {
+
+            return true;
+
+        }
+
+
+        const requests =
+            getArray(
+                "doctorAccessRequests"
+            );
+
+
+        const patientId =
+            getPatientId(
+                patient
+            );
+
+
+        const ownerId =
+            getAssignedDoctorId(
+                patient
+            );
+
+
+        const ownerName =
+            getAssignedDoctorName(
+                patient
+            );
+
+
+        return requests.some(
+            function(request) {
+
+                const requestPatientId =
+                    request.patientId ||
+                    request.patientID;
+
+
+                const requesterId =
+                    request.requesterDoctorId ||
+                    request.requesterId ||
+                    request.doctorId;
+
+
+                const requestOwnerId =
+                    request.ownerDoctorId ||
+                    request.ownerId;
+
+
+                const requestOwnerName =
+                    request.ownerDoctorName ||
+                    request.ownerName;
+
+
+                const status =
+                    normalize(
+                        request.status
+                    );
+
+
+                const patientMatches =
+                    normalize(
+                        requestPatientId
+                    ) === normalize(
+                        patientId
+                    );
+
+
+                const requesterMatches =
+                    normalize(
+                        requesterId
+                    ) === normalize(
+                        currentDoctorId
+                    );
+
+
+                const ownerMatches =
+                    (
+                        ownerId &&
+                        requestOwnerId &&
+                        normalize(
+                            requestOwnerId
+                        ) === normalize(
+                            ownerId
+                        )
+                    )
+                    ||
+                    (
+                        ownerName &&
+                        requestOwnerName &&
+                        normalize(
+                            requestOwnerName
+                        ) === normalize(
+                            ownerName
+                        )
+                    );
+
+
+                return (
+                    patientMatches &&
+                    requesterMatches &&
+                    ownerMatches &&
+                    status === "accepted"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       LOAD PATIENTS
+       ========================================================= */
+
+    function getAuthorizedPatients() {
+
+        if (!currentDoctor) {
+            return [];
+        }
+
+
+        const patients =
+            getArray(
+                "patients"
+            );
+
+
+        return patients.filter(
+            function(patient) {
+
+                return (
+                    isOwnerDoctor(patient) ||
+                    hasAcceptedAccess(patient)
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       CONSULTATIONS
+       ========================================================= */
+
+    function getPatientConsultations(
+        patientId
+    ) {
+
+        return getArray(
+            "consultations"
+        )
+        .filter(
+            function(item) {
+
+                return normalize(
+                    item.patientId
+                ) === normalize(
+                    patientId
+                );
+
+            }
+        )
+        .sort(
+            function(a, b) {
+
+                return new Date(
+                    b.updatedAt ||
+                    b.createdAt ||
+                    b.date
+                ) -
+                new Date(
+                    a.updatedAt ||
+                    a.createdAt ||
+                    a.date
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       NOTES
+       ========================================================= */
+
+    function getPatientNotes(
+        patientId
+    ) {
+
+        return getArray(
+            "doctorNotes"
+        )
+        .filter(
+            function(item) {
+
+                return normalize(
+                    item.patientId
+                ) === normalize(
+                    patientId
+                );
+
+            }
+        )
+        .sort(
+            function(a, b) {
+
+                return new Date(
+                    b.createdAt ||
+                    b.date
+                ) -
+                new Date(
+                    a.createdAt ||
+                    a.date
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       PRESCRIPTIONS
+       ========================================================= */
+
+    function getPatientPrescriptions(
+        patientId
+    ) {
+
+        return getArray(
+            "prescriptions"
+        )
+        .filter(
+            function(item) {
+
+                return normalize(
+                    item.patientId
+                ) === normalize(
+                    patientId
+                );
+
+            }
+        )
+        .sort(
+            function(a, b) {
+
+                return new Date(
+                    b.createdAt ||
+                    b.date ||
+                    b.prescriptionDate
+                ) -
+                new Date(
+                    a.createdAt ||
+                    a.date ||
+                    a.prescriptionDate
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       SEARCH
+       ========================================================= */
+
+    function patientMatchesSearch(
+        patient,
+        search
+    ) {
+
+        if (!search) {
+            return true;
+        }
+
+
+        const values = [
+
+            getPatientId(patient),
+
+            getPatientName(patient),
+
+            patient.phone,
+
+            patient.mobile,
+
+            patient.email,
+
+            patient.department,
+
+            patient.bloodGroup,
+
+            patient.bloodType,
+
+            patient.placeOfResidence,
+
+            patient.place,
+
+            patient.username,
+
+            patient.patientType
+
+        ];
+
+
+        return values.some(
+            function(value) {
+
+                return normalize(
+                    value
+                ).includes(
+                    normalize(search)
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       RENDER RECORDS
+       ========================================================= */
+
+    function renderRecords() {
+
+        const container =
+            document.getElementById(
+                "recordsContainer"
+            );
+
+
+        const noRecords =
+            document.getElementById(
+                "noRecords"
+            );
+
+
+        if (!currentDoctor) {
+
+            container.innerHTML = `
+                <div class="card empty-card">
+                    <h3>Doctor Login Required</h3>
+                    <p>
+                        Please log in as a doctor to view medical records.
+                    </p>
+                </div>
+            `;
+
+            noRecords.classList.add(
+                "hidden"
+            );
+
+            return;
+
+        }
+
+
+        const search =
+            document.getElementById(
+                "searchInput"
+            ).value;
+
+
+        const patients =
+            getAuthorizedPatients()
+            .filter(
+                function(patient) {
+
+                    return patientMatchesSearch(
+                        patient,
+                        search
+                    );
+
+                }
+            );
+
+
+        if (!patients.length) {
+
+            container.innerHTML =
+                "";
+
+            noRecords.classList.remove(
+                "hidden"
+            );
+
+            return;
+
+        }
+
+
+        noRecords.classList.add(
+            "hidden"
+        );
+
+
+        container.innerHTML =
+            patients.map(
+                function(patient) {
+
+                    return createRecordCard(
+                        patient
+                    );
+
+                }
+            ).join("");
+
+    }
+
+
+    /* =========================================================
+       CREATE RECORD CARD
+       ========================================================= */
+
+    function createRecordCard(
+        patient
+    ) {
+
+        const patientId =
+            getPatientId(
+                patient
+            );
+
+
+        const patientName =
+            getPatientName(
+                patient
+            );
+
+
+        const consultations =
+            getPatientConsultations(
+                patientId
+            );
+
+
+        const notes =
+            getPatientNotes(
+                patientId
+            );
+
+
+        const prescriptions =
+            getPatientPrescriptions(
+                patientId
+            );
+
+
+        const owner =
+            isOwnerDoctor(
+                patient
+            );
+
+
+        const accessType =
+            owner
+                ? "Owner"
+                : "Approved Access";
+
+
+        return `
+
+            <div
+                class="record-card"
+                data-patient-id="${escapeHTML(
+                    patientId
+                )}"
+            >
+
+                <!-- HEADER -->
+
+                <div class="record-header">
+
+                    <div>
+
+                        <h3>
+                            ${escapeHTML(
+                                patientName ||
+                                "Patient"
+                            )}
+                        </h3>
+
+                        <div class="record-id">
+
+                            Patient ID:
+                            ${escapeHTML(
+                                patientId
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="status-badge">
+
+                        ${escapeHTML(
+                            accessType
+                        )}
+
+                    </span>
+
+                </div>
+
+
+                <!-- PATIENT DETAILS -->
+
+                <div class="patient-details">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            Age
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHTML(
+                                patient.age
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            Gender
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHTML(
+                                patient.gender
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            Blood Group
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHTML(
+                                patient.bloodGroup ||
+                                patient.bloodType
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            Phone
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHTML(
+                                patient.phone ||
+                                patient.mobile
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            Patient Type
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHTML(
+                                getPatientType(
+                                    patient
+                                )
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            Department
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHTML(
+                                getDepartment(
+                                    patient
+                                )
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            Room Number
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHTML(
+                                getRoomNumber(
+                                    patient
+                                )
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            Duty Nurse
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHTML(
+                                getDutyNurse(
+                                    patient
+                                )
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            Assigned Doctor
+                        </span>
+
+                        <span class="detail-value">
+                            ${escapeHTML(
+                                getAssignedDoctorName(
+                                    patient
+                                ) ||
+                                getAssignedDoctorId(
+                                    patient
+                                )
+                            )}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CHIEF COMPLAINT -->
+
+                <div class="record-section">
+
+                    <h4>
+                        Chief Complaint
+                    </h4>
+
+                    <div class="text">
+
+                        ${escapeHTML(
+                            patient.chiefComplaint ||
+                            patient.complaint ||
+                            patient.reason
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONSULTATIONS -->
+
+                <div class="record-section">
+
+                    <h4>
+                        Consultation History
+                    </h4>
+
+                    ${
+                        consultations.length
+                        ?
+                        consultations.map(
+                            function(item) {
+
+                                return `
+
+                                    <div class="consultation-item">
+
+                                        <div class="meta">
+
+                                            Date:
+                                            ${escapeHTML(
+                                                item.date
+                                            )}
+
+                                            |
+                                            Doctor:
+                                            ${escapeHTML(
+                                                item.doctorName ||
+                                                item.doctorId
+                                            )}
+
+                                        </div>
+
+
+                                        <div class="label">
+                                            Symptoms
+                                        </div>
+
+                                        <div class="text">
+
+                                            ${escapeHTML(
+                                                item.symptoms
+                                            )}
+
+                                        </div>
+
+
+                                        <div class="label">
+                                            Diagnosis
+                                        </div>
+
+                                        <div class="text">
+
+                                            ${escapeHTML(
+                                                item.diagnosis
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+                                `;
+
+                            }
+                        ).join("")
+                        :
+                        `
+                            <p>
+                                No consultation records found.
+                            </p>
+                        `
+                    }
+
+                </div>
+
+
+                <!-- NOTES -->
+
+                <div class="record-section">
+
+                    <h4>
+                        Doctor Notes
+                    </h4>
+
+                    ${
+                        notes.length
+                        ?
+                        notes.map(
+                            function(item) {
+
+                                return `
+
+                                    <div class="note-item">
+
+                                        <div class="meta">
+
+                                            Date:
+                                            ${escapeHTML(
+                                                item.date
+                                            )}
+
+                                            |
+                                            Doctor:
+                                            ${escapeHTML(
+                                                item.doctorName ||
+                                                item.doctorId
+                                            )}
+
+                                        </div>
+
+
+                                        <div class="text">
+
+                                            ${escapeHTML(
+                                                item.note
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+                                `;
+
+                            }
+                        ).join("")
+                        :
+                        `
+                            <p>
+                                No doctor notes found.
+                            </p>
+                        `
+                    }
+
+                </div>
+
+
+                <!-- PRESCRIPTIONS -->
+
+                <div class="record-section">
+
+                    <h4>
+                        Prescription History
+                    </h4>
+
+                    ${
+                        prescriptions.length
+                        ?
+                        prescriptions.map(
+                            function(
+                                prescription
+                            ) {
+
+                                return createPrescriptionHTML(
+                                    prescription
+                                );
+
+                            }
+                        ).join("")
+                        :
+                        `
+                            <p>
+                                No prescriptions found.
+                            </p>
+                        `
+                    }
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="button-row">
+
+                    <a
+                        href="doctor-patient-record.html?patientId=${encodeURIComponent(
+                            patientId
+                        )}"
+                        class="primary-btn"
+                    >
+                        View Patient Record
+                    </a>
+
+
+                    ${
+                        owner
+                        ?
+                        `
+                            <a
+                                href="doctor-prescriptions.html?patientId=${encodeURIComponent(
+                                    patientId
+                                )}"
+                                class="secondary-btn"
+                            >
+                                Create Prescription
+                            </a>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================================
+       PRESCRIPTION HTML
+       ========================================================= */
+
+    function createPrescriptionHTML(
+        prescription
+    ) {
+
+        const medicines =
+            Array.isArray(
+                prescription.medicines
+            )
+                ? prescription.medicines
+                : [];
+
+
+        return `
+
+            <div class="prescription-item">
+
+                <div class="meta">
+
+                    Prescription ID:
+                    ${escapeHTML(
+                        prescription.prescriptionId ||
+                        prescription.id
+                    )}
+
+                    |
+                    Date:
+                    ${escapeHTML(
+                        prescription.prescriptionDate ||
+                        prescription.date
+                    )}
+
+                </div>
+
+
+                <div class="meta">
+
+                    Doctor:
+                    ${escapeHTML(
+                        prescription.doctorName ||
+                        prescription.doctorId
+                    )}
+
+                    |
+                    Status:
+                    ${escapeHTML(
+                        prescription.status ||
+                        "Active"
+                    )}
+
+                </div>
+
+
+                <div class="meta">
+
+                    Patient Type:
+                    ${escapeHTML(
+                        prescription.patientType
+                    )}
+
+                    |
+                    Department:
+                    ${escapeHTML(
+                        prescription.department
+                    )}
+
+                    |
+                    Room:
+                    ${escapeHTML(
+                        prescription.roomNumber
+                    )}
+
+                </div>
+
+
+                ${
+                    prescription.dutyNurse
+                    ?
+                    `
+                        <div class="meta">
+
+                            Duty Nurse:
+                            ${escapeHTML(
+                                prescription.dutyNurse
+                            )}
+
+                        </div>
+                    `
+                    :
+                    ""
+                }
+
+
+                ${
+                    medicines.length
+                    ?
+                    medicines.map(
+                        function(
+                            medicine
+                        ) {
+
+                            const times =
+                                Array.isArray(
+                                    medicine.times
+                                )
+                                ?
+                                medicine.times.join(
+                                    ", "
+                                )
+                                :
+                                (
+                                    medicine.time ||
+                                    "-"
+                                );
+
+
+                            const food =
+                                Array.isArray(
+                                    medicine.foodInstructions
+                                )
+                                ?
+                                medicine.foodInstructions.join(
+                                    ", "
+                                )
+                                :
+                                (
+                                    medicine.foodInstruction ||
+                                    "-"
+                                );
+
+
+                            return `
+
+                                <div class="medicine-line">
+
+                                    <strong>
+                                        ${escapeHTML(
+                                            medicine.medicineName
+                                        )}
+                                    </strong>
+
+                                    <div>
+                                        Time:
+                                        ${escapeHTML(
+                                            times
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        Food:
+                                        ${escapeHTML(
+                                            food
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        Duration:
+                                        ${escapeHTML(
+                                            medicine.duration
+                                        )}
+                                    </div>
+
+                                </div>
+
+                            `;
+
+                        }
+                    ).join("")
+                    :
+                    `
+                        <p>
+                            No medicine details available.
+                        </p>
+                    `
+                }
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+       ========================================================= */
+
+    function logoutDoctor() {
+
+        /*
+         * Only remove session information.
+         * Do NOT clear medical records.
+         */
+
+        localStorage.removeItem(
+            "loggedInDoctor"
+        );
+
+        localStorage.removeItem(
+            "doctorSession"
+        );
+
+        localStorage.removeItem(
+            "currentDoctor"
+        );
+
+    }
+
+
+    /* =========================================================
+       INITIALIZE
+       ========================================================= */
+
+    function initializePage() {
+
+        renderRecords();
+
+    }
+
+
+    initializePage();
+
+</script>
+
+</body>
+</html>

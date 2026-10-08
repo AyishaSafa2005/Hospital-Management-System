@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ICU Availability - Hospital Management System</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+    <style>
+
+        .page-header {
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 {
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #666;
+            margin: 0;
+        }
+
+        .table-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        .icu-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .icu-table th {
+            background: #0b6684;
+            color: #ffffff;
+            padding: 13px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .icu-table td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #e5e5e5;
+            vertical-align: middle;
+        }
+
+        .icu-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .icu-table tr:hover {
+            background: #f8fbfc;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-occupied {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .status-maintenance {
+            background: #fff8e1;
+            color: #f57c00;
+        }
+
+        .summary-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .summary-card h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .summary-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0b6684;
+        }
+
+        @media (max-width: 800px) {
+
+            .summary-container {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+        <div>
+
+            <span>
+                Nurse
+            </span>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Nurse
+                </h2>
+
+            </div>
+
+
+            <a href="nurse-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="nurse-patients.html">
+                Assigned Patients
+            </a>
+
+            <a href="nurse-medicine-schedule.html">
+                Medicine Schedule
+            </a>
+
+            <a href="nurse-ward-details.html">
+                Ward Details
+            </a>
+
+            <a href="nurse-patient-monitoring.html">
+                Patient Monitoring
+            </a>
+
+            <a href="nurse-icu-availability.html" class="active">
+                ICU Availability
+            </a>
+
+            <a href="nurse-beds.html">
+                Bed Management
+            </a>
+
+            <a href="nurse-shift-handover.html">
+                Shift Handover
+            </a>
+
+            <a href="nurse-profile.html">
+                Profile
+            </a>
+
+            <a href="nurse-notifications.html">
+                Notifications
+            </a>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+
+            <div class="page-header">
+
+                <h1>
+                    ICU Availability
+                </h1>
+
+                <p>
+                    View current ICU bed availability and occupancy status.
+                </p>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="summary-container">
+
+
+                <div class="summary-card">
+
+                    <h3>
+                        Total ICU Beds
+                    </h3>
+
+                    <div class="summary-number">
+                        10
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h3>
+                        Available Beds
+                    </h3>
+
+                    <div class="summary-number">
+                        4
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h3>
+                        Occupied Beds
+                    </h3>
+
+                    <div class="summary-number">
+                        6
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ICU TABLE -->
+
+            <div class="table-card">
+
+                <table class="icu-table">
+
+                    <tr>
+
+                        <th>
+                            ICU Bed ID
+                        </th>
+
+                        <th>
+                            ICU Type
+                        </th>
+
+                        <th>
+                            Room
+                        </th>
+
+                        <th>
+                            Bed Number
+                        </th>
+
+                        <th>
+                            Patient
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+
+                    <!-- ICU 001 -->
+
+                    <tr>
+
+                        <td>
+                            ICU001
+                        </td>
+
+                        <td>
+                            General ICU
+                        </td>
+
+                        <td>
+                            ICU-01
+                        </td>
+
+                        <td>
+                            Bed 01
+                        </td>
+
+                        <td>
+                            Rahul Sharma
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-occupied">
+                                Occupied
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- ICU 002 -->
+
+                    <tr>
+
+                        <td>
+                            ICU002
+                        </td>
+
+                        <td>
+                            General ICU
+                        </td>
+
+                        <td>
+                            ICU-01
+                        </td>
+
+                        <td>
+                            Bed 02
+                        </td>
+
+                        <td>
+                            Priya Singh
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-occupied">
+                                Occupied
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- ICU 003 -->
+
+                    <tr>
+
+                        <td>
+                            ICU003
+                        </td>
+
+                        <td>
+                            Cardiac ICU
+                        </td>
+
+                        <td>
+                            ICU-02
+                        </td>
+
+                        <td>
+                            Bed 01
+                        </td>
+
+                        <td>
+                            Amit Kumar
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-occupied">
+                                Occupied
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- ICU 004 -->
+
+                    <tr>
+
+                        <td>
+                            ICU004
+                        </td>
+
+                        <td>
+                            Cardiac ICU
+                        </td>
+
+                        <td>
+                            ICU-02
+                        </td>
+
+                        <td>
+                            Bed 02
+                        </td>
+
+                        <td>
+                            Not Assigned
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-available">
+                                Available
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- ICU 005 -->
+
+                    <tr>
+
+                        <td>
+                            ICU005
+                        </td>
+
+                        <td>
+                            General ICU
+                        </td>
+
+                        <td>
+                            ICU-03
+                        </td>
+
+                        <td>
+                            Bed 01
+                        </td>
+
+                        <td>
+                            Not Assigned
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-available">
+                                Available
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- ICU 006 -->
+
+                    <tr>
+
+                        <td>
+                            ICU006
+                        </td>
+
+                        <td>
+                            General ICU
+                        </td>
+
+                        <td>
+                            ICU-03
+                        </td>
+
+                        <td>
+                            Bed 02
+                        </td>
+
+                        <td>
+                            Not Assigned
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-available">
+                                Available
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- ICU 007 -->
+
+                    <tr>
+
+                        <td>
+                            ICU007
+                        </td>
+
+                        <td>
+                            Neuro ICU
+                        </td>
+
+                        <td>
+                            ICU-04
+                        </td>
+
+                        <td>
+                            Bed 01
+                        </td>
+
+                        <td>
+                            Not Assigned
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-available">
+                                Available
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- ICU 008 -->
+
+                    <tr>
+
+                        <td>
+                            ICU008
+                        </td>
+
+                        <td>
+                            Neuro ICU
+                        </td>
+
+                        <td>
+                            ICU-04
+                        </td>
+
+                        <td>
+                            Bed 02
+                        </td>
+
+                        <td>
+                            Patient Assigned
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-occupied">
+                                Occupied
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- ICU 009 -->
+
+                    <tr>
+
+                        <td>
+                            ICU009
+                        </td>
+
+                        <td>
+                            General ICU
+                        </td>
+
+                        <td>
+                            ICU-05
+                        </td>
+
+                        <td>
+                            Bed 01
+                        </td>
+
+                        <td>
+                            Patient Assigned
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-occupied">
+                                Occupied
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- ICU 010 -->
+
+                    <tr>
+
+                        <td>
+                            ICU010
+                        </td>
+
+                        <td>
+                            General ICU
+                        </td>
+
+                        <td>
+                            ICU-05
+                        </td>
+
+                        <td>
+                            Bed 02
+                        </td>
+
+                        <td>
+                            Not Assigned
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-maintenance">
+                                Maintenance
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+    <!-- SECURITY -->
+
+    <script src="../security.js"></script>
+
+
+</body>
+
+</html>

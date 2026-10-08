@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Patient Dashboard - Hospital Management System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================== -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Patient
+            </span>
+
+
+            <button
+                type="button"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Patient
+                </h2>
+
+            </div>
+
+
+            <a
+                href="patient-dashboard.html"
+                class="active"
+            >
+                Dashboard
+            </a>
+
+
+            <!-- FIXED:
+                 This is the actual existing file -->
+            <a href="patient-book-appointment.html">
+                Book Appointment
+            </a>
+
+
+            <a href="patient-my-appointments.html">
+                My Appointments
+            </a>
+
+
+            <a href="patient-medical-records.html">
+                Medical Records
+            </a>
+
+
+            <a href="patient-prescriptions.html">
+                Prescriptions
+            </a>
+
+
+            <a href="patient-profile.html">
+                Profile
+            </a>
+
+
+            <a href="patient-feedback.html">
+                Feedback
+            </a>
+
+
+            <a href="patient-notifications.html">
+                Notifications
+            </a>
+
+
+            <a href="patient-billing.html">
+                Billing
+            </a>
+
+
+            <a href="patient-lab-reports.html">
+                Lab Reports
+            </a>
+
+
+            <a href="patient-settings.html">
+                Settings
+            </a>
+
+
+            <a href="../index.html">
+                Logout
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Patient Dashboard
+            </h1>
+
+
+            <!-- =================================
+                 PATIENT IDENTITY
+            ================================== -->
+
+            <div class="card">
+
+                <h2>
+
+                    Welcome,
+
+                    <span id="patientName">
+                        Patient
+                    </span>
+
+                </h2>
+
+
+                <p>
+
+                    Your Patient ID:
+
+                    <strong id="patientId">
+                        —
+                    </strong>
+
+                </p>
+
+
+                <p>
+
+                    Patient Type:
+
+                    <strong id="patientType">
+                        —
+                    </strong>
+
+                </p>
+
+
+                <p>
+
+                    Blood Group:
+
+                    <strong id="bloodGroup">
+                        —
+                    </strong>
+
+                </p>
+
+
+                <p>
+
+                    Registered Phone:
+
+                    <strong id="patientPhone">
+                        —
+                    </strong>
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================
+                 DASHBOARD
+            ================================== -->
+
+            <div class="dashboard">
+
+
+                <!-- =================================
+                     BOOK APPOINTMENT
+                ================================== -->
+
+                <div class="card">
+
+                    <h3>
+                        Book Appointment
+                    </h3>
+
+
+                    <p>
+                        Schedule an appointment
+                        with a doctor.
+                    </p>
+
+
+                    <a href="patient-book-appointment.html">
+
+                        <button type="button">
+                            Book Appointment
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================
+                     MY APPOINTMENTS
+                ================================== -->
+
+                <div class="card">
+
+                    <h3>
+                        My Appointments
+                    </h3>
+
+
+                    <p>
+                        View your upcoming and
+                        previous appointments.
+                    </p>
+
+
+                    <a href="patient-my-appointments.html">
+
+                        <button type="button">
+                            View Appointments
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================
+                     MEDICAL RECORDS
+                ================================== -->
+
+                <div class="card">
+
+                    <h3>
+                        Medical Records
+                    </h3>
+
+
+                    <p>
+                        View your medical history
+                        and records.
+                    </p>
+
+
+                    <a href="patient-medical-records.html">
+
+                        <button type="button">
+                            Medical Records
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================
+                     PRESCRIPTIONS
+                ================================== -->
+
+                <div class="card">
+
+                    <h3>
+                        Prescriptions
+                    </h3>
+
+
+                    <p>
+                        View prescriptions provided
+                        by your doctor.
+                    </p>
+
+
+                    <a href="patient-prescriptions.html">
+
+                        <button type="button">
+                            Prescriptions
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================
+                     BILLING
+                ================================== -->
+
+                <div class="card">
+
+                    <h3>
+                        Billing
+                    </h3>
+
+
+                    <p>
+                        View hospital bills
+                        and payment information.
+                    </p>
+
+
+                    <a href="patient-billing.html">
+
+                        <button type="button">
+                            Billing
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================
+                     LAB REPORTS
+                ================================== -->
+
+                <div class="card">
+
+                    <h3>
+                        Lab Reports
+                    </h3>
+
+
+                    <p>
+                        View available laboratory
+                        reports.
+                    </p>
+
+
+                    <a href="patient-lab-reports.html">
+
+                        <button type="button">
+                            Lab Reports
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SECURE SESSION
+            ================================== -->
+
+            <div class="card">
+
+                <h2>
+                    🔐 Secure Session
+                </h2>
+
+
+                <p>
+                    Your patient account is protected
+                    by automatic session timeout.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         PATIENT DATA
+    ========================================== -->
+
+    <script>
+
+
+        /* =========================================
+           GET CURRENT PATIENT
+        ========================================== */
+
+        function getCurrentPatient() {
+
+            const sessionPatient =
+                sessionStorage.getItem(
+                    "currentPatient"
+                );
+
+
+            if (sessionPatient) {
+
+                try {
+
+                    return JSON.parse(
+                        sessionPatient
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Patient session data error:",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+
+        /* =========================================
+           MASK PHONE
+        ========================================== */
+
+        function maskPhone(phone) {
+
+            if (!phone) {
+
+                return "—";
+
+            }
+
+
+            const phoneString =
+                String(phone);
+
+
+            if (
+                phoneString.length <= 4
+            ) {
+
+                return "****";
+
+            }
+
+
+            return (
+                "*".repeat(
+                    phoneString.length - 4
+                )
+                +
+                phoneString.slice(-4)
+            );
+
+        }
+
+
+
+        /* =========================================
+           DISPLAY PATIENT
+        ========================================== */
+
+        function displayPatientData() {
+
+            const currentPatient =
+                getCurrentPatient();
+
+
+            if (!currentPatient) {
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                "patientName"
+            ).textContent =
+                currentPatient.fullName ||
+                currentPatient.name ||
+                "Patient";
+
+
+            document.getElementById(
+                "patientId"
+            ).textContent =
+                currentPatient.patientId ||
+                currentPatient.id ||
+                "—";
+
+
+            document.getElementById(
+                "patientType"
+            ).textContent =
+                currentPatient.patientType ||
+                currentPatient.type ||
+                "—";
+
+
+            document.getElementById(
+                "bloodGroup"
+            ).textContent =
+                currentPatient.bloodGroup ||
+                "—";
+
+
+            document.getElementById(
+                "patientPhone"
+            ).textContent =
+                maskPhone(
+                    currentPatient.phone
+                );
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================== */
+
+        function logout() {
+
+            sessionStorage.removeItem(
+                "currentPatient"
+            );
+
+
+            sessionStorage.removeItem(
+                "userRole"
+            );
+
+
+            sessionStorage.removeItem(
+                "userPhone"
+            );
+
+
+            sessionStorage.removeItem(
+                "hmsSession"
+            );
+
+
+            sessionStorage.removeItem(
+                "pendingLogin"
+            );
+
+
+            window.location.href =
+                "../index.html";
+
+        }
+
+
+
+        /* =========================================
+           PAGE LOAD
+        ========================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                displayPatientData();
+
+            }
+        );
+
+    </script>
+
+
+
+    <!-- =========================================
+         EXISTING SECURITY
+    ========================================== -->
+
+    <script src="../security.js"></script>
+
+
+</body>
+
+</html>

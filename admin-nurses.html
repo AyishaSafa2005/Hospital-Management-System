@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Nurses - Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+    <style>
+
+        /* =========================================
+           ADD NURSE SECTION
+        ========================================= */
+
+        .add-nurse-section {
+
+            display: none;
+
+            margin-top: 20px;
+            margin-bottom: 25px;
+
+        }
+
+
+        .nurse-form {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .nurse-form h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .form-group label {
+
+            font-weight: bold;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            padding: 10px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 5px;
+
+            font-size: 15px;
+
+            box-sizing: border-box;
+
+        }
+
+
+        .form-buttons {
+
+            margin-top: 20px;
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+
+        .form-buttons button {
+
+            padding: 10px 18px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+        }
+
+
+        .save-button {
+
+            background: #0b6684;
+
+            color: white;
+
+        }
+
+
+        .cancel-button {
+
+            background: #777;
+
+            color: white;
+
+        }
+
+
+        .success-message {
+
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 12px;
+
+            background: #e8f7ee;
+
+            color: #19733b;
+
+            border-radius: 5px;
+
+        }
+
+
+        .error-message {
+
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 12px;
+
+            background: #fdeaea;
+
+            color: #b52b27;
+
+            border-radius: 5px;
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================== -->
+
+    <div class="topbar">
+
+        <h2>
+            Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Admin
+            </span>
+
+
+            <a href="admin-dashboard.html">
+
+                <button type="button">
+                    Dashboard
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================== -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+            <a href="admin-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="admin-patients.html">
+                Patients
+            </a>
+
+            <a href="admin-doctors.html">
+                Doctors
+            </a>
+
+            <a
+                href="admin-nurses.html"
+                class="active"
+            >
+                Nurses
+            </a>
+
+            <a href="admin-appointments.html">
+                Appointments
+            </a>
+
+            <a href="admin-beds.html">
+                Beds
+            </a>
+
+            <a href="admin-medicines.html">
+                Medicines
+            </a>
+
+            <a href="admin-reports.html">
+                Reports
+            </a>
+
+            <a href="admin-notifications.html">
+                Notifications
+            </a>
+
+            <a href="admin-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Nurses
+            </h1>
+
+
+            <p>
+                Manage hospital nurses and their information.
+            </p>
+
+
+
+            <!-- =================================
+                 TOTAL NURSES
+            ================================== -->
+
+            <div class="card">
+
+                <h3>
+                    Total Nurses
+                </h3>
+
+
+                <h2 id="nurseTotal">
+                    0
+                </h2>
+
+
+                <button
+                    type="button"
+                    onclick="showAddNurse()"
+                >
+                    + Add Nurse
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================
+                 ADD NURSE FORM
+            ================================== -->
+
+            <div
+                id="addNurseSection"
+                class="add-nurse-section"
+            >
+
+                <div class="nurse-form">
+
+
+                    <h2>
+                        Add New Nurse
+                    </h2>
+
+
+                    <form
+                        id="nurseForm"
+                    >
+
+
+                        <div class="form-grid">
+
+
+                            <!-- NURSE ID -->
+
+                            <div class="form-group">
+
+                                <label for="nurseId">
+                                    Nurse ID
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="nurseId"
+                                    placeholder="N002"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- NAME -->
+
+                            <div class="form-group">
+
+                                <label for="nurseName">
+                                    Nurse Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="nurseName"
+                                    placeholder="Nurse John"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- DEPARTMENT -->
+
+                            <div class="form-group">
+
+                                <label for="nurseDepartment">
+                                    Department
+                                </label>
+
+                                <select
+                                    id="nurseDepartment"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Department
+                                    </option>
+
+                                    <option value="General Ward">
+                                        General Ward
+                                    </option>
+
+                                    <option value="Emergency">
+                                        Emergency
+                                    </option>
+
+                                    <option value="ICU">
+                                        ICU
+                                    </option>
+
+                                    <option value="Surgical Ward">
+                                        Surgical Ward
+                                    </option>
+
+                                    <option value="Pediatrics">
+                                        Pediatrics
+                                    </option>
+
+                                    <option value="Cardiology">
+                                        Cardiology
+                                    </option>
+
+                                    <option value="Outpatient Department">
+                                        Outpatient Department
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- SHIFT -->
+
+                            <div class="form-group">
+
+                                <label for="nurseShift">
+                                    Shift
+                                </label>
+
+                                <select
+                                    id="nurseShift"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Shift
+                                    </option>
+
+                                    <option value="Morning">
+                                        Morning
+                                    </option>
+
+                                    <option value="Afternoon">
+                                        Afternoon
+                                    </option>
+
+                                    <option value="Evening">
+                                        Evening
+                                    </option>
+
+                                    <option value="Night">
+                                        Night
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- PHONE -->
+
+                            <div class="form-group">
+
+                                <label for="nursePhone">
+                                    Phone
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="nursePhone"
+                                    maxlength="10"
+                                    inputmode="numeric"
+                                    placeholder="10 digit phone number"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- USERNAME -->
+
+                            <div class="form-group">
+
+                                <label for="nurseUsername">
+                                    Username
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="nurseUsername"
+                                    placeholder="Nurse username"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- PASSWORD -->
+
+                            <div class="form-group">
+
+                                <label for="nursePassword">
+                                    Password
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="nursePassword"
+                                    placeholder="Nurse password"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <!-- STATUS -->
+
+                            <div class="form-group">
+
+                                <label for="nurseStatus">
+                                    Status
+                                </label>
+
+                                <select
+                                    id="nurseStatus"
+                                    required
+                                >
+
+                                    <option value="Active">
+                                        Active
+                                    </option>
+
+                                    <option value="Inactive">
+                                        Inactive
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- BUTTONS -->
+
+                        <div class="form-buttons">
+
+                            <button
+                                type="submit"
+                                class="save-button"
+                            >
+                                Save Nurse
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="cancel-button"
+                                onclick="hideAddNurse()"
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+
+
+                        <!-- SUCCESS MESSAGE -->
+
+                        <div
+                            id="successMessage"
+                            class="success-message"
+                        >
+                        </div>
+
+
+
+                        <!-- ERROR MESSAGE -->
+
+                        <div
+                            id="errorMessage"
+                            class="error-message"
+                        >
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 NURSE TABLE
+            ================================== -->
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Nurse ID
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Shift
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="nurseTable">
+                </tbody>
+
+            </table>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         EXISTING SECURITY
+    ========================================== -->
+
+    <script src="../security.js"></script>
+
+
+
+    <!-- =========================================
+         NURSE JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+
+        /* =========================================
+           STORAGE KEY
+        ========================================= */
+
+        const NURSE_STORAGE_KEY = "nurses";
+
+
+
+        /* =========================================
+           DEFAULT NURSE
+
+           IMPORTANT:
+           This is only used when there is
+           NO nurse data already saved.
+        ========================================== */
+
+        const DEFAULT_NURSES = [
+
+            {
+
+                nurseId: "N001",
+
+                name: "Nurse Example",
+
+                department: "General Ward",
+
+                shift: "Morning",
+
+                phone: "9876543210",
+
+                username: "nurse",
+
+                password: "nurse123",
+
+                status: "Active"
+
+            }
+
+        ];
+
+
+
+        /* =========================================
+           GET NURSES
+
+           IMPORTANT:
+           Existing localStorage data is NEVER
+           replaced just because a new version
+           of this page is loaded.
+        ========================================== */
+
+        function getNurses() {
+
+            const saved =
+                localStorage.getItem(
+                    NURSE_STORAGE_KEY
+                );
+
+
+            /*
+             * No saved nurses yet
+             */
+
+            if (!saved) {
+
+                localStorage.setItem(
+
+                    NURSE_STORAGE_KEY,
+
+                    JSON.stringify(
+                        DEFAULT_NURSES
+                    )
+
+                );
+
+
+                return [
+                    ...DEFAULT_NURSES
+                ];
+
+            }
+
+
+            /*
+             * Existing nurses
+             */
+
+            try {
+
+                const nurses =
+                    JSON.parse(saved);
+
+
+                if (
+                    Array.isArray(nurses)
+                ) {
+
+                    return nurses;
+
+                }
+
+
+                /*
+                 * If data is invalid,
+                 * use default data.
+                 */
+
+                localStorage.setItem(
+
+                    NURSE_STORAGE_KEY,
+
+                    JSON.stringify(
+                        DEFAULT_NURSES
+                    )
+
+                );
+
+
+                return [
+                    ...DEFAULT_NURSES
+                ];
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Unable to read nurse data:",
+                    error
+                );
+
+
+                /*
+                 * Do NOT destroy existing
+                 * localStorage data here.
+                 */
+
+                return [];
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           SAVE NURSES
+        ========================================== */
+
+        function saveNurses(nurses) {
+
+            try {
+
+                const serialized =
+                    JSON.stringify(nurses);
+
+                localStorage.setItem(
+                    NURSE_STORAGE_KEY,
+                    serialized
+                );
+
+                /*
+                 * Immediately verify that the exact
+                 * saved array can be read back.
+                 * This prevents the page from showing
+                 * a success message when the browser did
+                 * not actually persist the nurse data.
+                 */
+                const savedAgain =
+                    localStorage.getItem(
+                        NURSE_STORAGE_KEY
+                    );
+
+                const verified =
+                    JSON.parse(savedAgain || "null");
+
+                if (!Array.isArray(verified)) {
+                    throw new Error(
+                        "Nurse data could not be verified after saving."
+                    );
+                }
+
+                return verified;
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Unable to save nurse data:",
+                    error
+                );
+
+                throw error;
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           SHOW ADD NURSE FORM
+        ========================================== */
+
+        function showAddNurse() {
+
+            const section =
+                document.getElementById(
+                    "addNurseSection"
+                );
+
+
+            section.style.display =
+                "block";
+
+
+            section.scrollIntoView({
+
+                behavior: "smooth",
+
+                block: "start"
+
+            });
+
+        }
+
+
+
+        /* =========================================
+           HIDE ADD NURSE FORM
+        ========================================== */
+
+        function hideAddNurse() {
+
+            document.getElementById(
+                "addNurseSection"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "nurseForm"
+            ).reset();
+
+
+            hideMessages();
+
+        }
+
+
+
+        /* =========================================
+           HIDE MESSAGES
+        ========================================== */
+
+        function hideMessages() {
+
+            document.getElementById(
+                "successMessage"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "errorMessage"
+            ).style.display =
+                "none";
+
+        }
+
+
+
+        /* =========================================
+           MASK PHONE
+        ========================================== */
+
+        function maskPhone(phone) {
+
+            if (!phone) {
+
+                return "Not Available";
+
+            }
+
+
+            const value =
+                String(phone);
+
+
+            if (
+                value.length <= 4
+            ) {
+
+                return "****";
+
+            }
+
+
+            return (
+
+                "*".repeat(
+                    value.length - 4
+                )
+
+                +
+
+                value.slice(-4)
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================== */
+
+        function escapeHTML(value) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            if (
+                value === undefined ||
+                value === null
+            ) {
+
+                value = "";
+
+            }
+
+
+            div.textContent =
+                String(value);
+
+
+            return div.innerHTML;
+
+        }
+
+
+
+        /* =========================================
+           RENDER NURSES
+
+           IMPORTANT:
+           This supports BOTH old nurse
+           records and newly added nurses.
+        ========================================== */
+
+        function renderNurses() {
+
+            renderNursesFromData(
+                getNurses()
+            );
+
+        }
+
+
+
+        /* =========================================
+           RENDER FROM A SPECIFIC DATA ARRAY
+
+           This keeps the table display separate from
+           storage and lets the save operation refresh
+           the table using the verified saved array.
+        ========================================== */
+
+        function renderNursesFromData(nurses) {
+
+            const table =
+                document.getElementById(
+                    "nurseTable"
+                );
+
+
+            table.innerHTML = "";
+
+
+
+            /* =====================================
+               UPDATE TOTAL
+            ====================================== */
+
+            document.getElementById(
+                "nurseTotal"
+            ).textContent =
+                nurses.length;
+
+
+
+            /* =====================================
+               DISPLAY NURSES
+            ====================================== */
+
+            nurses.forEach(function(nurse) {
+
+
+                /*
+                 * SUPPORT OLD FIELD NAMES
+                 */
+
+                const nurseId =
+
+                    nurse.nurseId ||
+
+                    nurse.id ||
+
+                    nurse.employeeId ||
+
+                    nurse.staffId ||
+
+                    "Not Available";
+
+
+                const name =
+
+                    nurse.name ||
+
+                    nurse.fullName ||
+
+                    nurse.nurseName ||
+
+                    nurse.employeeName ||
+
+                    "Not Available";
+
+
+                const department =
+
+                    nurse.department ||
+
+                    nurse.dept ||
+
+                    "Not Available";
+
+
+                const shift =
+
+                    nurse.shift ||
+
+                    nurse.dutyShift ||
+
+                    nurse.workShift ||
+
+                    "Not Available";
+
+
+                const phone =
+
+                    nurse.phone ||
+
+                    nurse.phoneNumber ||
+
+                    nurse.mobile ||
+
+                    nurse.mobileNumber ||
+
+                    "";
+
+
+                const status =
+
+                    nurse.status ||
+
+                    nurse.accountStatus ||
+
+                    "Active";
+
+
+
+                /*
+                 * CREATE ROW
+                 */
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${escapeHTML(nurseId)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(name)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(department)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(shift)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            maskPhone(phone)
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(status)}
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="admin-nurse-details.html"
+                        >
+
+                            <button
+                                type="button"
+                            >
+                                View
+                            </button>
+
+                        </a>
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+
+        /* =========================================
+           ADD NURSE FORM
+        ========================================== */
+
+        document.getElementById(
+            "nurseForm"
+        ).addEventListener(
+
+            "submit",
+
+            function(event) {
+
+                event.preventDefault();
+
+
+                hideMessages();
+
+
+
+                /* =================================
+                   GET VALUES
+                ================================== */
+
+                const nurseId =
+                    document.getElementById(
+                        "nurseId"
+                    ).value.trim();
+
+
+                const name =
+                    document.getElementById(
+                        "nurseName"
+                    ).value.trim();
+
+
+                const department =
+                    document.getElementById(
+                        "nurseDepartment"
+                    ).value;
+
+
+                const shift =
+                    document.getElementById(
+                        "nurseShift"
+                    ).value;
+
+
+                const phone =
+                    document.getElementById(
+                        "nursePhone"
+                    ).value.trim();
+
+
+                const username =
+                    document.getElementById(
+                        "nurseUsername"
+                    ).value.trim();
+
+
+                const password =
+                    document.getElementById(
+                        "nursePassword"
+                    ).value;
+
+
+                const status =
+                    document.getElementById(
+                        "nurseStatus"
+                    ).value;
+
+
+
+                /* =================================
+                   VALIDATE PHONE
+                ================================== */
+
+                if (
+                    !/^\d{10}$/.test(phone)
+                ) {
+
+                    showError(
+                        "Please enter a valid 10-digit phone number."
+                    );
+
+                    return;
+
+                }
+
+
+
+                /* =================================
+                   GET EXISTING NURSES
+                ================================== */
+
+                const nurses =
+                    getNurses();
+
+
+
+                /* =================================
+                   CHECK DUPLICATE NURSE ID
+                ================================== */
+
+                const idExists =
+                    nurses.some(
+                        function(nurse) {
+
+                            const existingId =
+
+                                nurse.nurseId ||
+
+                                nurse.id ||
+
+                                nurse.employeeId ||
+
+                                nurse.staffId ||
+
+                                "";
+
+
+                            return (
+
+                                String(existingId)
+                                    .toLowerCase()
+
+                                ===
+
+                                String(nurseId)
+                                    .toLowerCase()
+
+                            );
+
+                        }
+                    );
+
+
+                if (idExists) {
+
+                    showError(
+                        "This Nurse ID already exists."
+                    );
+
+                    return;
+
+                }
+
+
+
+                /* =================================
+                   CHECK DUPLICATE USERNAME
+                ================================== */
+
+                const usernameExists =
+                    nurses.some(
+                        function(nurse) {
+
+                            const existingUsername =
+
+                                nurse.username ||
+
+                                nurse.userName ||
+
+                                "";
+
+
+                            return (
+
+                                String(
+                                    existingUsername
+                                ).toLowerCase()
+
+                                ===
+
+                                String(
+                                    username
+                                ).toLowerCase()
+
+                            );
+
+                        }
+                    );
+
+
+                if (usernameExists) {
+
+                    showError(
+                        "This username already exists."
+                    );
+
+                    return;
+
+                }
+
+
+
+                /* =================================
+                   CREATE NEW NURSE
+                ================================== */
+
+                const newNurse = {
+
+                    nurseId:
+                        nurseId,
+
+                    name:
+                        name,
+
+                    department:
+                        department,
+
+                    shift:
+                        shift,
+
+                    phone:
+                        phone,
+
+                    username:
+                        username,
+
+                    password:
+                        password,
+
+                    status:
+                        status
+
+                };
+
+
+
+                /* =================================
+                   ADD NEW NURSE
+                ================================== */
+
+                nurses.push(
+                    newNurse
+                );
+
+
+
+                /* =================================
+                   SAVE
+                ================================== */
+
+                /*
+                 * Save and immediately read the data back.
+                 * Only show success after persistence has
+                 * been verified.
+                 */
+                let savedNurses;
+
+                try {
+
+                    savedNurses =
+                        saveNurses(nurses);
+
+                }
+
+                catch (error) {
+
+                    showError(
+                        "The nurse could not be saved. Please try again."
+                    );
+
+                    return;
+
+                }
+
+
+
+                /* =================================
+                   REFRESH TABLE FROM VERIFIED DATA
+                ================================== */
+
+                renderNursesFromData(savedNurses);
+
+
+
+                /* =================================
+                   SUCCESS
+                ================================== */
+
+                const success =
+                    document.getElementById(
+                        "successMessage"
+                    );
+
+
+                success.textContent =
+                    "Nurse added successfully.";
+
+
+                success.style.display =
+                    "block";
+
+
+
+                /* =================================
+                   CLEAR FORM
+                ================================== */
+
+                document.getElementById(
+                    "nurseForm"
+                ).reset();
+
+            }
+
+        );
+
+
+
+        /* =========================================
+           SHOW ERROR
+        ========================================== */
+
+        function showError(message) {
+
+            const error =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            error.textContent =
+                message;
+
+
+            error.style.display =
+                "block";
+
+        }
+
+
+
+
+
+        /* =========================================
+           REFRESH WHEN NURSE STORAGE CHANGES
+        ========================================== */
+
+        window.addEventListener(
+            "storage",
+            function(event) {
+
+                if (event.key === NURSE_STORAGE_KEY) {
+
+                    renderNurses();
+
+                }
+
+            }
+        );
+
+        /* =========================================
+           PAGE LOAD
+        ========================================== */
+
+        document.addEventListener(
+
+            "DOMContentLoaded",
+
+            function() {
+
+                renderNurses();
+
+            }
+
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

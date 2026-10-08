@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Billing</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="logo">
+        <h2>🏥 HMS</h2>
+    </div>
+
+    <div class="title">
+        <h2>Hospital Management System</h2>
+    </div>
+
+    <div class="admin-info">
+        Welcome, Patient
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar">
+
+        <a href="patient-dashboard.html">🏠 Dashboard</a>
+        <a href="patient-book-appointment.html">📅 Book Appointment</a>
+        <a href="patient-my-appointments.html">📋 My Appointments</a>
+        <a href="patient-medical-records.html">📄 Medical Records</a>
+        <a href="patient-prescriptions.html">💊 Prescriptions</a>
+        <a href="patient-profile.html">👤 Profile</a>
+        <a href="patient-feedback.html">⭐ Feedback</a>
+        <a href="patient-notifications.html">🔔 Notifications</a>
+        <a href="patient-billing.html">💳 Billing</a>
+        <a href="patient-lab-reports.html">🧪 Lab Reports</a>
+        <a href="patient-settings.html">⚙ Settings</a>
+        <a href="index.html">🚪 Logout</a>
+
+    </aside>
+
+    <main class="content">
+
+        <h1>💳 Billing Details</h1>
+
+        <div class="dashboard">
+
+            <div class="card">
+                <h2>₹12,500</h2>
+                <p>Total Bill</p>
+            </div>
+
+            <div class="card">
+                <h2>₹8,000</h2>
+                <p>Amount Paid</p>
+            </div>
+
+            <div class="card">
+                <h2>₹4,500</h2>
+                <p>Pending Amount</p>
+            </div>
+
+            <div class="card">
+                <h2>3</h2>
+                <p>Total Bills</p>
+            </div>
+
+        </div>
+
+        <h2>Billing History</h2>
+
+        <table>
+
+            <tr>
+                <th>Bill ID</th>
+                <th>Date</th>
+                <th>Department</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td>B001</td>
+                <td>10 July 2026</td>
+                <td>General Medicine</td>
+                <td>Consultation Fee</td>
+                <td>₹500</td>
+                <td>Paid</td>
+            </tr>
+
+            <tr>
+                <td>B002</td>
+                <td>12 July 2026</td>
+                <td>Laboratory</td>
+                <td>Blood Test</td>
+                <td>₹2,000</td>
+                <td>Paid</td>
+            </tr>
+
+            <tr>
+                <td>B003</td>
+                <td>15 July 2026</td>
+                <td>Pharmacy</td>
+                <td>Medicines</td>
+                <td>₹2,500</td>
+                <td>Pending</td>
+            </tr>
+
+            <tr>
+                <td>B004</td>
+                <td>18 July 2026</td>
+                <td>Radiology</td>
+                <td>X-Ray</td>
+                <td>₹1,500</td>
+                <td>Paid</td>
+            </tr>
+
+            <tr>
+                <td>B005</td>
+                <td>20 July 2026</td>
+                <td>Hospital Charges</td>
+                <td>Room Charges</td>
+                <td>₹6,000</td>
+                <td>Pending</td>
+            </tr>
+
+        </table>
+
+        <br>
+
+        <div class="card">
+
+            <h2>Payment Summary</h2>
+
+            <p><strong>Total Amount :</strong> ₹12,500</p>
+            <p><strong>Paid :</strong> ₹8,000</p>
+            <p><strong>Pending :</strong> ₹4,500</p>
+
+            <br>
+
+            <button>💳 Pay Now</button>
+            <button>📥 Download Invoice</button>
+            <button onclick="window.print()">🖨 Print Bill</button>
+
+        </div>
+
+    </main>
+
+</div>
+
+<footer>
+    © 2026 Hospital Management System | Patient Panel
+</footer>
+
+</body>
+</html>

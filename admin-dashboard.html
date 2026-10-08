@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Dashboard - Hospital Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+
+    <style>
+
+        /* =========================================
+           DASHBOARD
+        ========================================= */
+
+        .dashboard-page {
+            width: 100%;
+        }
+
+
+        .welcome-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+
+        .welcome-card h1 {
+            margin-top: 0;
+            color: #0b6684;
+        }
+
+
+        .welcome-card p {
+            margin-bottom: 0;
+            color: #555;
+        }
+
+
+
+        /* =========================================
+           ADMIN PROFILE
+        ========================================= */
+
+        .admin-profile-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+
+        .admin-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #0b6684;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+
+        .admin-profile-info h2 {
+            margin: 0 0 7px 0;
+            color: #0b6684;
+        }
+
+
+        .admin-profile-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+
+        .profile-button {
+            margin-left: auto;
+        }
+
+
+
+        /* =========================================
+           SUMMARY CARDS
+        ========================================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+
+        .summary-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.08);
+
+            border: 2px solid transparent;
+        }
+
+
+        .summary-card:hover {
+            border-color: #0b6684;
+        }
+
+
+        .summary-card h3 {
+            margin-top: 0;
+            color: #0b6684;
+            font-size: 17px;
+        }
+
+
+        .summary-number {
+            font-size: 34px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #222;
+        }
+
+
+        .summary-card a {
+            text-decoration: none;
+        }
+
+
+        .view-link {
+            color: #0b6684;
+            font-weight: bold;
+        }
+
+
+
+        /* =========================================
+           QUICK ACTIONS
+        ========================================= */
+
+        .section-title {
+            color: #0b6684;
+            margin-bottom: 15px;
+        }
+
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+
+        .action-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.08);
+
+            text-align: center;
+        }
+
+
+        .action-card h3 {
+            color: #0b6684;
+            margin-top: 0;
+        }
+
+
+        .action-card p {
+            color: #666;
+            min-height: 42px;
+        }
+
+
+        .action-button {
+            display: inline-block;
+
+            background: #0b6684;
+            color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        .action-button:hover {
+            opacity: 0.9;
+        }
+
+
+
+        /* =========================================
+           HOSPITAL INFORMATION
+        ========================================= */
+
+        .hospital-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+        }
+
+
+        .hospital-section h2 {
+            color: #0b6684;
+            margin-top: 0;
+        }
+
+
+        .hospital-section p {
+            line-height: 1.7;
+            color: #555;
+        }
+
+
+        .hospital-info-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-top: 20px;
+        }
+
+
+        .hospital-info-box {
+            background: #f7fafb;
+            border-radius: 8px;
+            padding: 18px;
+            border: 1px solid #d7e0e5;
+        }
+
+
+        .hospital-info-box h3 {
+            margin-top: 0;
+            color: #0b6684;
+        }
+
+
+        .hospital-info-box p {
+            margin-bottom: 0;
+        }
+
+
+
+        /* =========================================
+           SYSTEM STATUS
+        ========================================= */
+
+        .system-status {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+        }
+
+
+        .system-status h2 {
+            margin-top: 0;
+            color: #0b6684;
+        }
+
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid #e1e6e9;
+        }
+
+
+        .status-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .status-active {
+            color: #19733b;
+            font-weight: bold;
+        }
+
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 1100px) {
+
+            .summary-grid,
+            .quick-actions {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .hospital-info-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .summary-grid,
+            .quick-actions {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .admin-profile-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+
+            .profile-button {
+                margin-left: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Admin
+            </span>
+
+
+            <button
+                type="button"
+                onclick="logoutAdmin()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Admin
+                </h2>
+
+            </div>
+
+
+            <a
+                href="admin-dashboard.html"
+                class="active"
+            >
+                Dashboard
+            </a>
+
+
+            <a href="admin-patients.html">
+                Patients
+            </a>
+
+
+            <a href="admin-doctors.html">
+                Doctors
+            </a>
+
+
+            <a href="admin-nurses.html">
+                Nurses
+            </a>
+
+
+            <a href="admin-appointments.html">
+                Appointments
+            </a>
+
+
+            <a href="admin-beds.html">
+                Beds
+            </a>
+
+
+            <a href="admin-medicines.html">
+                Medicines
+            </a>
+
+
+            <a href="admin-reports.html">
+                Reports
+            </a>
+
+
+            <a href="admin-notifications.html">
+                Notifications
+            </a>
+
+
+            <a href="admin-account-credentials.html">
+                🔐 Account Credentials
+            </a>
+
+
+            <a href="admin-profile.html">
+                My Profile
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content dashboard-page">
+
+
+            <!-- =================================
+                 WELCOME
+            ================================== -->
+
+            <div class="welcome-card">
+
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+                <p>
+                    Welcome to the Hospital Management
+                    System. Manage hospital operations,
+                    staff, patients and resources from
+                    this dashboard.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================
+                 ADMIN PROFILE
+            ================================== -->
+
+            <div class="admin-profile-card">
+
+
+                <div class="admin-avatar">
+                    👤
+                </div>
+
+
+                <div class="admin-profile-info">
+
+                    <h2 id="adminName">
+                        Administrator
+                    </h2>
+
+                    <p>
+                        <strong>
+                            Role:
+                        </strong>
+                        Hospital Administrator
+                    </p>
+
+                    <p>
+                        <strong>
+                            Status:
+                        </strong>
+
+                        <span class="status-active">
+                            Active
+                        </span>
+                    </p>
+
+                </div>
+
+
+                <div class="profile-button">
+
+                    <a
+                        href="admin-profile.html"
+                        class="action-button"
+                    >
+                        View Profile
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 SUMMARY
+            ================================== -->
+
+            <h2 class="section-title">
+                Hospital Overview
+            </h2>
+
+
+            <div class="summary-grid">
+
+
+                <!-- PATIENTS -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        👤 Total Patients
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="totalPatients"
+                    >
+                        0
+                    </div>
+
+                    <a
+                        href="admin-patients.html"
+                        class="view-link"
+                    >
+                        View Patients →
+                    </a>
+
+                </div>
+
+
+
+                <!-- DOCTORS -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        👨‍⚕️ Total Doctors
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="totalDoctors"
+                    >
+                        0
+                    </div>
+
+                    <a
+                        href="admin-doctors.html"
+                        class="view-link"
+                    >
+                        View Doctors →
+                    </a>
+
+                </div>
+
+
+
+                <!-- NURSES -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        👩‍⚕️ Total Nurses
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="totalNurses"
+                    >
+                        0
+                    </div>
+
+                    <a
+                        href="admin-nurses.html"
+                        class="view-link"
+                    >
+                        View Nurses →
+                    </a>
+
+                </div>
+
+
+
+                <!-- PHARMACISTS -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        💊 Total Pharmacists
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="totalPharmacists"
+                    >
+                        0
+                    </div>
+
+                    <a
+                        href="admin-pharmacists.html"
+                        class="view-link"
+                    >
+                        View Pharmacists →
+                    </a>
+
+                </div>
+
+
+
+                <!-- APPOINTMENTS -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        📅 Appointments
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="totalAppointments"
+                    >
+                        0
+                    </div>
+
+                    <a
+                        href="admin-appointments.html"
+                        class="view-link"
+                    >
+                        View Appointments →
+                    </a>
+
+                </div>
+
+
+
+                <!-- BEDS -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        🛏️ Available Beds
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="availableBeds"
+                    >
+                        0
+                    </div>
+
+                    <a
+                        href="admin-beds.html"
+                        class="view-link"
+                    >
+                        View Beds →
+                    </a>
+
+                </div>
+
+
+
+                <!-- MEDICINES -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        💊 Medicines
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="totalMedicines"
+                    >
+                        0
+                    </div>
+
+                    <a
+                        href="admin-medicines.html"
+                        class="view-link"
+                    >
+                        View Medicines →
+                    </a>
+
+                </div>
+
+
+
+                <!-- NOTIFICATIONS -->
+
+                <div class="summary-card">
+
+                    <h3>
+                        🔔 Pending Notifications
+                    </h3>
+
+                    <div
+                        class="summary-number"
+                        id="pendingNotifications"
+                    >
+                        0
+                    </div>
+
+                    <a
+                        href="admin-notifications.html"
+                        class="view-link"
+                    >
+                        View Notifications →
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 QUICK ACTIONS
+            ================================== -->
+
+            <h2 class="section-title">
+                Quick Actions
+            </h2>
+
+
+            <div class="quick-actions">
+
+
+                <!-- ADD PATIENT -->
+
+                <div class="action-card">
+
+                    <h3>
+                        👤 Add Patient
+                    </h3>
+
+                    <p>
+                        Register a new patient and
+                        assign a department and doctor.
+                    </p>
+
+                    <a
+                        href="admin-patients.html"
+                        class="action-button"
+                    >
+                        Add Patient
+                    </a>
+
+                </div>
+
+
+
+                <!-- ADD DOCTOR -->
+
+                <div class="action-card">
+
+                    <h3>
+                        👨‍⚕️ Add Doctor
+                    </h3>
+
+                    <p>
+                        Register a new doctor and
+                        configure their department.
+                    </p>
+
+                    <a
+                        href="admin-doctors.html"
+                        class="action-button"
+                    >
+                        Add Doctor
+                    </a>
+
+                </div>
+
+
+
+                <!-- ADD NURSE -->
+
+                <div class="action-card">
+
+                    <h3>
+                        👩‍⚕️ Add Nurse
+                    </h3>
+
+                    <p>
+                        Add a new nurse to the
+                        hospital staff.
+                    </p>
+
+                    <a
+                        href="admin-nurses.html"
+                        class="action-button"
+                    >
+                        Add Nurse
+                    </a>
+
+                </div>
+
+
+
+                <!-- ADD PHARMACIST -->
+
+                <div class="action-card">
+
+                    <h3>
+                        💊 Add Pharmacist
+                    </h3>
+
+                    <p>
+                        Register a new pharmacist
+                        and manage their account.
+                    </p>
+
+                    <a
+                        href="admin-pharmacists.html"
+                        class="action-button"
+                    >
+                        Add Pharmacist
+                    </a>
+
+                </div>
+
+
+
+                <!-- ACCOUNT CREDENTIALS -->
+
+                <div class="action-card">
+
+                    <h3>
+                        🔐 Account Credentials
+                    </h3>
+
+                    <p>
+                        Securely access doctor and
+                        patient account information.
+                    </p>
+
+                    <a
+                        href="admin-account-credentials.html"
+                        class="action-button"
+                    >
+                        Open
+                    </a>
+
+                </div>
+
+
+
+                <!-- APPOINTMENTS -->
+
+                <div class="action-card">
+
+                    <h3>
+                        📅 Appointments
+                    </h3>
+
+                    <p>
+                        Review and manage hospital
+                        appointments.
+                    </p>
+
+                    <a
+                        href="admin-appointments.html"
+                        class="action-button"
+                    >
+                        Manage
+                    </a>
+
+                </div>
+
+
+
+                <!-- BEDS -->
+
+                <div class="action-card">
+
+                    <h3>
+                        🛏️ Beds
+                    </h3>
+
+                    <p>
+                        Check bed availability and
+                        hospital occupancy.
+                    </p>
+
+                    <a
+                        href="admin-beds.html"
+                        class="action-button"
+                    >
+                        Manage
+                    </a>
+
+                </div>
+
+
+
+                <!-- REPORTS -->
+
+                <div class="action-card">
+
+                    <h3>
+                        📊 Reports
+                    </h3>
+
+                    <p>
+                        View hospital reports and
+                        administrative information.
+                    </p>
+
+                    <a
+                        href="admin-reports.html"
+                        class="action-button"
+                    >
+                        Reports
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 ABOUT HOSPITAL
+            ================================== -->
+
+            <div class="hospital-section">
+
+                <h2>
+                    🏥 About the Hospital
+                </h2>
+
+
+                <p>
+                    The Hospital Management System is
+                    designed to provide a centralized
+                    platform for managing patients,
+                    doctors, nurses, pharmacists,
+                    appointments, medicines, beds and
+                    hospital administration.
+                </p>
+
+
+                <p>
+                    The system helps hospital
+                    administrators organize daily
+                    operations while allowing authorized
+                    staff to access the information
+                    required for patient care.
+                </p>
+
+
+
+                <div class="hospital-info-grid">
+
+
+                    <div class="hospital-info-box">
+
+                        <h3>
+                            🩺 Patient Care
+                        </h3>
+
+                        <p>
+                            Manage patient registration,
+                            inpatient and outpatient
+                            information, complaints and
+                            doctor assignments.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="hospital-info-box">
+
+                        <h3>
+                            👨‍⚕️ Medical Staff
+                        </h3>
+
+                        <p>
+                            Maintain information about
+                            doctors, nurses and other
+                            healthcare professionals.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="hospital-info-box">
+
+                        <h3>
+                            🏥 Hospital Operations
+                        </h3>
+
+                        <p>
+                            Monitor appointments, beds,
+                            medicines, notifications and
+                            administrative reports.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SYSTEM STATUS
+            ================================== -->
+
+            <div class="system-status">
+
+                <h2>
+                    🔐 System Status
+                </h2>
+
+
+                <div class="status-row">
+
+                    <span>
+                        Hospital Management System
+                    </span>
+
+                    <span class="status-active">
+                        Active
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <span>
+                        Patient Management
+                    </span>
+
+                    <span class="status-active">
+                        Active
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <span>
+                        Doctor Management
+                    </span>
+
+                    <span class="status-active">
+                        Active
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <span>
+                        Appointment Management
+                    </span>
+
+                    <span class="status-active">
+                        Active
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <span>
+                        Security
+                    </span>
+
+                    <span class="status-active">
+                        Protected
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         SECURITY
+    ========================================= -->
+
+    <script src="../security.js"></script>
+
+
+
+    <!-- =========================================
+         DASHBOARD JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           STORAGE KEYS
+        ========================================= */
+
+        const PATIENT_STORAGE_KEY =
+            "patients";
+
+
+        const DOCTOR_STORAGE_KEY =
+            "doctors";
+
+
+        const NURSE_STORAGE_KEY =
+            "nurses";
+
+
+        const PHARMACIST_STORAGE_KEY =
+            "pharmacists";
+
+
+        const APPOINTMENT_STORAGE_KEYS = [
+
+            "appointments",
+
+            "appointmentData",
+
+            "hospitalAppointments"
+
+        ];
+
+
+        const BED_STORAGE_KEYS = [
+
+            "beds",
+
+            "hospitalBeds"
+
+        ];
+
+
+        const MEDICINE_STORAGE_KEYS = [
+
+            "medicines",
+
+            "hospitalMedicines"
+
+        ];
+
+
+        const NOTIFICATION_STORAGE_KEYS = [
+
+            "notifications",
+
+            "hospitalNotifications"
+
+        ];
+
+
+
+        /* =========================================
+           READ ARRAY
+        ========================================= */
+
+        function readArray(
+            key
+        ) {
+
+            const saved =
+                localStorage.getItem(
+                    key
+                );
+
+
+            if (!saved) {
+
+                return [];
+
+            }
+
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        saved
+                    );
+
+
+                if (
+                    Array.isArray(data)
+                ) {
+
+                    return data;
+
+                }
+
+
+                return [];
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Unable to read:",
+                    key,
+                    error
+                );
+
+
+                return [];
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           READ FIRST EXISTING ARRAY
+        ========================================= */
+
+        function readFirstExistingArray(
+            keys
+        ) {
+
+            for (
+                let i = 0;
+                i < keys.length;
+                i++
+            ) {
+
+                const saved =
+                    localStorage.getItem(
+                        keys[i]
+                    );
+
+
+                if (!saved) {
+
+                    continue;
+
+                }
+
+
+                try {
+
+                    const data =
+                        JSON.parse(
+                            saved
+                        );
+
+
+                    if (
+                        Array.isArray(data)
+                    ) {
+
+                        return data;
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    continue;
+
+                }
+
+            }
+
+
+            return [];
+
+        }
+
+
+
+        /* =========================================
+           PATIENT COUNT
+        ========================================= */
+
+        function updatePatientCount() {
+
+            const patients =
+                readArray(
+                    PATIENT_STORAGE_KEY
+                );
+
+
+            document.getElementById(
+                "totalPatients"
+            ).textContent =
+                patients.length;
+
+        }
+
+
+
+        /* =========================================
+           DOCTOR COUNT
+        ========================================= */
+
+        function updateDoctorCount() {
+
+            const doctors =
+                readArray(
+                    DOCTOR_STORAGE_KEY
+                );
+
+
+            document.getElementById(
+                "totalDoctors"
+            ).textContent =
+                doctors.length;
+
+        }
+
+
+
+        /* =========================================
+           NURSE COUNT
+        ========================================= */
+
+        function updateNurseCount() {
+
+            const nurses =
+                readArray(
+                    NURSE_STORAGE_KEY
+                );
+
+
+            document.getElementById(
+                "totalNurses"
+            ).textContent =
+                nurses.length;
+
+        }
+
+
+
+        /* =========================================
+           PHARMACIST COUNT
+        ========================================= */
+
+        function updatePharmacistCount() {
+
+            const pharmacists =
+                readArray(
+                    PHARMACIST_STORAGE_KEY
+                );
+
+
+            document.getElementById(
+                "totalPharmacists"
+            ).textContent =
+                pharmacists.length;
+
+        }
+
+
+
+        /* =========================================
+           APPOINTMENT COUNT
+        ========================================= */
+
+        function updateAppointmentCount() {
+
+            const appointments =
+                readFirstExistingArray(
+                    APPOINTMENT_STORAGE_KEYS
+                );
+
+
+            document.getElementById(
+                "totalAppointments"
+            ).textContent =
+                appointments.length;
+
+        }
+
+
+
+        /* =========================================
+           AVAILABLE BED COUNT
+        ========================================= */
+
+        function updateBedCount() {
+
+            const beds =
+                readFirstExistingArray(
+                    BED_STORAGE_KEYS
+                );
+
+
+            let availableCount =
+                0;
+
+
+            beds.forEach(
+                function(bed) {
+
+                    const status =
+                        String(
+                            bed.status ||
+                            bed.bedStatus ||
+                            ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    if (
+                        status === "available"
+                        ||
+                        status === "vacant"
+                        ||
+                        status === "free"
+                    ) {
+
+                        availableCount++;
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * If beds exist but don't contain
+             * a status field, don't pretend all
+             * beds are available.
+             */
+
+            document.getElementById(
+                "availableBeds"
+            ).textContent =
+                availableCount;
+
+        }
+
+
+
+        /* =========================================
+           MEDICINE COUNT
+        ========================================= */
+
+        function updateMedicineCount() {
+
+            const medicines =
+                readFirstExistingArray(
+                    MEDICINE_STORAGE_KEYS
+                );
+
+
+            document.getElementById(
+                "totalMedicines"
+            ).textContent =
+                medicines.length;
+
+        }
+
+
+
+        /* =========================================
+           NOTIFICATION COUNT
+        ========================================= */
+
+        function updateNotificationCount() {
+
+            const notifications =
+                readFirstExistingArray(
+                    NOTIFICATION_STORAGE_KEYS
+                );
+
+
+            let pendingCount =
+                0;
+
+
+            notifications.forEach(
+                function(notification) {
+
+                    const status =
+                        String(
+                            notification.status ||
+                            ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    const read =
+                        notification.read;
+
+
+                    if (
+                        status === "pending"
+                        ||
+                        status === "unread"
+                        ||
+                        read === false
+                    ) {
+
+                        pendingCount++;
+
+                    }
+
+                }
+            );
+
+
+            document.getElementById(
+                "pendingNotifications"
+            ).textContent =
+                pendingCount;
+
+        }
+
+
+
+        /* =========================================
+           ADMIN PROFILE NAME
+        ========================================= */
+
+        function loadAdminName() {
+
+            const possibleKeys = [
+
+                "admin",
+
+                "adminUser",
+
+                "adminProfile",
+
+                "adminCredentials"
+
+            ];
+
+
+            for (
+                let i = 0;
+                i < possibleKeys.length;
+                i++
+            ) {
+
+                const saved =
+                    localStorage.getItem(
+                        possibleKeys[i]
+                    );
+
+
+                if (!saved) {
+
+                    continue;
+
+                }
+
+
+                try {
+
+                    const data =
+                        JSON.parse(
+                            saved
+                        );
+
+
+                    if (
+                        data
+                        &&
+                        typeof data === "object"
+                    ) {
+
+                        const name =
+                            data.name ||
+                            data.fullName ||
+                            data.username ||
+                            data.userName;
+
+
+                        if (name) {
+
+                            document.getElementById(
+                                "adminName"
+                            ).textContent =
+                                String(
+                                    name
+                                );
+
+                            return;
+
+                        }
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    continue;
+
+                }
+
+            }
+
+
+
+            /*
+             * If no admin profile is stored,
+             * keep the safe default.
+             */
+
+            document.getElementById(
+                "adminName"
+            ).textContent =
+                "Administrator";
+
+        }
+
+
+
+        /* =========================================
+           UPDATE EVERYTHING
+        ========================================= */
+
+        function updateDashboard() {
+
+            updatePatientCount();
+
+            updateDoctorCount();
+
+            updateNurseCount();
+
+            updatePharmacistCount();
+
+            updateAppointmentCount();
+
+            updateBedCount();
+
+            updateMedicineCount();
+
+            updateNotificationCount();
+
+            loadAdminName();
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        function logoutAdmin() {
+
+            /*
+             * Use the existing security system
+             * if it provides a logout function.
+             */
+
+            if (
+                typeof logout ===
+                "function"
+            ) {
+
+                logout();
+
+                return;
+
+            }
+
+
+            /*
+             * Otherwise return to index.
+             */
+
+            window.location.href =
+                "../index.html";
+
+        }
+
+
+
+        /* =========================================
+           PAGE LOAD
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                updateDashboard();
+
+            }
+        );
+
+
+
+        /* =========================================
+           REFRESH WHEN RETURNING TO PAGE
+        ========================================= */
+
+        window.addEventListener(
+            "pageshow",
+            function() {
+
+                updateDashboard();
+
+            }
+        );
+
+
+
+        /* =========================================
+           LOCAL STORAGE CHANGES
+        ========================================= */
+
+        window.addEventListener(
+            "storage",
+            function() {
+
+                updateDashboard();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Doctor Appointments - Hospital Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+    <style>
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .appointments-page {
+            width: 100%;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .page-header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.08);
+        }
+
+
+        .page-header h1 {
+            margin-top: 0;
+            color: #0b6684;
+            margin-bottom: 8px;
+        }
+
+
+        .page-header p {
+            color: #555;
+            margin-bottom: 0;
+        }
+
+
+        /* =========================================
+           DOCTOR INFO
+        ========================================= */
+
+        .doctor-info-card {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.08);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+
+        .doctor-info-card h2 {
+            color: #0b6684;
+            margin: 0 0 7px 0;
+        }
+
+
+        .doctor-info-card p {
+            color: #555;
+            margin: 5px 0;
+        }
+
+
+        .appointment-count {
+            background: #0b6684;
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================================
+           TABLE CARD
+        ========================================= */
+
+        .table-card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+        }
+
+
+        .table-card h2 {
+            color: #0b6684;
+
+            margin-top: 0;
+
+            margin-bottom: 18px;
+        }
+
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 1050px;
+        }
+
+
+        th {
+            background: #0b6684;
+
+            color: white;
+
+            padding: 13px 12px;
+
+            text-align: left;
+
+            white-space: nowrap;
+        }
+
+
+        td {
+            padding: 13px 12px;
+
+            border-bottom:
+                1px solid #e1e6e9;
+
+            color: #444;
+
+            vertical-align: middle;
+        }
+
+
+        tbody tr:hover {
+            background: #f7fafb;
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status-badge {
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        .status-pending {
+            background: #fff4d6;
+
+            color: #9a6700;
+        }
+
+
+        .status-completed {
+            background: #e8f7ed;
+
+            color: #19733b;
+        }
+
+
+        /* =========================================
+           COMPLETE BUTTON
+        ========================================= */
+
+        .complete-button {
+            background: #0b6684;
+
+            color: white;
+
+            border: none;
+
+            padding: 9px 14px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .complete-button:hover {
+            opacity: 0.9;
+        }
+
+
+        .completed-text {
+            color: #19733b;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================================
+           EMPTY
+        ========================================= */
+
+        .empty-message {
+            text-align: center;
+
+            padding: 40px 20px;
+
+            color: #666;
+        }
+
+
+        .empty-message h3 {
+            color: #0b6684;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* =========================================
+           SEARCH
+        ========================================= */
+
+        .search-card {
+            background: white;
+
+            padding: 20px 25px;
+
+            border-radius: 12px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 4px 12px rgba(0,0,0,0.08);
+        }
+
+
+        .search-card label {
+            display: block;
+
+            color: #0b6684;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+
+        .search-card input {
+            width: 100%;
+
+            padding: 12px;
+
+            border:
+                1px solid #ccd6dc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+        }
+
+
+        .search-card input:focus {
+            outline: none;
+
+            border-color: #0b6684;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 700px) {
+
+            .doctor-info-card {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .appointment-count {
+
+                white-space: normal;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span id="topDoctorName">
+                Doctor
+            </span>
+
+
+            <button
+                type="button"
+                onclick="logoutDoctor()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Doctor
+                </h2>
+
+            </div>
+
+
+            <a href="doctor-dashboard.html">
+                Dashboard
+            </a>
+
+
+            <a href="doctor-patients.html">
+                My Patients
+            </a>
+
+
+            <a
+                href="doctor-appointments.html"
+                class="active"
+            >
+                Appointments
+            </a>
+
+
+            <a href="doctor-records.html">
+                Medical Records
+            </a>
+
+
+            <a href="doctor-prescriptions.html">
+                Prescriptions
+            </a>
+
+
+            <a href="doctor-access-requests.html">
+                Access Requests
+            </a>
+
+
+            <a href="doctor-profile.html">
+                My Profile
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content appointments-page">
+
+
+            <!-- =================================
+                 PAGE HEADER
+            ================================== -->
+
+            <div class="page-header">
+
+                <h1>
+                    My Appointments
+                </h1>
+
+                <p>
+                    View appointments assigned to you
+                    and update their completion status.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================
+                 DOCTOR INFO
+            ================================== -->
+
+            <div class="doctor-info-card">
+
+                <div>
+
+                    <h2 id="doctorName">
+                        Doctor
+                    </h2>
+
+
+                    <p>
+
+                        <strong>
+                            Doctor ID:
+                        </strong>
+
+                        <span id="doctorId">
+                            Not Available
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Department:
+                        </strong>
+
+                        <span id="doctorDepartment">
+                            Not Available
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <div class="appointment-count">
+
+                    Total Appointments:
+
+                    <span id="appointmentCount">
+                        0
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SEARCH
+            ================================== -->
+
+            <div class="search-card">
+
+                <label for="appointmentSearch">
+
+                    Search Appointments
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="appointmentSearch"
+                    placeholder="Search by Appointment ID, Patient ID, patient name, date..."
+                    oninput="renderAppointments()"
+                >
+
+            </div>
+
+
+
+            <!-- =================================
+                 APPOINTMENTS TABLE
+            ================================== -->
+
+            <div class="table-card">
+
+                <h2>
+                    Appointment List
+                </h2>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Appointment ID
+                                </th>
+
+                                <th>
+                                    Patient ID
+                                </th>
+
+                                <th>
+                                    Patient Name
+                                </th>
+
+                                <th>
+                                    Doctor
+                                </th>
+
+                                <th>
+                                    Department
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Time
+                                </th>
+
+                                <th>
+                                    Patient Type
+                                </th>
+
+                                <th>
+                                    Room Number
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="appointmentsTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div
+                    id="emptyMessage"
+                    class="empty-message"
+                    style="display:none;"
+                >
+
+                    <h3>
+                        No Appointments Found
+                    </h3>
+
+                    <p>
+                        There are currently no appointments
+                        assigned to this doctor.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         SECURITY
+    ========================================= -->
+
+    <script src="../security.js"></script>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           STORAGE KEY
+        ========================================= */
+
+        const APPOINTMENT_STORAGE_KEY =
+            "appointments";
+
+
+
+        /* =========================================
+           PATIENT STORAGE
+        ========================================= */
+
+        const PATIENT_STORAGE_KEY =
+            "patients";
+
+
+
+        /* =========================================
+           READ ARRAY
+        ========================================= */
+
+        function readArray(key) {
+
+            const saved =
+                localStorage.getItem(key);
+
+
+            if (!saved) {
+
+                return [];
+
+            }
+
+
+            try {
+
+                const data =
+                    JSON.parse(saved);
+
+
+                if (Array.isArray(data)) {
+
+                    return data;
+
+                }
+
+
+                return [];
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Unable to read:",
+                    key,
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           GET DOCTOR SESSION
+        ========================================= */
+
+        function getDoctorSession() {
+
+            const possibleKeys = [
+
+                "loggedInDoctor",
+
+                "doctorSession",
+
+                "currentDoctor",
+
+                "hmsSession"
+
+            ];
+
+
+            for (
+                let i = 0;
+                i < possibleKeys.length;
+                i++
+            ) {
+
+                const saved =
+                    localStorage.getItem(
+                        possibleKeys[i]
+                    );
+
+
+                if (!saved) {
+
+                    continue;
+
+                }
+
+
+                try {
+
+                    const data =
+                        JSON.parse(saved);
+
+
+                    if (
+                        data &&
+                        typeof data === "object"
+                    ) {
+
+                        if (
+                            possibleKeys[i] === "hmsSession" &&
+                            data.role &&
+                            String(data.role)
+                                .toLowerCase() !== "doctor"
+                        ) {
+
+                            continue;
+
+                        }
+
+
+                        return data;
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    continue;
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+
+        /* =========================================
+           DOCTOR ID
+        ========================================= */
+
+        function getDoctorId(doctor) {
+
+            if (!doctor) {
+
+                return "";
+
+            }
+
+
+            return doctor.doctorId ||
+                   doctor.id ||
+                   doctor.username ||
+                   "";
+
+        }
+
+
+
+        /* =========================================
+           DOCTOR NAME
+        ========================================= */
+
+        function getDoctorName(doctor) {
+
+            if (!doctor) {
+
+                return "Doctor";
+
+            }
+
+
+            return doctor.name ||
+                   doctor.fullName ||
+                   doctor.doctorName ||
+                   doctor.username ||
+                   "Doctor";
+
+        }
+
+
+
+        /* =========================================
+           DOCTOR DEPARTMENT
+        ========================================= */
+
+        function getDoctorDepartment(doctor) {
+
+            if (!doctor) {
+
+                return "Not Available";
+
+            }
+
+
+            return doctor.department ||
+                   doctor.dept ||
+                   doctor.specialization ||
+                   "Not Available";
+
+        }
+
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+
+        /* =========================================
+           FIND PATIENT
+        ========================================= */
+
+        function findPatient(patientId) {
+
+            const patients =
+                readArray(
+                    PATIENT_STORAGE_KEY
+                );
+
+
+            return patients.find(
+                function(patient) {
+
+                    const id =
+                        patient.patientId ||
+                        patient.id ||
+                        "";
+
+
+                    return String(id) ===
+                           String(patientId);
+
+                }
+            ) || null;
+
+        }
+
+
+
+        /* =========================================
+           CHECK APPOINTMENT BELONGS TO DOCTOR
+        ========================================= */
+
+        function isMyAppointment(
+            appointment,
+            doctor
+        ) {
+
+            const doctorId =
+                getDoctorId(doctor);
+
+
+            const doctorName =
+                getDoctorName(doctor);
+
+
+            const appointmentDoctorId =
+                appointment.doctorId ||
+                appointment.assignedDoctorId ||
+                "";
+
+
+            const appointmentDoctorName =
+                appointment.doctorName ||
+                appointment.assignedDoctorName ||
+                appointment.doctor ||
+                "";
+
+
+            /*
+             * Match Doctor ID first.
+             */
+
+            if (
+                appointmentDoctorId &&
+                doctorId &&
+                String(appointmentDoctorId) ===
+                String(doctorId)
+            ) {
+
+                return true;
+
+            }
+
+
+            /*
+             * Compatibility with
+             * existing Doctor Name field.
+             */
+
+            if (
+                appointmentDoctorName &&
+                doctorName &&
+                String(appointmentDoctorName)
+                    .trim()
+                    .toLowerCase() ===
+
+                String(doctorName)
+                    .trim()
+                    .toLowerCase()
+            ) {
+
+                return true;
+
+            }
+
+
+            return false;
+
+        }
+
+
+
+        /* =========================================
+           GET APPOINTMENT STATUS
+        ========================================= */
+
+        function getAppointmentStatus(
+            appointment
+        ) {
+
+            const status =
+                String(
+                    appointment.status ||
+                    appointment.appointmentStatus ||
+                    "Pending"
+                )
+                .trim()
+                .toLowerCase();
+
+
+            if (
+                status === "completed" ||
+                status === "complete"
+            ) {
+
+                return "Completed";
+
+            }
+
+
+            return "Pending";
+
+        }
+
+
+
+        /* =========================================
+           STATUS CLASS
+        ========================================= */
+
+        function getStatusClass(status) {
+
+            if (
+                status === "Completed"
+            ) {
+
+                return "status-completed";
+
+            }
+
+
+            return "status-pending";
+
+        }
+
+
+
+        /* =========================================
+           UPDATE DOCTOR INFORMATION
+        ========================================= */
+
+        function loadDoctorInformation(
+            doctor
+        ) {
+
+            const doctorName =
+                getDoctorName(doctor);
+
+
+            const doctorId =
+                getDoctorId(doctor);
+
+
+            const department =
+                getDoctorDepartment(doctor);
+
+
+            document.getElementById(
+                "topDoctorName"
+            ).textContent =
+                doctorName;
+
+
+            document.getElementById(
+                "doctorName"
+            ).textContent =
+                doctorName;
+
+
+            document.getElementById(
+                "doctorId"
+            ).textContent =
+                doctorId ||
+                "Not Available";
+
+
+            document.getElementById(
+                "doctorDepartment"
+            ).textContent =
+                department;
+
+        }
+
+
+
+        /* =========================================
+           MARK APPOINTMENT COMPLETED
+        ========================================= */
+
+        function markAppointmentCompleted(
+            appointmentId
+        ) {
+
+            const appointments =
+                readArray(
+                    APPOINTMENT_STORAGE_KEY
+                );
+
+
+            let found = false;
+
+
+            const updatedAppointments =
+                appointments.map(
+                    function(appointment) {
+
+                        const currentId =
+                            appointment.appointmentId ||
+                            appointment.id ||
+                            "";
+
+
+                        if (
+                            String(currentId) !==
+                            String(appointmentId)
+                        ) {
+
+                            return appointment;
+
+                        }
+
+
+                        found = true;
+
+
+                        /*
+                         * ONLY CHANGE THE STATUS.
+                         *
+                         * All other appointment
+                         * information remains unchanged.
+                         */
+
+                        return {
+                            ...appointment,
+
+                            status: "Completed",
+
+                            appointmentStatus:
+                                "Completed"
+
+                        };
+
+                    }
+                );
+
+
+            if (!found) {
+
+                alert(
+                    "Appointment could not be found."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * SAVE PERMANENTLY.
+             */
+
+            localStorage.setItem(
+                APPOINTMENT_STORAGE_KEY,
+                JSON.stringify(
+                    updatedAppointments
+                )
+            );
+
+
+            /*
+             * Refresh the table immediately.
+             */
+
+            renderAppointments();
+
+        }
+
+
+
+        /* =========================================
+           RENDER APPOINTMENTS
+        ========================================= */
+
+        function renderAppointments() {
+
+            const doctor =
+                getDoctorSession();
+
+
+            const tbody =
+                document.getElementById(
+                    "appointmentsTableBody"
+                );
+
+
+            const emptyMessage =
+                document.getElementById(
+                    "emptyMessage"
+                );
+
+
+            const searchInput =
+                document.getElementById(
+                    "appointmentSearch"
+                );
+
+
+            const searchText =
+                String(
+                    searchInput.value || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            tbody.innerHTML = "";
+
+
+            if (!doctor) {
+
+                document.getElementById(
+                    "appointmentCount"
+                ).textContent =
+                    "0";
+
+
+                emptyMessage.style.display =
+                    "block";
+
+
+                emptyMessage.innerHTML = `
+
+                    <h3>
+                        Doctor Login Required
+                    </h3>
+
+                    <p>
+                        Please log in using a Doctor account
+                        to view appointments.
+                    </p>
+
+                `;
+
+                return;
+
+            }
+
+
+            const appointments =
+                readArray(
+                    APPOINTMENT_STORAGE_KEY
+                );
+
+
+            let myAppointments =
+                appointments.filter(
+                    function(appointment) {
+
+                        return isMyAppointment(
+                            appointment,
+                            doctor
+                        );
+
+                    }
+                );
+
+
+            /*
+             * TOTAL COUNT
+             *
+             * Count is based on all appointments
+             * belonging to this doctor.
+             */
+
+            document.getElementById(
+                "appointmentCount"
+            ).textContent =
+                myAppointments.length;
+
+
+
+            /*
+             * SEARCH
+             */
+
+            if (searchText) {
+
+                myAppointments =
+                    myAppointments.filter(
+                        function(appointment) {
+
+                            const appointmentId =
+                                appointment.appointmentId ||
+                                appointment.id ||
+                                "";
+
+
+                            const patientId =
+                                appointment.patientId ||
+                                appointment.patient ||
+                                "";
+
+
+                            const patient =
+                                findPatient(
+                                    patientId
+                                );
+
+
+                            const patientName =
+                                appointment.patientName ||
+                                appointment.name ||
+                                (
+                                    patient
+                                    ?
+                                    (
+                                        patient.fullName ||
+                                        patient.name ||
+                                        ""
+                                    )
+                                    :
+                                    ""
+                                );
+
+
+                            const date =
+                                appointment.date ||
+                                appointment.appointmentDate ||
+                                "";
+
+
+                            const department =
+                                appointment.department ||
+                                appointment.dept ||
+                                "";
+
+
+                            const searchable =
+                                (
+                                    appointmentId +
+                                    " " +
+                                    patientId +
+                                    " " +
+                                    patientName +
+                                    " " +
+                                    date +
+                                    " " +
+                                    department
+                                )
+                                .toLowerCase();
+
+
+                            return searchable
+                                .includes(
+                                    searchText
+                                );
+
+                        }
+                    );
+
+            }
+
+
+
+            /* =====================================
+               EMPTY
+            ===================================== */
+
+            if (
+                myAppointments.length === 0
+            ) {
+
+                emptyMessage.style.display =
+                    "block";
+
+
+                if (searchText) {
+
+                    emptyMessage.innerHTML = `
+
+                        <h3>
+                            No Matching Appointments
+                        </h3>
+
+                        <p>
+                            No appointment matches
+                            your search.
+                        </p>
+
+                    `;
+
+                }
+
+                else {
+
+                    emptyMessage.innerHTML = `
+
+                        <h3>
+                            No Appointments Found
+                        </h3>
+
+                        <p>
+                            There are currently no appointments
+                            assigned to you.
+                        </p>
+
+                    `;
+
+                }
+
+
+                return;
+
+            }
+
+
+            emptyMessage.style.display =
+                "none";
+
+
+
+            /* =====================================
+               CREATE ROWS
+            ===================================== */
+
+            myAppointments.forEach(
+                function(appointment) {
+
+                    const appointmentId =
+                        appointment.appointmentId ||
+                        appointment.id ||
+                        "";
+
+
+                    const patientId =
+                        appointment.patientId ||
+                        appointment.patient ||
+                        "";
+
+
+                    const patient =
+                        findPatient(
+                            patientId
+                        );
+
+
+                    const patientName =
+                        appointment.patientName ||
+                        appointment.name ||
+                        (
+                            patient
+                            ?
+                            (
+                                patient.fullName ||
+                                patient.name ||
+                                ""
+                            )
+                            :
+                            ""
+                        );
+
+
+                    const appointmentDoctor =
+                        appointment.doctorName ||
+                        appointment.assignedDoctorName ||
+                        appointment.doctor ||
+                        getDoctorName(doctor);
+
+
+                    const department =
+                        appointment.department ||
+                        appointment.dept ||
+                        (
+                            patient
+                            ?
+                            (
+                                patient.department ||
+                                patient.dept ||
+                                ""
+                            )
+                            :
+                            ""
+                        );
+
+
+                    const date =
+                        appointment.date ||
+                        appointment.appointmentDate ||
+                        "";
+
+
+                    const time =
+                        appointment.time ||
+                        appointment.appointmentTime ||
+                        "";
+
+
+                    const patientType =
+                        appointment.patientType ||
+                        (
+                            patient
+                            ?
+                            (
+                                patient.patientType ||
+                                patient.type ||
+                                ""
+                            )
+                            :
+                            ""
+                        );
+
+
+                    const roomNumber =
+                        appointment.roomNumber ||
+                        appointment.room ||
+                        (
+                            patient
+                            ?
+                            (
+                                patient.roomNumber ||
+                                patient.room ||
+                                ""
+                            )
+                            :
+                            ""
+                        );
+
+
+                    const status =
+                        getAppointmentStatus(
+                            appointment
+                        );
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    let actionHtml = "";
+
+
+                    if (
+                        status ===
+                        "Completed"
+                    ) {
+
+                        actionHtml = `
+
+                            <span class="completed-text">
+                                ✓ Completed
+                            </span>
+
+                        `;
+
+                    }
+
+                    else {
+
+                        actionHtml = `
+
+                            <button
+                                type="button"
+                                class="complete-button"
+                                onclick="markAppointmentCompleted('${escapeHtml(appointmentId)}')"
+                            >
+                                ✓ Mark as Completed
+                            </button>
+
+                        `;
+
+                    }
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            <strong>
+                                ${escapeHtml(appointmentId)}
+                            </strong>
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(patientId)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(patientName)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(appointmentDoctor)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(department)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(date)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(time)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(patientType)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(roomNumber)}
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="status-badge ${getStatusClass(status)}"
+                            >
+                                ${escapeHtml(status)}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            ${actionHtml}
+                        </td>
+
+                    `;
+
+
+                    tbody.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        function logoutDoctor() {
+
+            localStorage.removeItem(
+                "loggedInDoctor"
+            );
+
+
+            localStorage.removeItem(
+                "doctorSession"
+            );
+
+
+            localStorage.removeItem(
+                "currentDoctor"
+            );
+
+
+            if (
+                typeof logout ===
+                "function"
+            ) {
+
+                logout();
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "../login.html";
+
+        }
+
+
+
+        /* =========================================
+           PAGE LOAD
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const doctor =
+                    getDoctorSession();
+
+
+                if (doctor) {
+
+                    loadDoctorInformation(
+                        doctor
+                    );
+
+                }
+
+
+                renderAppointments();
+
+            }
+        );
+
+
+
+        /* =========================================
+           PAGE SHOW
+        ========================================= */
+
+        window.addEventListener(
+            "pageshow",
+            function() {
+
+                const doctor =
+                    getDoctorSession();
+
+
+                if (doctor) {
+
+                    loadDoctorInformation(
+                        doctor
+                    );
+
+                }
+
+
+                renderAppointments();
+
+            }
+        );
+
+
+
+        /* =========================================
+           STORAGE UPDATE
+        ========================================= */
+
+        window.addEventListener(
+            "storage",
+            function() {
+
+                const doctor =
+                    getDoctorSession();
+
+
+                if (doctor) {
+
+                    loadDoctorInformation(
+                        doctor
+                    );
+
+                }
+
+
+                renderAppointments();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

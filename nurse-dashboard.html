@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Nurse Dashboard - Hospital Management System</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+</head>
+
+<body>
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+        <div>
+
+            <span>
+                Nurse
+            </span>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Nurse
+                </h2>
+
+            </div>
+
+
+            <a href="nurse-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="nurse-patients.html">
+                Assigned Patients
+            </a>
+
+            <a href="nurse-medicine-schedule.html">
+                Medicine Schedule
+            </a>
+
+            <a href="nurse-ward-details.html">
+                Ward Details
+            </a>
+
+            <a href="nurse-patient-monitoring.html">
+                Patient Monitoring
+            </a>
+
+            <a href="nurse-icu-availability.html">
+                ICU Availability
+            </a>
+
+            <a href="nurse-beds.html">
+                Bed Management
+            </a>
+
+            <a href="nurse-shift-handover.html">
+                Shift Handover
+            </a>
+
+            <a href="nurse-profile.html">
+                Profile
+            </a>
+
+            <a href="nurse-notifications.html">
+                Notifications
+            </a>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <h1>
+                Nurse Dashboard
+            </h1>
+
+            <p class="welcome">
+                Welcome to your nursing dashboard.
+            </p>
+
+
+            <div class="dashboard">
+
+
+                <!-- ASSIGNED PATIENTS -->
+
+                <div class="card">
+
+                    <h3>
+                        Assigned Patients
+                    </h3>
+
+                    <p>
+                        View patients assigned to
+                        your current shift.
+                    </p>
+
+                    <a href="nurse-patients.html">
+
+                        <button>
+                            View Patients
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+                <!-- MEDICINE -->
+
+                <div class="card">
+
+                    <h3>
+                        Medicine Schedule
+                    </h3>
+
+                    <p>
+                        Check medicines scheduled
+                        for assigned patients.
+                    </p>
+
+                    <a href="nurse-medicine-schedule.html">
+
+                        <button>
+                            Medicine Schedule
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+                <!-- WARD -->
+
+                <div class="card">
+
+                    <h3>
+                        Ward Details
+                    </h3>
+
+                    <p>
+                        View ward information and
+                        assigned beds.
+                    </p>
+
+                    <a href="nurse-ward-details.html">
+
+                        <button>
+                            Ward Details
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+                <!-- MONITORING -->
+
+                <div class="card">
+
+                    <h3>
+                        Patient Monitoring
+                    </h3>
+
+                    <p>
+                        Monitor patient condition
+                        and observations.
+                    </p>
+
+                    <a href="nurse-patient-monitoring.html">
+
+                        <button>
+                            Monitoring
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+                <!-- ICU -->
+
+                <div class="card">
+
+                    <h3>
+                        ICU Availability
+                    </h3>
+
+                    <p>
+                        Check available ICU beds.
+                    </p>
+
+                    <a href="nurse-icu-availability.html">
+
+                        <button>
+                            ICU
+                        </button>
+
+                    </a>
+
+                </div>
+
+
+                <!-- SHIFT -->
+
+                <div class="card">
+
+                    <h3>
+                        Shift Handover
+                    </h3>
+
+                    <p>
+                        Record and review shift
+                        handover information.
+                    </p>
+
+                    <a href="nurse-shift-handover.html">
+
+                        <button>
+                            Shift Handover
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2>
+                    🔐 Secure Session
+                </h2>
+
+                <p>
+                    Your nurse account is protected
+                    by automatic session timeout.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+    <!-- SECURITY -->
+
+    <script src="../security.js"></script>
+
+</body>
+
+</html>

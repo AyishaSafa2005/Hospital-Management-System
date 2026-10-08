@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Shift Handover - Hospital Management System</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+    <style>
+
+        .page-header {
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 {
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #666;
+            margin: 0;
+        }
+
+        .form-card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .form-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #0b6684;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 7px;
+            color: #444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0b6684;
+        }
+
+        .save-button {
+            margin-top: 20px;
+            background: #0b6684;
+            color: white;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .save-button:hover {
+            opacity: 0.9;
+        }
+
+        .clear-button {
+            margin-top: 20px;
+            margin-left: 10px;
+            background: #777;
+            color: white;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .clear-button:hover {
+            opacity: 0.9;
+        }
+
+        .table-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        .handover-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        .handover-table th {
+            background: #0b6684;
+            color: white;
+            padding: 13px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .handover-table td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #e5e5e5;
+            vertical-align: top;
+        }
+
+        .handover-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .handover-table tr:hover {
+            background: #f8fbfc;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-pending {
+            background: #fff8e1;
+            color: #f57c00;
+        }
+
+        .delete-button {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            opacity: 0.9;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+        }
+
+        @media (max-width: 800px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+        <div>
+
+            <span>
+                Nurse
+            </span>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Nurse
+                </h2>
+
+            </div>
+
+
+            <a href="nurse-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="nurse-patients.html">
+                Assigned Patients
+            </a>
+
+            <a href="nurse-medicine-schedule.html">
+                Medicine Schedule
+            </a>
+
+            <a href="nurse-ward-details.html">
+                Ward Details
+            </a>
+
+            <a href="nurse-patient-monitoring.html">
+                Patient Monitoring
+            </a>
+
+            <a href="nurse-icu-availability.html">
+                ICU Availability
+            </a>
+
+            <a href="nurse-beds.html">
+                Bed Management
+            </a>
+
+            <a href="nurse-shift-handover.html" class="active">
+                Shift Handover
+            </a>
+
+            <a href="nurse-profile.html">
+                Profile
+            </a>
+
+            <a href="nurse-notifications.html">
+                Notifications
+            </a>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+
+            <div class="page-header">
+
+                <h1>
+                    Shift Handover
+                </h1>
+
+                <p>
+                    Record important patient information and tasks for the next nursing shift.
+                </p>
+
+            </div>
+
+
+            <!-- HANDOVER FORM -->
+
+            <div class="form-card">
+
+                <h2>
+                    New Shift Handover
+                </h2>
+
+
+                <form id="handoverForm">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- Nurse -->
+
+                        <div class="form-group">
+
+                            <label for="nurseName">
+                                Nurse Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nurseName"
+                                placeholder="Enter nurse name"
+                                required>
+
+                        </div>
+
+
+                        <!-- Shift -->
+
+                        <div class="form-group">
+
+                            <label for="shift">
+                                Shift
+                            </label>
+
+                            <select id="shift" required>
+
+                                <option value="">
+                                    Select Shift
+                                </option>
+
+                                <option value="Morning">
+                                    Morning
+                                </option>
+
+                                <option value="Afternoon">
+                                    Afternoon
+                                </option>
+
+                                <option value="Night">
+                                    Night
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Date -->
+
+                        <div class="form-group">
+
+                            <label for="handoverDate">
+                                Handover Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="handoverDate"
+                                required>
+
+                        </div>
+
+
+                        <!-- Patient -->
+
+                        <div class="form-group">
+
+                            <label for="patientId">
+                                Patient ID
+                            </label>
+
+                            <input
+                                type="text"
+                                id="patientId"
+                                placeholder="Example: P001"
+                                required>
+
+                        </div>
+
+
+                        <!-- Patient Name -->
+
+                        <div class="form-group">
+
+                            <label for="patientName">
+                                Patient Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="patientName"
+                                placeholder="Enter patient name"
+                                required>
+
+                        </div>
+
+
+                        <!-- Patient Status -->
+
+                        <div class="form-group">
+
+                            <label for="patientStatus">
+                                Patient Status
+                            </label>
+
+                            <select id="patientStatus" required>
+
+                                <option value="">
+                                    Select Status
+                                </option>
+
+                                <option value="Stable">
+                                    Stable
+                                </option>
+
+                                <option value="Monitoring">
+                                    Monitoring
+                                </option>
+
+                                <option value="Critical">
+                                    Critical
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Important Observations -->
+
+                        <div class="form-group full-width">
+
+                            <label for="observations">
+                                Important Observations
+                            </label>
+
+                            <textarea
+                                id="observations"
+                                placeholder="Enter important patient observations..."
+                                required></textarea>
+
+                        </div>
+
+
+                        <!-- Medication -->
+
+                        <div class="form-group full-width">
+
+                            <label for="medication">
+                                Medication Information
+                            </label>
+
+                            <textarea
+                                id="medication"
+                                placeholder="Enter medicines, dosage, timing or other medication information..."></textarea>
+
+                        </div>
+
+
+                        <!-- Pending Tasks -->
+
+                        <div class="form-group full-width">
+
+                            <label for="pendingTasks">
+                                Pending Tasks
+                            </label>
+
+                            <textarea
+                                id="pendingTasks"
+                                placeholder="Enter tasks that need to be completed by the next shift..."></textarea>
+
+                        </div>
+
+
+                        <!-- Special Instructions -->
+
+                        <div class="form-group full-width">
+
+                            <label for="specialInstructions">
+                                Special Instructions
+                            </label>
+
+                            <textarea
+                                id="specialInstructions"
+                                placeholder="Enter any special instructions for the next nurse..."></textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="save-button">
+
+                        Save Handover
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="clear-button"
+                        onclick="clearForm()">
+
+                        Clear
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+            <!-- SAVED HANDOVERS -->
+
+            <div class="form-card">
+
+                <h2>
+                    Previous Shift Handovers
+                </h2>
+
+
+                <div class="table-card">
+
+                    <table class="handover-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Shift
+                                </th>
+
+                                <th>
+                                    Nurse
+                                </th>
+
+                                <th>
+                                    Patient ID
+                                </th>
+
+                                <th>
+                                    Patient Name
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Observations
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="handoverTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System | Shift Handover
+        </p>
+
+    </footer>
+
+
+    <!-- SECURITY -->
+
+    <script src="../security.js"></script>
+
+
+    <script>
+
+        const HANDOVER_STORAGE_KEY = "nurseShiftHandovers";
+
+
+        // Set today's date
+
+        document.getElementById("handoverDate").value =
+            new Date().toISOString().split("T")[0];
+
+
+        // Load saved handovers
+
+        function loadHandovers() {
+
+            const handovers =
+                JSON.parse(
+                    localStorage.getItem(HANDOVER_STORAGE_KEY)
+                ) || [];
+
+            const tableBody =
+                document.getElementById("handoverTableBody");
+
+            tableBody.innerHTML = "";
+
+
+            if (handovers.length === 0) {
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-message">
+                            No shift handovers recorded yet.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+
+            handovers.forEach(function(handover, index) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${escapeHtml(handover.date)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(handover.shift)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(handover.nurse)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(handover.patientId)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(handover.patientName)}
+                    </td>
+
+                    <td>
+
+                        <span class="status-badge ${
+                            handover.status === "Critical"
+                                ? "status-pending"
+                                : "status-completed"
+                        }">
+
+                            ${escapeHtml(handover.status)}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${escapeHtml(handover.observations)}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="delete-button"
+                            onclick="deleteHandover(${index})">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+
+        // Save handover
+
+        document
+            .getElementById("handoverForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+
+                const handover = {
+
+                    date:
+                        document
+                            .getElementById("handoverDate")
+                            .value,
+
+                    shift:
+                        document
+                            .getElementById("shift")
+                            .value,
+
+                    nurse:
+                        document
+                            .getElementById("nurseName")
+                            .value,
+
+                    patientId:
+                        document
+                            .getElementById("patientId")
+                            .value,
+
+                    patientName:
+                        document
+                            .getElementById("patientName")
+                            .value,
+
+                    status:
+                        document
+                            .getElementById("patientStatus")
+                            .value,
+
+                    observations:
+                        document
+                            .getElementById("observations")
+                            .value,
+
+                    medication:
+                        document
+                            .getElementById("medication")
+                            .value,
+
+                    pendingTasks:
+                        document
+                            .getElementById("pendingTasks")
+                            .value,
+
+                    specialInstructions:
+                        document
+                            .getElementById("specialInstructions")
+                            .value,
+
+                    createdAt:
+                        new Date().toISOString()
+
+                };
+
+
+                const handovers =
+                    JSON.parse(
+                        localStorage.getItem(HANDOVER_STORAGE_KEY)
+                    ) || [];
+
+
+                handovers.push(handover);
+
+
+                localStorage.setItem(
+                    HANDOVER_STORAGE_KEY,
+                    JSON.stringify(handovers)
+                );
+
+
+                alert("Shift handover saved successfully.");
+
+
+                clearForm();
+
+                loadHandovers();
+
+            });
+
+
+        // Clear form
+
+        function clearForm() {
+
+            document
+                .getElementById("handoverForm")
+                .reset();
+
+
+            document
+                .getElementById("handoverDate")
+                .value =
+                new Date()
+                    .toISOString()
+                    .split("T")[0];
+
+        }
+
+
+        // Delete handover
+
+        function deleteHandover(index) {
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete this handover?"
+                );
+
+
+            if (!confirmDelete) {
+                return;
+            }
+
+
+            const handovers =
+                JSON.parse(
+                    localStorage.getItem(HANDOVER_STORAGE_KEY)
+                ) || [];
+
+
+            handovers.splice(index, 1);
+
+
+            localStorage.setItem(
+                HANDOVER_STORAGE_KEY,
+                JSON.stringify(handovers)
+            );
+
+
+            loadHandovers();
+
+        }
+
+
+        // Prevent HTML injection in displayed values
+
+        function escapeHtml(value) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent =
+                value || "";
+
+            return div.innerHTML;
+
+        }
+
+
+        // Initial load
+
+        loadHandovers();
+
+    </script>
+
+
+</body>
+
+</html>

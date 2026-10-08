@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Medicines - Admin</title>
+
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+
+    <style>
+
+        /* =========================================
+           MEDICINE EDIT SECTION
+        ========================================= */
+
+        .medicine-edit-section {
+
+            margin-top: 30px;
+
+            background: #ffffff;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .medicine-edit-section h2 {
+
+            margin-top: 0;
+
+            color: #023e8a;
+
+        }
+
+
+        .medicine-description {
+
+            color: #666;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .medicine-edit-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+        }
+
+
+        .medicine-input-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .medicine-input-group label {
+
+            font-weight: bold;
+
+            color: #37474f;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .medicine-input-group input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border:
+                1px solid #b8c5cc;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            background: #ffffff;
+
+            color: #222;
+
+            outline: none;
+
+            pointer-events: auto;
+
+            cursor: text;
+
+        }
+
+
+        .medicine-input-group input:focus {
+
+            border-color: #0077b6;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    0,
+                    119,
+                    182,
+                    0.12
+                );
+
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .medicine-buttons {
+
+            margin-top: 25px;
+
+            display: flex;
+
+            gap: 12px;
+
+        }
+
+
+        .save-medicine-button {
+
+            background: #0077b6;
+
+            color: white;
+
+            border: none;
+
+            padding:
+                12px 24px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+        }
+
+
+        .save-medicine-button:hover {
+
+            background: #023e8a;
+
+        }
+
+
+        .cancel-medicine-button {
+
+            background: #e9eef1;
+
+            color: #37474f;
+
+            border: none;
+
+            padding:
+                12px 24px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+        }
+
+
+        .cancel-medicine-button:hover {
+
+            background: #dce3e7;
+
+        }
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+        .medicine-message {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+        }
+
+
+        .medicine-success {
+
+            background: #e8f7ee;
+
+            color: #19733b;
+
+            border:
+                1px solid #b8e1c7;
+
+        }
+
+
+        .medicine-error {
+
+            background: #fdeaea;
+
+            color: #b52b27;
+
+            border:
+                1px solid #f2b5b2;
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .medicine-edit-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .medicine-edit-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .medicine-buttons {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Admin
+            </span>
+
+
+            <a
+                href="admin-dashboard.html"
+            >
+
+                <button type="button">
+                    Dashboard
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ===================================== -->
+
+        <div class="sidebar">
+
+            <a href="admin-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="admin-patients.html">
+                Patients
+            </a>
+
+            <a href="admin-doctors.html">
+                Doctors
+            </a>
+
+            <a href="admin-nurses.html">
+                Nurses
+            </a>
+
+            <a href="admin-appointments.html">
+                Appointments
+            </a>
+
+            <a href="admin-beds.html">
+                Beds
+            </a>
+
+            <a
+                href="admin-medicines.html"
+                class="active"
+            >
+                Medicines
+            </a>
+
+            <a href="admin-reports.html">
+                Reports
+            </a>
+
+            <a href="admin-notifications.html">
+                Notifications
+            </a>
+
+            <a href="admin-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ===================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Medicine Management
+            </h1>
+
+
+            <p>
+
+                Manage medicines available in
+                the hospital pharmacy.
+
+            </p>
+
+
+
+            <!-- =================================
+                 MEDICINE SUMMARY
+            ================================= -->
+
+            <div class="dashboard">
+
+
+                <!-- TOTAL -->
+
+                <div class="card">
+
+                    <h3>
+                        Total Medicines
+                    </h3>
+
+                    <h2
+                        id="totalMedicinesDisplay"
+                    >
+                        0
+                    </h2>
+
+                </div>
+
+
+
+                <!-- AVAILABLE -->
+
+                <div class="card">
+
+                    <h3>
+                        Available Medicines
+                    </h3>
+
+                    <h2
+                        id="availableMedicinesDisplay"
+                    >
+                        0
+                    </h2>
+
+                </div>
+
+
+
+                <!-- LOW STOCK -->
+
+                <div class="card">
+
+                    <h3>
+                        Low Stock
+                    </h3>
+
+                    <h2
+                        id="lowStockDisplay"
+                    >
+                        0
+                    </h2>
+
+                </div>
+
+
+
+                <!-- OUT OF STOCK -->
+
+                <div class="card">
+
+                    <h3>
+                        Out of Stock
+                    </h3>
+
+                    <h2
+                        id="outOfStockDisplay"
+                    >
+                        0
+                    </h2>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 EDIT MEDICINE COUNTS
+            ================================= -->
+
+            <div
+                class="medicine-edit-section"
+            >
+
+                <h2>
+                    ✏️ Edit Medicine Details
+                </h2>
+
+
+                <p
+                    class="medicine-description"
+                >
+
+                    Admin can directly edit the
+                    total, available, low-stock and
+                    out-of-stock medicine counts.
+
+                </p>
+
+
+
+                <div
+                    class="medicine-edit-grid"
+                >
+
+
+                    <!-- TOTAL -->
+
+                    <div
+                        class="medicine-input-group"
+                    >
+
+                        <label
+                            for="totalMedicines"
+                        >
+                            Total Medicines
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="totalMedicines"
+                            min="0"
+                            step="1"
+                            value="100"
+                        >
+
+                    </div>
+
+
+
+                    <!-- AVAILABLE -->
+
+                    <div
+                        class="medicine-input-group"
+                    >
+
+                        <label
+                            for="availableMedicines"
+                        >
+                            Available Medicines
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="availableMedicines"
+                            min="0"
+                            step="1"
+                            value="85"
+                        >
+
+                    </div>
+
+
+
+                    <!-- LOW STOCK -->
+
+                    <div
+                        class="medicine-input-group"
+                    >
+
+                        <label
+                            for="lowStock"
+                        >
+                            Low Stock
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="lowStock"
+                            min="0"
+                            step="1"
+                            value="10"
+                        >
+
+                    </div>
+
+
+
+                    <!-- OUT OF STOCK -->
+
+                    <div
+                        class="medicine-input-group"
+                    >
+
+                        <label
+                            for="outOfStock"
+                        >
+                            Out of Stock
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="outOfStock"
+                            min="0"
+                            step="1"
+                            value="5"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div
+                    class="medicine-buttons"
+                >
+
+                    <button
+                        type="button"
+                        class="save-medicine-button"
+                        onclick="saveMedicineDetails()"
+                    >
+
+                        💾 Save Changes
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="cancel-medicine-button"
+                        onclick="loadMedicineData()"
+                    >
+
+                        Cancel
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    id="medicineMessage"
+                    class="medicine-message"
+                >
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 MEDICINE TABLE
+            ================================= -->
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Medicine ID
+                        </th>
+
+                        <th>
+                            Medicine Name
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Expiry Date
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <tr>
+
+                        <td>
+                            M001
+                        </td>
+
+                        <td>
+                            Paracetamol
+                        </td>
+
+                        <td>
+                            Tablet
+                        </td>
+
+                        <td>
+                            500
+                        </td>
+
+                        <td>
+                            12-2027
+                        </td>
+
+                        <td>
+                            Available
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            M002
+                        </td>
+
+                        <td>
+                            Amoxicillin
+                        </td>
+
+                        <td>
+                            Capsule
+                        </td>
+
+                        <td>
+                            250
+                        </td>
+
+                        <td>
+                            08-2027
+                        </td>
+
+                        <td>
+                            Available
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            M003
+                        </td>
+
+                        <td>
+                            Example Medicine
+                        </td>
+
+                        <td>
+                            Tablet
+                        </td>
+
+                        <td>
+                            20
+                        </td>
+
+                        <td>
+                            03-2027
+                        </td>
+
+                        <td>
+                            Low Stock
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            M004
+                        </td>
+
+                        <td>
+                            Example Injection
+                        </td>
+
+                        <td>
+                            Injection
+                        </td>
+
+                        <td>
+                            0
+                        </td>
+
+                        <td>
+                            06-2027
+                        </td>
+
+                        <td>
+                            Out of Stock
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+
+
+
+            <!-- =================================
+                 WORKFLOW NOTE
+            ================================= -->
+
+            <div class="card">
+
+                <h3>
+                    Medicine & Prescription Workflow
+                </h3>
+
+
+                <p>
+
+                    Medicines prescribed to outpatient
+                    patients will be sent to the
+                    pharmacist/dispensary.
+
+                </p>
+
+
+                <p>
+
+                    Medicines prescribed to inpatient
+                    patients will be made available
+                    to the assigned duty nurse.
+
+                </p>
+
+
+                <p>
+
+                    Prescription schedules will include:
+                    Morning, Afternoon, Evening and Night,
+                    along with the number of days.
+
+                </p>
+
+
+                <p>
+
+                    The pharmacist will be able to update
+                    the medicine collection status later.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         SECURITY
+         
+         Admin has no session timeout.
+    ========================================= -->
+
+    <script src="../security.js"></script>
+
+
+
+    <!-- =========================================
+         MEDICINE JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        const MEDICINE_STORAGE_KEY =
+            "hospitalMedicineData";
+
+
+        const DEFAULT_MEDICINE_DATA = {
+
+            total: 100,
+
+            available: 85,
+
+            lowStock: 10,
+
+            outOfStock: 5
+
+        };
+
+
+
+        /* =========================================
+           GET SAVED DATA
+        ========================================= */
+
+        function getMedicineData() {
+
+            const savedData =
+                localStorage.getItem(
+                    MEDICINE_STORAGE_KEY
+                );
+
+
+            if (!savedData) {
+
+                localStorage.setItem(
+                    MEDICINE_STORAGE_KEY,
+                    JSON.stringify(
+                        DEFAULT_MEDICINE_DATA
+                    )
+                );
+
+
+                return {
+                    ...DEFAULT_MEDICINE_DATA
+                };
+
+            }
+
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        savedData
+                    );
+
+
+                return {
+
+                    total:
+                        Number(
+                            data.total
+                        ),
+
+                    available:
+                        Number(
+                            data.available
+                        ),
+
+                    lowStock:
+                        Number(
+                            data.lowStock
+                        ),
+
+                    outOfStock:
+                        Number(
+                            data.outOfStock
+                        )
+
+                };
+
+            }
+
+            catch (error) {
+
+                localStorage.setItem(
+                    MEDICINE_STORAGE_KEY,
+                    JSON.stringify(
+                        DEFAULT_MEDICINE_DATA
+                    )
+                );
+
+
+                return {
+                    ...DEFAULT_MEDICINE_DATA
+                };
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           LOAD DATA
+        ========================================= */
+
+        function loadMedicineData() {
+
+            const data =
+                getMedicineData();
+
+
+            /* CARDS */
+
+            document.getElementById(
+                "totalMedicinesDisplay"
+            ).textContent =
+                data.total;
+
+
+            document.getElementById(
+                "availableMedicinesDisplay"
+            ).textContent =
+                data.available;
+
+
+            document.getElementById(
+                "lowStockDisplay"
+            ).textContent =
+                data.lowStock;
+
+
+            document.getElementById(
+                "outOfStockDisplay"
+            ).textContent =
+                data.outOfStock;
+
+
+
+            /* INPUTS */
+
+            document.getElementById(
+                "totalMedicines"
+            ).value =
+                data.total;
+
+
+            document.getElementById(
+                "availableMedicines"
+            ).value =
+                data.available;
+
+
+            document.getElementById(
+                "lowStock"
+            ).value =
+                data.lowStock;
+
+
+            document.getElementById(
+                "outOfStock"
+            ).value =
+                data.outOfStock;
+
+
+            hideMedicineMessage();
+
+        }
+
+
+
+        /* =========================================
+           SAVE DATA
+        ========================================= */
+
+        function saveMedicineDetails() {
+
+
+            const total =
+                Number(
+                    document.getElementById(
+                        "totalMedicines"
+                    ).value
+                );
+
+
+            const available =
+                Number(
+                    document.getElementById(
+                        "availableMedicines"
+                    ).value
+                );
+
+
+            const lowStock =
+                Number(
+                    document.getElementById(
+                        "lowStock"
+                    ).value
+                );
+
+
+            const outOfStock =
+                Number(
+                    document.getElementById(
+                        "outOfStock"
+                    ).value
+                );
+
+
+
+            /* =====================================
+               VALIDATION
+            ===================================== */
+
+            if (
+                !Number.isInteger(total) ||
+                !Number.isInteger(available) ||
+                !Number.isInteger(lowStock) ||
+                !Number.isInteger(outOfStock)
+            ) {
+
+                showMedicineMessage(
+                    "Please enter whole numbers only.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                total < 0 ||
+                available < 0 ||
+                lowStock < 0 ||
+                outOfStock < 0
+            ) {
+
+                showMedicineMessage(
+                    "Medicine values cannot be negative.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /*
+               The four categories must not exceed
+               the total number of medicines.
+            */
+
+            if (
+                available +
+                lowStock +
+                outOfStock
+                >
+                total
+            ) {
+
+                showMedicineMessage(
+                    "Available + Low Stock + Out of Stock cannot be greater than Total Medicines.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+
+            /* =====================================
+               SAVE
+            ===================================== */
+
+            const medicineData = {
+
+                total:
+                    total,
+
+                available:
+                    available,
+
+                lowStock:
+                    lowStock,
+
+                outOfStock:
+                    outOfStock
+
+            };
+
+
+            localStorage.setItem(
+                MEDICINE_STORAGE_KEY,
+                JSON.stringify(
+                    medicineData
+                )
+            );
+
+
+            loadMedicineData();
+
+
+            showMedicineMessage(
+                "Medicine details saved successfully.",
+                "success"
+            );
+
+        }
+
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+        function showMedicineMessage(
+            message,
+            type
+        ) {
+
+            const messageBox =
+                document.getElementById(
+                    "medicineMessage"
+                );
+
+
+            messageBox.textContent =
+                message;
+
+
+            messageBox.className =
+                "medicine-message";
+
+
+            if (
+                type === "success"
+            ) {
+
+                messageBox.classList.add(
+                    "medicine-success"
+                );
+
+            }
+
+            else {
+
+                messageBox.classList.add(
+                    "medicine-error"
+                );
+
+            }
+
+
+            messageBox.style.display =
+                "block";
+
+
+            setTimeout(
+                function() {
+
+                    hideMedicineMessage();
+
+                },
+                3500
+            );
+
+        }
+
+
+
+        /* =========================================
+           HIDE MESSAGE
+        ========================================= */
+
+        function hideMedicineMessage() {
+
+            const messageBox =
+                document.getElementById(
+                    "medicineMessage"
+                );
+
+
+            messageBox.style.display =
+                "none";
+
+        }
+
+
+
+        /* =========================================
+           INITIALIZE
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadMedicineData();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

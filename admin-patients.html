@@ -1,0 +1,3445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Patients - Admin</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../admin.css">
+
+
+    <style>
+
+        /* =========================================
+           PATIENT FORM
+        ========================================= */
+
+        .patient-form {
+            background: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+
+        .patient-form h2 {
+            margin-top: 0;
+            color: #0b6684;
+        }
+
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 11px;
+            border: 1px solid #bcc7cf;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0077b6;
+        }
+
+
+        .form-group select:disabled {
+            background: #f0f3f5;
+            color: #777;
+            cursor: not-allowed;
+        }
+
+
+        .doctor-timing-help {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #68757d;
+        }
+
+
+        .form-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+
+        .save-button {
+            background: #0b6684;
+            color: white;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+
+        .clear-button {
+            background: #e9eef1;
+            color: #333;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+
+        .patient-message {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+
+        .success {
+            background: #e8f7ee;
+            color: #19733b;
+        }
+
+
+        .error {
+            background: #fdeaea;
+            color: #b52b27;
+        }
+
+
+
+        /* =========================================
+           PATIENT COUNTS
+        ========================================= */
+
+        .patient-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+
+        .patient-count-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+
+        .patient-count-card:hover {
+            transform: translateY(-3px);
+        }
+
+
+        .patient-count-card.active {
+            border-color: #0b6684;
+        }
+
+
+        .patient-count-card h3 {
+            margin-top: 0;
+            color: #0b6684;
+        }
+
+
+        .patient-count-card h2 {
+            font-size: 35px;
+            margin-bottom: 0;
+        }
+
+
+
+        /* =========================================
+           CATEGORY BUTTONS
+        ========================================= */
+
+        .patient-category-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+
+        .patient-category-btn {
+            background: #e9eef1;
+            color: #333;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+
+        .patient-category-btn:hover {
+            background: #d8e2e8;
+        }
+
+
+        .patient-category-btn.active {
+            background: #0b6684;
+            color: white;
+        }
+
+
+
+        /* =========================================
+           TABLE HEADER / SEARCH
+        ========================================= */
+
+        .patient-table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+
+        .patient-table-header h2 {
+            margin: 0;
+            color: #0b6684;
+        }
+
+
+        .patient-search {
+            padding: 10px 14px;
+            border: 1px solid #bcc7cf;
+            border-radius: 7px;
+            font-size: 15px;
+            min-width: 300px;
+        }
+
+
+        .patient-search:focus {
+            outline: none;
+            border-color: #0077b6;
+        }
+
+
+
+        /* =========================================
+           PATIENT TYPE BADGES
+        ========================================= */
+
+        .patient-type-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        .inpatient-badge {
+            background: #e8f4f8;
+            color: #0b6684;
+        }
+
+
+        .outpatient-badge {
+            background: #fff4d6;
+            color: #996c00;
+        }
+
+
+
+        /* =========================================
+           DELETE
+        ========================================= */
+
+        .delete-btn {
+            background: #d9534f;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+
+        .delete-btn:hover {
+            background: #b52b27;
+        }
+
+
+
+        /* =========================================
+           EMPTY MESSAGE
+        ========================================= */
+
+        .empty-message {
+            display: none;
+            text-align: center;
+            padding: 35px;
+            color: #68757d;
+            font-size: 16px;
+        }
+
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 850px) {
+
+            .patient-summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .patient-table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+
+            .patient-search {
+                width: 100%;
+                min-width: 0;
+                box-sizing: border-box;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+            <span>
+                Admin
+            </span>
+
+
+            <a href="admin-dashboard.html">
+
+                <button type="button">
+                    Dashboard
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ====================================== -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+
+                <h2>
+                    Admin
+                </h2>
+
+            </div>
+
+
+            <a href="admin-dashboard.html">
+                Dashboard
+            </a>
+
+
+            <a
+                href="admin-patients.html"
+                class="active"
+            >
+                Patients
+            </a>
+
+
+            <a href="admin-doctors.html">
+                Doctors
+            </a>
+
+
+            <a href="admin-nurses.html">
+                Nurses
+            </a>
+
+
+            <a href="admin-appointments.html">
+                Appointments
+            </a>
+
+
+            <a href="admin-beds.html">
+                Beds
+            </a>
+
+
+            <a href="admin-medicines.html">
+                Medicines
+            </a>
+
+
+            <a href="admin-reports.html">
+                Reports
+            </a>
+
+
+            <a href="admin-notifications.html">
+                Notifications
+            </a>
+
+
+            <a href="admin-account-credentials.html">
+                🔐 Account Credentials
+            </a>
+
+
+            <a href="admin-profile.html">
+                My Profile
+            </a>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Patient Management
+            </h1>
+
+
+            <p>
+                Register and manage hospital patients.
+            </p>
+
+
+
+            <!-- =================================
+                 PATIENT COUNTS
+            ================================= -->
+
+            <div class="patient-summary-grid">
+
+
+                <div
+                    class="patient-count-card active"
+                    id="allPatientCard"
+                    onclick="showPatients('all')"
+                >
+
+                    <h3>
+                        All Patients
+                    </h3>
+
+                    <h2 id="allPatientCount">
+                        0
+                    </h2>
+
+                </div>
+
+
+
+                <div
+                    class="patient-count-card"
+                    id="inpatientCard"
+                    onclick="showPatients('inpatient')"
+                >
+
+                    <h3>
+                        Inpatients
+                    </h3>
+
+                    <h2 id="inpatientCount">
+                        0
+                    </h2>
+
+                </div>
+
+
+
+                <div
+                    class="patient-count-card"
+                    id="outpatientCard"
+                    onclick="showPatients('outpatient')"
+                >
+
+                    <h3>
+                        Outpatients
+                    </h3>
+
+                    <h2 id="outpatientCount">
+                        0
+                    </h2>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 ADD PATIENT FORM
+            ================================= -->
+
+            <div class="patient-form">
+
+
+                <h2>
+                    ➕ Add Patient
+                </h2>
+
+
+                <form id="patientForm">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- NAME -->
+
+                        <div class="form-group">
+
+                            <label for="patientName">
+                                Patient Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="patientName"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- AGE -->
+
+                        <div class="form-group">
+
+                            <label for="patientAge">
+                                Age
+                            </label>
+
+                            <input
+                                type="number"
+                                id="patientAge"
+                                min="0"
+                                max="150"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- GENDER -->
+
+                        <div class="form-group">
+
+                            <label for="patientGender">
+                                Gender
+                            </label>
+
+                            <select
+                                id="patientGender"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Gender
+                                </option>
+
+                                <option value="Male">
+                                    Male
+                                </option>
+
+                                <option value="Female">
+                                    Female
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- BLOOD GROUP -->
+
+                        <div class="form-group">
+
+                            <label for="patientBloodGroup">
+                                Blood Group
+                            </label>
+
+                            <select
+                                id="patientBloodGroup"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Blood Group
+                                </option>
+
+                                <option value="A+">
+                                    A+
+                                </option>
+
+                                <option value="A-">
+                                    A-
+                                </option>
+
+                                <option value="B+">
+                                    B+
+                                </option>
+
+                                <option value="B-">
+                                    B-
+                                </option>
+
+                                <option value="AB+">
+                                    AB+
+                                </option>
+
+                                <option value="AB-">
+                                    AB-
+                                </option>
+
+                                <option value="O+">
+                                    O+
+                                </option>
+
+                                <option value="O-">
+                                    O-
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- PHONE -->
+
+                        <div class="form-group">
+
+                            <label for="patientPhone">
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="patientPhone"
+                                maxlength="10"
+                                inputmode="numeric"
+                                placeholder="10 digit phone number"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- EMAIL -->
+
+                        <div class="form-group">
+
+                            <label for="patientEmail">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="patientEmail"
+                            >
+
+                        </div>
+
+
+
+                        <!-- USERNAME -->
+
+                        <div class="form-group">
+
+                            <label for="patientUsername">
+                                Username
+                            </label>
+
+                            <input
+                                type="text"
+                                id="patientUsername"
+                                placeholder="Enter patient username"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- PASSWORD -->
+
+                        <div class="form-group">
+
+                            <label for="patientPassword">
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="patientPassword"
+                                minlength="4"
+                                placeholder="Enter patient password"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- PATIENT TYPE -->
+
+                        <div class="form-group">
+
+                            <label for="patientType">
+                                Patient Type
+                            </label>
+
+                            <select
+                                id="patientType"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Type
+                                </option>
+
+                                <option value="Outpatient">
+                                    Outpatient
+                                </option>
+
+                                <option value="Inpatient">
+                                    Inpatient
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- PLACE OF RESIDENCE -->
+
+                        <div class="form-group">
+
+                            <label for="placeOfResidence">
+                                Place of Residence
+                            </label>
+
+                            <input
+                                type="text"
+                                id="placeOfResidence"
+                                placeholder="Enter place of residence"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- CHIEF COMPLAINT -->
+
+                        <div class="form-group">
+
+                            <label for="chiefComplaint">
+                                Chief Complaint
+                            </label>
+
+                            <textarea
+                                id="chiefComplaint"
+                                rows="4"
+                                placeholder="Enter patient's chief complaint"
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+
+                        <!-- DEPARTMENT -->
+
+                        <div class="form-group">
+
+                            <label for="patientDepartment">
+                                Department
+                            </label>
+
+                            <select
+                                id="patientDepartment"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Department
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- DOCTOR -->
+
+                        <div class="form-group">
+
+                            <label for="patientDoctor">
+                                Doctor
+                            </label>
+
+                            <select
+                                id="patientDoctor"
+                                required
+                                disabled
+                            >
+
+                                <option value="">
+                                    Select Department First
+                                </option>
+
+                            </select>
+
+
+                            <div
+                                id="doctorTimingHelp"
+                                class="doctor-timing-help"
+                            >
+                                Select a department to see available doctors.
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="form-buttons">
+
+                        <button
+                            type="submit"
+                            class="save-button"
+                        >
+                            Save Patient
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="clear-button"
+                            onclick="clearPatientForm()"
+                        >
+                            Clear
+                        </button>
+
+                    </div>
+
+
+
+                    <!-- MESSAGE -->
+
+                    <div
+                        id="patientMessage"
+                        class="patient-message"
+                    >
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =================================
+                 CATEGORY BUTTONS
+            ================================= -->
+
+            <div class="patient-category-buttons">
+
+
+                <button
+                    type="button"
+                    class="patient-category-btn active"
+                    id="allButton"
+                    onclick="showPatients('all')"
+                >
+                    All Patients
+                </button>
+
+
+                <button
+                    type="button"
+                    class="patient-category-btn"
+                    id="inpatientButton"
+                    onclick="showPatients('inpatient')"
+                >
+                    Inpatients
+                </button>
+
+
+                <button
+                    type="button"
+                    class="patient-category-btn"
+                    id="outpatientButton"
+                    onclick="showPatients('outpatient')"
+                >
+                    Outpatients
+                </button>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 TABLE TITLE + SEARCH
+            ================================= -->
+
+            <div class="patient-table-header">
+
+                <h2 id="tableTitle">
+                    All Patients
+                </h2>
+
+
+                <input
+                    type="search"
+                    id="patientSearch"
+                    class="patient-search"
+                    placeholder="Search patient name, ID, phone or email..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+
+            <!-- =================================
+                 PATIENT TABLE
+            ================================= -->
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Patient ID
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Age
+                        </th>
+
+                        <th>
+                            Gender
+                        </th>
+
+                        <th>
+                            Blood Group
+                        </th>
+
+                        <th>
+                            Place of Residence
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Patient Type
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="patientTable">
+                </tbody>
+
+            </table>
+
+
+
+            <div
+                id="emptyMessage"
+                class="empty-message"
+            >
+                No patients found.
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- EXISTING SECURITY FILE -->
+
+    <script src="../security.js"></script>
+
+
+
+    <!-- =========================================
+         PATIENT JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        const PATIENT_STORAGE_KEY =
+            "patients";
+
+
+        const DOCTOR_STORAGE_KEY =
+            "doctors";
+
+
+        let currentCategory =
+            "all";
+
+
+        let currentSearch =
+            "";
+
+
+
+        /* =========================================
+           GET PATIENTS
+        ========================================= */
+
+        function getPatients() {
+
+            const saved =
+                localStorage.getItem(
+                    PATIENT_STORAGE_KEY
+                );
+
+
+            if (!saved) {
+
+                return [];
+
+            }
+
+
+            try {
+
+                const patients =
+                    JSON.parse(saved);
+
+
+                if (!Array.isArray(patients)) {
+
+                    console.error(
+                        "Patient data is not an array."
+                    );
+
+                    return [];
+
+                }
+
+
+                return patients;
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Unable to load patients:",
+                    error
+                );
+
+
+                return [];
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           SAVE PATIENTS
+        ========================================= */
+
+        function savePatients(
+            patients
+        ) {
+
+            localStorage.setItem(
+                PATIENT_STORAGE_KEY,
+                JSON.stringify(
+                    patients
+                )
+            );
+
+        }
+
+
+
+        /* =========================================
+           GET DOCTORS
+        ========================================= */
+
+        function getDoctors() {
+
+            const saved =
+                localStorage.getItem(
+                    DOCTOR_STORAGE_KEY
+                );
+
+
+            if (!saved) {
+
+                return [];
+
+            }
+
+
+            try {
+
+                const doctors =
+                    JSON.parse(saved);
+
+
+                if (!Array.isArray(doctors)) {
+
+                    return [];
+
+                }
+
+
+                return doctors;
+
+            }
+
+            catch (error) {
+
+                return [];
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           GET PATIENT ID
+        ========================================= */
+
+        function getPatientId(
+            patient
+        ) {
+
+            return (
+                patient.patientId ||
+                patient.id ||
+                ""
+            );
+
+        }
+
+
+
+        /* =========================================
+           GET PATIENT NAME
+        ========================================= */
+
+        function getPatientName(
+            patient
+        ) {
+
+            return (
+                patient.fullName ||
+                patient.name ||
+                ""
+            );
+
+        }
+
+
+
+        /* =========================================
+           GET PATIENT TYPE
+        ========================================= */
+
+        function getPatientType(
+            patient
+        ) {
+
+            const type =
+                String(
+                    patient.patientType ||
+                    patient.type ||
+                    "Outpatient"
+                )
+                .trim()
+                .toLowerCase();
+
+
+            if (
+                type === "inpatient"
+            ) {
+
+                return "inpatient";
+
+            }
+
+
+            return "outpatient";
+
+        }
+
+
+
+        /* =========================================
+           MASK PHONE
+        ========================================= */
+
+        function maskPhoneNumber(
+            phone
+        ) {
+
+            if (!phone) {
+
+                return "Not Available";
+
+            }
+
+
+            const value =
+                String(phone);
+
+
+            if (
+                value.length <= 4
+            ) {
+
+                return "****";
+
+            }
+
+
+            return (
+                "******"
+                +
+                value.slice(-4)
+            );
+
+        }
+
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHTML(
+            value
+        ) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.textContent =
+                value == null
+                    ? ""
+                    : String(value);
+
+
+            return div.innerHTML;
+
+        }
+
+
+
+        /* =========================================
+           CREATE NEXT PATIENT ID
+        ========================================= */
+
+        function createNextPatientId(
+            patients
+        ) {
+
+            let largestNumber =
+                0;
+
+
+            patients.forEach(
+                function(patient) {
+
+                    const existingId =
+                        String(
+                            getPatientId(
+                                patient
+                            )
+                        );
+
+
+                    const match =
+                        existingId.match(
+                            /(\d+)$/
+                        );
+
+
+                    if (match) {
+
+                        const number =
+                            Number(
+                                match[1]
+                            );
+
+
+                        if (
+                            number >
+                            largestNumber
+                        ) {
+
+                            largestNumber =
+                                number;
+
+                        }
+
+                    }
+
+                }
+            );
+
+
+            return (
+                "P"
+                +
+                String(
+                    largestNumber + 1
+                ).padStart(
+                    3,
+                    "0"
+                )
+            );
+
+        }
+
+
+
+        /* =========================================
+           UPDATE COUNTS
+        ========================================= */
+
+        function updatePatientCounts() {
+
+            const patients =
+                getPatients();
+
+
+            let inpatientCount =
+                0;
+
+
+            let outpatientCount =
+                0;
+
+
+            patients.forEach(
+                function(patient) {
+
+                    const type =
+                        getPatientType(
+                            patient
+                        );
+
+
+                    if (
+                        type === "inpatient"
+                    ) {
+
+                        inpatientCount++;
+
+                    }
+
+                    else {
+
+                        outpatientCount++;
+
+                    }
+
+                }
+            );
+
+
+            document.getElementById(
+                "allPatientCount"
+            ).textContent =
+                patients.length;
+
+
+            document.getElementById(
+                "inpatientCount"
+            ).textContent =
+                inpatientCount;
+
+
+            document.getElementById(
+                "outpatientCount"
+            ).textContent =
+                outpatientCount;
+
+        }
+
+
+
+        /* =========================================
+           CATEGORY
+        ========================================= */
+
+        function showPatients(
+            category
+        ) {
+
+            currentCategory =
+                category;
+
+
+            document
+                .querySelectorAll(
+                    ".patient-category-btn"
+                )
+                .forEach(
+                    function(button) {
+
+                        button.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    ".patient-count-card"
+                )
+                .forEach(
+                    function(card) {
+
+                        card.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            if (
+                category === "all"
+            ) {
+
+                document
+                    .getElementById(
+                        "allButton"
+                    )
+                    .classList.add(
+                        "active"
+                    );
+
+
+                document
+                    .getElementById(
+                        "allPatientCard"
+                    )
+                    .classList.add(
+                        "active"
+                    );
+
+
+                document.getElementById(
+                    "tableTitle"
+                ).textContent =
+                    "All Patients";
+
+            }
+
+
+            else if (
+                category === "inpatient"
+            ) {
+
+                document
+                    .getElementById(
+                        "inpatientButton"
+                    )
+                    .classList.add(
+                        "active"
+                    );
+
+
+                document
+                    .getElementById(
+                        "inpatientCard"
+                    )
+                    .classList.add(
+                        "active"
+                    );
+
+
+                document.getElementById(
+                    "tableTitle"
+                ).textContent =
+                    "Inpatients";
+
+            }
+
+
+            else {
+
+                document
+                    .getElementById(
+                        "outpatientButton"
+                    )
+                    .classList.add(
+                        "active"
+                    );
+
+
+                document
+                    .getElementById(
+                        "outpatientCard"
+                    )
+                    .classList.add(
+                        "active"
+                    );
+
+
+                document.getElementById(
+                    "tableTitle"
+                ).textContent =
+                    "Outpatients";
+
+            }
+
+
+            renderPatients();
+
+        }
+
+
+
+        /* =========================================
+           RENDER PATIENTS
+        ========================================= */
+
+        function renderPatients() {
+
+            const patients =
+                getPatients();
+
+
+            const table =
+                document.getElementById(
+                    "patientTable"
+                );
+
+
+            const emptyMessage =
+                document.getElementById(
+                    "emptyMessage"
+                );
+
+
+            table.innerHTML =
+                "";
+
+
+            let visiblePatients =
+                0;
+
+
+            patients.forEach(
+                function(patient) {
+
+                    const patientId =
+                        getPatientId(
+                            patient
+                        );
+
+
+                    const patientName =
+                        getPatientName(
+                            patient
+                        );
+
+
+                    const patientType =
+                        getPatientType(
+                            patient
+                        );
+
+
+                    if (
+                        currentCategory !== "all"
+                        &&
+                        patientType !==
+                        currentCategory
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const search =
+                        currentSearch
+                            .trim()
+                            .toLowerCase();
+
+
+                    if (
+                        search !== ""
+                    ) {
+
+                        const searchableText = (
+
+                            String(patientId)
+
+                            + " "
+
+                            +
+
+                            String(patientName)
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.email ||
+                                ""
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.phone ||
+                                ""
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.gender ||
+                                ""
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.age ??
+                                ""
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.bloodGroup ||
+                                ""
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.placeOfResidence ||
+                                ""
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patientType
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.chiefComplaint ||
+                                ""
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.department ||
+                                ""
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.doctor ||
+                                ""
+                            )
+
+                            + " "
+
+                            +
+
+                            String(
+                                patient.username ||
+                                ""
+                            )
+
+                        ).toLowerCase();
+
+
+                        if (
+                            !searchableText.includes(
+                                search
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+                    }
+
+
+                    visiblePatients++;
+
+
+                    const displayType =
+                        patientType ===
+                        "inpatient"
+                            ? "Inpatient"
+                            : "Outpatient";
+
+
+                    const typeClass =
+                        patientType ===
+                        "inpatient"
+                            ? "inpatient-badge"
+                            : "outpatient-badge";
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${escapeHTML(
+                                patientId
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                patientName
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                patient.age ??
+                                ""
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                patient.gender ||
+                                ""
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                patient.bloodGroup ||
+                                "-"
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                patient.placeOfResidence ||
+                                "-"
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                maskPhoneNumber(
+                                    patient.phone
+                                )
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                patient.email ||
+                                "-"
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="
+                                    patient-type-badge
+                                    ${typeClass}
+                                "
+                            >
+
+                                ${displayType}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="delete-btn"
+                                data-patient-id="${escapeHTML(
+                                    patientId
+                                )}"
+                            >
+                                Delete
+                            </button>
+
+                        </td>
+
+                    `;
+
+
+                    const deleteButton =
+                        row.querySelector(
+                            ".delete-btn"
+                        );
+
+
+                    deleteButton.addEventListener(
+                        "click",
+                        function() {
+
+                            deletePatient(
+                                patientId
+                            );
+
+                        }
+                    );
+
+
+                    table.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+
+            if (
+                visiblePatients === 0
+            ) {
+
+                emptyMessage.style.display =
+                    "block";
+
+            }
+
+            else {
+
+                emptyMessage.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           GET DOCTOR ID
+        ========================================= */
+
+        function getDoctorId(
+            doctor
+        ) {
+
+            return (
+                doctor.doctorId ||
+                doctor.id ||
+                ""
+            );
+
+        }
+
+
+
+        /* =========================================
+           GET DOCTOR NAME
+        ========================================= */
+
+        function getDoctorName(
+            doctor
+        ) {
+
+            return (
+                doctor.name ||
+                doctor.fullName ||
+                doctor.username ||
+                "Unnamed Doctor"
+            );
+
+        }
+
+
+
+        /* =========================================
+           GET DOCTOR DEPARTMENT
+        ========================================= */
+
+        function getDoctorDepartment(
+            doctor
+        ) {
+
+            return String(
+                doctor.department ||
+                ""
+            ).trim();
+
+        }
+
+
+
+        /* =========================================
+           FORMAT TIME
+        ========================================= */
+
+        function formatDoctorTime(
+            time
+        ) {
+
+            if (!time) {
+
+                return "";
+
+            }
+
+
+            const value =
+                String(time);
+
+
+            const parts =
+                value.split(":");
+
+
+            if (
+                parts.length < 2
+            ) {
+
+                return value;
+
+            }
+
+
+            let hour =
+                Number(
+                    parts[0]
+                );
+
+
+            const minute =
+                parts[1];
+
+
+            const period =
+                hour >= 12
+                    ? "PM"
+                    : "AM";
+
+
+            hour =
+                hour % 12 || 12;
+
+
+            return (
+                hour
+                +
+                ":"
+                +
+                minute
+                +
+                " "
+                +
+                period
+            );
+
+        }
+
+
+
+        /* =========================================
+           GET TODAY
+        ========================================= */
+
+        function getTodayName() {
+
+            const days = [
+
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+
+            ];
+
+
+            return days[
+                new Date().getDay()
+            ];
+
+        }
+
+
+
+        /* =========================================
+           CHECK DOCTOR WORKING TODAY
+        ========================================= */
+
+        function isDoctorAvailableToday(
+            doctor
+        ) {
+
+            if (
+                !Array.isArray(
+                    doctor.workingDays
+                )
+                ||
+                doctor.workingDays.length === 0
+            ) {
+
+                return true;
+
+            }
+
+
+            const today =
+                getTodayName();
+
+
+            return doctor.workingDays.some(
+                function(day) {
+
+                    return String(day)
+                        .trim()
+                        .toLowerCase()
+                        ===
+                        today.toLowerCase();
+
+                }
+            );
+
+        }
+
+
+
+        /* =========================================
+           LOAD DEPARTMENTS
+        ========================================= */
+
+        function loadDepartments() {
+
+            const departmentSelect =
+                document.getElementById(
+                    "patientDepartment"
+                );
+
+
+            const doctorSelect =
+                document.getElementById(
+                    "patientDoctor"
+                );
+
+
+            const doctors =
+                getDoctors();
+
+
+            const departments =
+                [];
+
+
+            doctors.forEach(
+                function(doctor) {
+
+                    const department =
+                        getDoctorDepartment(
+                            doctor
+                        );
+
+
+                    if (
+                        department
+                        &&
+                        !departments.includes(
+                            department
+                        )
+                    ) {
+
+                        departments.push(
+                            department
+                        );
+
+                    }
+
+                }
+            );
+
+
+            departments.sort(
+                function(a, b) {
+
+                    return a.localeCompare(
+                        b
+                    );
+
+                }
+            );
+
+
+            departmentSelect.innerHTML = `
+
+                <option value="">
+                    Select Department
+                </option>
+
+            `;
+
+
+            departments.forEach(
+                function(department) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value =
+                        department;
+
+
+                    option.textContent =
+                        department;
+
+
+                    departmentSelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            doctorSelect.innerHTML = `
+
+                <option value="">
+                    Select Department First
+                </option>
+
+            `;
+
+
+            doctorSelect.disabled =
+                true;
+
+
+            document.getElementById(
+                "doctorTimingHelp"
+            ).textContent =
+                "Select a department to see available doctors.";
+
+        }
+
+
+
+        /* =========================================
+           LOAD DOCTORS BY DEPARTMENT
+        ========================================= */
+
+        function loadDoctorsByDepartment() {
+
+            const department =
+                document.getElementById(
+                    "patientDepartment"
+                ).value;
+
+
+            const doctorSelect =
+                document.getElementById(
+                    "patientDoctor"
+                );
+
+
+            const timingHelp =
+                document.getElementById(
+                    "doctorTimingHelp"
+                );
+
+
+            doctorSelect.innerHTML =
+                "";
+
+
+            if (!department) {
+
+                doctorSelect.innerHTML = `
+
+                    <option value="">
+                        Select Department First
+                    </option>
+
+                `;
+
+
+                doctorSelect.disabled =
+                    true;
+
+
+                timingHelp.textContent =
+                    "Select a department to see available doctors.";
+
+                return;
+
+            }
+
+
+            const doctors =
+                getDoctors();
+
+
+            const matchingDoctors =
+                doctors.filter(
+                    function(doctor) {
+
+                        return (
+                            getDoctorDepartment(
+                                doctor
+                            ).toLowerCase()
+                            ===
+                            department.toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            if (
+                matchingDoctors.length === 0
+            ) {
+
+                doctorSelect.innerHTML = `
+
+                    <option value="">
+                        No doctors available
+                    </option>
+
+                `;
+
+
+                doctorSelect.disabled =
+                    true;
+
+
+                timingHelp.textContent =
+                    "No doctors are registered in this department.";
+
+                return;
+
+            }
+
+
+            doctorSelect.innerHTML = `
+
+                <option value="">
+                    Select Doctor
+                </option>
+
+            `;
+
+
+            let availableTodayCount =
+                0;
+
+
+            matchingDoctors.forEach(
+                function(doctor) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    const doctorId =
+                        getDoctorId(
+                            doctor
+                        );
+
+
+                    const doctorName =
+                        getDoctorName(
+                            doctor
+                        );
+
+
+                    const availableToday =
+                        isDoctorAvailableToday(
+                            doctor
+                        );
+
+
+                    let timingText =
+                        "";
+
+
+                    if (
+                        availableToday
+                    ) {
+
+                        availableTodayCount++;
+
+
+                        if (
+                            doctor.startTime
+                            &&
+                            doctor.endTime
+                        ) {
+
+                            timingText =
+                                " — "
+                                +
+                                formatDoctorTime(
+                                    doctor.startTime
+                                )
+                                +
+                                " to "
+                                +
+                                formatDoctorTime(
+                                    doctor.endTime
+                                );
+
+                        }
+
+                        else {
+
+                            timingText =
+                                " — Timing not set";
+
+                        }
+
+                    }
+
+                    else {
+
+                        timingText =
+                            " — Not available today";
+
+                    }
+
+
+                    option.value =
+                        doctorId;
+
+
+                    option.textContent =
+                        doctorName
+                        +
+                        timingText;
+
+
+                    option.dataset.doctorName =
+                        doctorName;
+
+
+                    option.dataset.startTime =
+                        doctor.startTime ||
+                        "";
+
+
+                    option.dataset.endTime =
+                        doctor.endTime ||
+                        "";
+
+
+                    option.dataset.availableToday =
+                        availableToday
+                            ? "true"
+                            : "false";
+
+
+                    doctorSelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            doctorSelect.disabled =
+                false;
+
+
+            timingHelp.textContent =
+                availableTodayCount
+                +
+                " doctor(s) available in "
+                +
+                department
+                +
+                " today.";
+
+        }
+
+
+
+        /* =========================================
+           DEPARTMENT CHANGE
+        ========================================= */
+
+        document
+            .getElementById(
+                "patientDepartment"
+            )
+            .addEventListener(
+                "change",
+                function() {
+
+                    loadDoctorsByDepartment();
+
+                }
+            );
+
+
+
+        /* =========================================
+           DOCTOR CHANGE
+        ========================================= */
+
+        document
+            .getElementById(
+                "patientDoctor"
+            )
+            .addEventListener(
+                "change",
+                function() {
+
+                    const selectedOption =
+                        this.options[
+                            this.selectedIndex
+                        ];
+
+
+                    const timingHelp =
+                        document.getElementById(
+                            "doctorTimingHelp"
+                        );
+
+
+                    if (
+                        !selectedOption
+                        ||
+                        !this.value
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const startTime =
+                        selectedOption.dataset
+                            .startTime;
+
+
+                    const endTime =
+                        selectedOption.dataset
+                            .endTime;
+
+
+                    const availableToday =
+                        selectedOption.dataset
+                            .availableToday
+                        ===
+                        "true";
+
+
+                    if (
+                        !availableToday
+                    ) {
+
+                        timingHelp.textContent =
+                            "Warning: this doctor is not scheduled to work today.";
+
+                    }
+
+                    else if (
+                        startTime
+                        &&
+                        endTime
+                    ) {
+
+                        timingHelp.textContent =
+                            "Today's timing: "
+                            +
+                            formatDoctorTime(
+                                startTime
+                            )
+                            +
+                            " to "
+                            +
+                            formatDoctorTime(
+                                endTime
+                            );
+
+                    }
+
+                    else {
+
+                        timingHelp.textContent =
+                            "Doctor selected. Working time has not been set.";
+
+                    }
+
+                }
+            );
+
+
+
+        /* =========================================
+           ADD PATIENT
+        ========================================= */
+
+        document
+            .getElementById(
+                "patientForm"
+            )
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    const name =
+                        document
+                            .getElementById(
+                                "patientName"
+                            )
+                            .value
+                            .trim();
+
+
+                    const age =
+                        document
+                            .getElementById(
+                                "patientAge"
+                            )
+                            .value;
+
+
+                    const gender =
+                        document
+                            .getElementById(
+                                "patientGender"
+                            )
+                            .value;
+
+
+                    const bloodGroup =
+                        document
+                            .getElementById(
+                                "patientBloodGroup"
+                            )
+                            .value;
+
+
+                    const phone =
+                        document
+                            .getElementById(
+                                "patientPhone"
+                            )
+                            .value
+                            .trim();
+
+
+                    const email =
+                        document
+                            .getElementById(
+                                "patientEmail"
+                            )
+                            .value
+                            .trim();
+
+
+                    const username =
+                        document
+                            .getElementById(
+                                "patientUsername"
+                            )
+                            .value
+                            .trim();
+
+
+                    const password =
+                        document
+                            .getElementById(
+                                "patientPassword"
+                            )
+                            .value;
+
+
+                    const patientType =
+                        document
+                            .getElementById(
+                                "patientType"
+                            )
+                            .value;
+
+
+                    /* =================================
+                       PLACE OF RESIDENCE
+                    ================================= */
+
+                    const placeOfResidence =
+                        document
+                            .getElementById(
+                                "placeOfResidence"
+                            )
+                            .value
+                            .trim();
+
+
+                    const chiefComplaint =
+                        document
+                            .getElementById(
+                                "chiefComplaint"
+                            )
+                            .value
+                            .trim();
+
+
+                    const department =
+                        document
+                            .getElementById(
+                                "patientDepartment"
+                            )
+                            .value;
+
+
+                    const doctorSelect =
+                        document
+                            .getElementById(
+                                "patientDoctor"
+                            );
+
+
+                    const selectedDoctorOption =
+                        doctorSelect.options[
+                            doctorSelect.selectedIndex
+                        ];
+
+
+                    const doctorId =
+                        doctorSelect.value;
+
+
+                    const doctorName =
+                        selectedDoctorOption
+                            ? (
+                                selectedDoctorOption
+                                    .dataset
+                                    .doctorName
+                                ||
+                                ""
+                            )
+                            : "";
+
+
+                    const doctorStartTime =
+                        selectedDoctorOption
+                            ? (
+                                selectedDoctorOption
+                                    .dataset
+                                    .startTime
+                                ||
+                                ""
+                            )
+                            : "";
+
+
+                    const doctorEndTime =
+                        selectedDoctorOption
+                            ? (
+                                selectedDoctorOption
+                                    .dataset
+                                    .endTime
+                                ||
+                                ""
+                            )
+                            : "";
+
+
+                    const doctorAvailableToday =
+                        selectedDoctorOption
+                            ? (
+                                selectedDoctorOption
+                                    .dataset
+                                    .availableToday
+                                ===
+                                "true"
+                            )
+                            : false;
+
+
+
+                    /* =================================
+                       VALIDATION
+                    ================================= */
+
+                    if (
+                        name === ""
+                        ||
+                        age === ""
+                        ||
+                        gender === ""
+                        ||
+                        bloodGroup === ""
+                        ||
+                        phone === ""
+                        ||
+                        username === ""
+                        ||
+                        password === ""
+                        ||
+                        patientType === ""
+                        ||
+                        placeOfResidence === ""
+                        ||
+                        chiefComplaint === ""
+                        ||
+                        department === ""
+                        ||
+                        doctorId === ""
+                    ) {
+
+                        showMessage(
+                            "Please complete all required patient fields.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        username.length < 3
+                    ) {
+
+                        showMessage(
+                            "Username must contain at least 3 characters.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        password.length < 4
+                    ) {
+
+                        showMessage(
+                            "Password must contain at least 4 characters.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        !/^\d{10}$/.test(
+                            phone
+                        )
+                    ) {
+
+                        showMessage(
+                            "Phone number must contain exactly 10 digits.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* =================================
+                       EXISTING PATIENTS
+                    ================================= */
+
+                    const patients =
+                        getPatients();
+
+
+
+                    /* =================================
+                       CHECK USERNAME
+                    ================================= */
+
+                    const usernameExists =
+                        patients.some(
+                            function(patient) {
+
+                                return String(
+                                    patient.username ||
+                                    ""
+                                )
+                                .trim()
+                                .toLowerCase()
+                                ===
+                                username
+                                    .toLowerCase();
+
+                            }
+                        );
+
+
+                    if (
+                        usernameExists
+                    ) {
+
+                        showMessage(
+                            "This username is already in use. Please choose another username.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /* =================================
+                       GENERATE PATIENT ID
+                    ================================= */
+
+                    const newPatientId =
+                        createNextPatientId(
+                            patients
+                        );
+
+
+
+                    /* =================================
+                       CREATE PATIENT
+                    ================================= */
+
+                    const newPatient = {
+
+                        patientId:
+                            newPatientId,
+
+                        id:
+                            newPatientId,
+
+                        fullName:
+                            name,
+
+                        name:
+                            name,
+
+                        age:
+                            Number(age),
+
+                        gender:
+                            gender,
+
+                        bloodGroup:
+                            bloodGroup,
+
+                        phone:
+                            phone,
+
+                        email:
+                            email,
+
+                        username:
+                            username,
+
+                        password:
+                            password,
+
+                        patientType:
+                            patientType,
+
+                        type:
+                            patientType,
+
+                        placeOfResidence:
+                            placeOfResidence,
+
+                        chiefComplaint:
+                            chiefComplaint,
+
+                        department:
+                            department,
+
+                        doctor:
+                            doctorName,
+
+                        doctorId:
+                            doctorId,
+
+                        doctorStartTime:
+                            doctorStartTime,
+
+                        doctorEndTime:
+                            doctorEndTime,
+
+                        doctorAvailableToday:
+                            doctorAvailableToday,
+
+                        assignedDoctorId:
+                            doctorId,
+
+                        assignedDoctorName:
+                            doctorName
+
+                    };
+
+
+
+                    /* =================================
+                       SAVE
+                    ================================= */
+
+                    patients.push(
+                        newPatient
+                    );
+
+
+                    savePatients(
+                        patients
+                    );
+
+
+
+                    /* =================================
+                       UPDATE PAGE
+                    ================================= */
+
+                    updatePatientCounts();
+
+
+                    renderPatients();
+
+
+                    clearPatientForm();
+
+
+                    showMessage(
+                        "Patient added successfully. Patient ID: "
+                        +
+                        newPatientId
+                        +
+                        ". Assigned Doctor: "
+                        +
+                        doctorName,
+                        "success"
+                    );
+
+                }
+            );
+
+
+
+        /* =========================================
+           DELETE PATIENT
+        ========================================= */
+
+        function deletePatient(
+            patientId
+        ) {
+
+            if (!patientId) {
+
+                alert(
+                    "Patient ID is missing. This patient cannot be deleted safely."
+                );
+
+                return;
+
+            }
+
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to delete patient "
+                    +
+                    patientId
+                    +
+                    "?"
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            let patients =
+                getPatients();
+
+
+            patients =
+                patients.filter(
+                    function(patient) {
+
+                        const existingId =
+                            getPatientId(
+                                patient
+                            );
+
+
+                        return (
+                            String(
+                                existingId
+                            )
+                            !==
+                            String(
+                                patientId
+                            )
+                        );
+
+                    }
+                );
+
+
+            savePatients(
+                patients
+            );
+
+
+            updatePatientCounts();
+
+
+            renderPatients();
+
+
+            showMessage(
+                "Patient deleted successfully.",
+                "success"
+            );
+
+        }
+
+
+
+        /* =========================================
+           CLEAR FORM
+        ========================================= */
+
+        function clearPatientForm() {
+
+            document
+                .getElementById(
+                    "patientForm"
+                )
+                .reset();
+
+
+            const doctorSelect =
+                document.getElementById(
+                    "patientDoctor"
+                );
+
+
+            doctorSelect.innerHTML = `
+
+                <option value="">
+                    Select Department First
+                </option>
+
+            `;
+
+
+            doctorSelect.disabled =
+                true;
+
+
+            loadDepartments();
+
+
+            document.getElementById(
+                "doctorTimingHelp"
+            ).textContent =
+                "Select a department to see available doctors.";
+
+        }
+
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+        function showMessage(
+            message,
+            type
+        ) {
+
+            const box =
+                document.getElementById(
+                    "patientMessage"
+                );
+
+
+            box.textContent =
+                message;
+
+
+            box.className =
+                "patient-message "
+                +
+                type;
+
+
+            box.style.display =
+                "block";
+
+
+            setTimeout(
+                function() {
+
+                    box.style.display =
+                        "none";
+
+                },
+                4000
+            );
+
+        }
+
+
+
+        /* =========================================
+           SEARCH
+        ========================================= */
+
+        document
+            .getElementById(
+                "patientSearch"
+            )
+            .addEventListener(
+                "input",
+                function() {
+
+                    currentSearch =
+                        this.value;
+
+
+                    renderPatients();
+
+                }
+            );
+
+
+
+        /* =========================================
+           URL FILTER
+        ========================================= */
+
+        function checkURLFilter() {
+
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+
+            const type =
+                String(
+                    params.get("type") ||
+                    ""
+                ).toLowerCase();
+
+
+            if (
+                type === "inpatient"
+            ) {
+
+                showPatients(
+                    "inpatient"
+                );
+
+            }
+
+            else if (
+                type === "outpatient"
+            ) {
+
+                showPatients(
+                    "outpatient"
+                );
+
+            }
+
+            else {
+
+                showPatients(
+                    "all"
+                );
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           PAGE LOAD
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                updatePatientCounts();
+
+                loadDepartments();
+
+                checkURLFilter();
+
+            }
+        );
+
+
+
+        /* =========================================
+           STORAGE CHANGES
+        ========================================= */
+
+        window.addEventListener(
+            "storage",
+            function(event) {
+
+                if (
+                    event.key ===
+                    PATIENT_STORAGE_KEY
+                ) {
+
+                    updatePatientCounts();
+
+                    renderPatients();
+
+                }
+
+
+                if (
+                    event.key ===
+                    DOCTOR_STORAGE_KEY
+                ) {
+
+                    loadDepartments();
+
+                    updatePatientCounts();
+
+                    renderPatients();
+
+                }
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

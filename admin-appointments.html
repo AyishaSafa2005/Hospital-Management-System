@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Appointments - Admin</title>
+
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../admin.css"
+    >
+
+
+    <style>
+
+        /* =========================================
+           APPOINTMENT STATUS
+        ========================================= */
+
+        .appointment-status-section {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .appointment-status-section h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 20px;
+
+            color: #0b5d7a;
+
+        }
+
+
+        .status-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 15px;
+
+        }
+
+
+        .status-card {
+
+            border:
+                2px solid #e1e8ec;
+
+            background: #f8fbfc;
+
+            border-radius: 12px;
+
+            padding: 18px 12px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .status-card:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 5px 15px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        .status-card.active {
+
+            background: #0b5d7a;
+
+            border-color: #0b5d7a;
+
+            color: white;
+
+        }
+
+
+        .status-card .status-icon {
+
+            font-size: 25px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .status-card .status-name {
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .status-card .status-count {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+        }
+
+
+        .pending {
+
+            border-color: #f0b429;
+
+        }
+
+
+        .confirmed {
+
+            border-color: #2e8b57;
+
+        }
+
+
+        .completed {
+
+            border-color: #4c78a8;
+
+        }
+
+
+        .cancelled {
+
+            border-color: #d9534f;
+
+        }
+
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .appointments-table-section {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        .appointments-table-section h2 {
+
+            margin-top: 0;
+
+            color: #0b5d7a;
+
+        }
+
+
+        .appointment-status {
+
+            font-weight: bold;
+
+        }
+
+
+        .status-badge {
+
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+
+        .badge-confirmed {
+
+            background: #e6f4ea;
+
+            color: #247a3d;
+
+        }
+
+
+        .badge-pending {
+
+            background: #fff4d6;
+
+            color: #996c00;
+
+        }
+
+
+        .badge-completed {
+
+            background: #e6eef7;
+
+            color: #315d8c;
+
+        }
+
+
+        .badge-cancelled {
+
+            background: #fdeaea;
+
+            color: #b52b27;
+
+        }
+
+
+        .empty-message {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #666;
+
+            font-style: italic;
+
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .status-grid {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .status-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================= -->
+
+    <div class="topbar">
+
+
+        <h2>
+            🏥 Hospital Management System
+        </h2>
+
+
+        <div>
+
+
+            <span>
+                Admin
+            </span>
+
+
+            <a
+                href="admin-dashboard.html"
+            >
+
+                <button type="button">
+
+                    Dashboard
+
+                </button>
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAIN CONTAINER
+    ========================================= -->
+
+    <div class="container">
+
+
+        <!-- =====================================
+             SIDEBAR
+        ===================================== -->
+
+        <div class="sidebar">
+
+
+            <a
+                href="admin-dashboard.html"
+            >
+                Dashboard
+            </a>
+
+
+            <a
+                href="admin-patients.html"
+            >
+                Patients
+            </a>
+
+
+            <a
+                href="admin-doctors.html"
+            >
+                Doctors
+            </a>
+
+
+            <a
+                href="admin-nurses.html"
+            >
+                Nurses
+            </a>
+
+
+            <a
+                href="admin-appointments.html"
+                class="active"
+            >
+                Appointments
+            </a>
+
+
+            <a
+                href="admin-beds.html"
+            >
+                Beds
+            </a>
+
+
+            <a
+                href="admin-medicines.html"
+            >
+                Medicines
+            </a>
+
+
+            <a
+                href="admin-reports.html"
+            >
+                Reports
+            </a>
+
+
+            <a
+                href="admin-notifications.html"
+            >
+                Notifications
+            </a>
+
+
+            <a
+                href="admin-profile.html"
+            >
+                My Profile
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ===================================== -->
+
+        <div class="content">
+
+
+            <h1>
+                Appointments
+            </h1>
+
+
+            <p>
+                Manage and monitor patient appointments.
+            </p>
+
+
+
+            <!-- =================================
+                 STATUS
+            ================================== -->
+
+            <div
+                class="appointment-status-section"
+            >
+
+
+                <h2>
+                    Appointment Status
+                </h2>
+
+
+                <div class="status-grid">
+
+
+                    <!-- ALL -->
+
+                    <div
+                        class="status-card active"
+                        onclick="filterAppointments(
+                            'all',
+                            this
+                        )"
+                    >
+
+                        <div class="status-icon">
+                            📋
+                        </div>
+
+
+                        <div class="status-name">
+                            ALL
+                        </div>
+
+
+                        <div
+                            class="status-count"
+                            id="allCount"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PENDING -->
+
+                    <div
+                        class="status-card pending"
+                        onclick="filterAppointments(
+                            'pending',
+                            this
+                        )"
+                    >
+
+                        <div class="status-icon">
+                            ⏳
+                        </div>
+
+
+                        <div class="status-name">
+                            PENDING
+                        </div>
+
+
+                        <div
+                            class="status-count"
+                            id="pendingCount"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CONFIRMED -->
+
+                    <div
+                        class="status-card confirmed"
+                        onclick="filterAppointments(
+                            'confirmed',
+                            this
+                        )"
+                    >
+
+                        <div class="status-icon">
+                            ✅
+                        </div>
+
+
+                        <div class="status-name">
+                            CONFIRMED
+                        </div>
+
+
+                        <div
+                            class="status-count"
+                            id="confirmedCount"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- COMPLETED -->
+
+                    <div
+                        class="status-card completed"
+                        onclick="filterAppointments(
+                            'completed',
+                            this
+                        )"
+                    >
+
+                        <div class="status-icon">
+                            ✔️
+                        </div>
+
+
+                        <div class="status-name">
+                            COMPLETED
+                        </div>
+
+
+                        <div
+                            class="status-count"
+                            id="completedCount"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CANCELLED -->
+
+                    <div
+                        class="status-card cancelled"
+                        onclick="filterAppointments(
+                            'cancelled',
+                            this
+                        )"
+                    >
+
+                        <div class="status-icon">
+                            ❌
+                        </div>
+
+
+                        <div class="status-name">
+                            CANCELLED
+                        </div>
+
+
+                        <div
+                            class="status-count"
+                            id="cancelledCount"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 APPOINTMENT TABLE
+            ================================== -->
+
+            <div
+                class="appointments-table-section"
+            >
+
+
+                <h2>
+                    Appointment List
+                </h2>
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+
+                            <th>
+                                Appointment ID
+                            </th>
+
+
+                            <th>
+                                Patient
+                            </th>
+
+
+                            <th>
+                                Patient Type
+                            </th>
+
+
+                            <th>
+                                Doctor
+                            </th>
+
+
+                            <th>
+                                Department
+                            </th>
+
+
+                            <th>
+                                Date
+                            </th>
+
+
+                            <th>
+                                Time
+                            </th>
+
+
+                            <th>
+                                Status
+                            </th>
+
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                        id="appointmentTable"
+                    >
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Hospital Management System
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           STORAGE KEY
+        ========================================= */
+
+        const APPOINTMENT_STORAGE_KEY =
+            "appointments";
+
+
+
+        /* =========================================
+           GET APPOINTMENTS
+        ========================================= */
+
+        function getAppointments() {
+
+
+            const saved =
+                localStorage.getItem(
+                    APPOINTMENT_STORAGE_KEY
+                );
+
+
+            if (!saved) {
+
+                return [];
+
+            }
+
+
+            try {
+
+
+                const appointments =
+                    JSON.parse(
+                        saved
+                    );
+
+
+                if (
+                    !Array.isArray(
+                        appointments
+                    )
+                ) {
+
+                    return [];
+
+                }
+
+
+                return appointments;
+
+
+            }
+
+            catch (error) {
+
+
+                console.error(
+                    "Appointment data error:",
+                    error
+                );
+
+
+                return [];
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHTML(
+            value
+        ) {
+
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.textContent =
+                value === undefined
+                ||
+                value === null
+                    ? ""
+                    : String(value);
+
+
+            return div.innerHTML;
+
+        }
+
+
+
+        /* =========================================
+           GET VALUE
+        ========================================= */
+
+        function getAppointmentValue(
+            appointment,
+            names,
+            fallback
+        ) {
+
+
+            for (
+                let i = 0;
+                i < names.length;
+                i++
+            ) {
+
+
+                const name =
+                    names[i];
+
+
+                if (
+
+                    appointment[name]
+                    !==
+                    undefined
+
+                    &&
+
+                    appointment[name]
+                    !==
+                    null
+
+                    &&
+
+                    appointment[name]
+                    !==
+                    ""
+
+                ) {
+
+                    return appointment[name];
+
+                }
+
+            }
+
+
+            return fallback;
+
+        }
+
+
+
+        /* =========================================
+           FORMAT DATE
+        ========================================= */
+
+        function formatDate(
+            date
+        ) {
+
+
+            if (!date) {
+
+                return "-";
+
+            }
+
+
+            /*
+             * Already in DD-MM-YYYY
+             */
+
+            if (
+                /^\d{2}-\d{2}-\d{4}$/.test(
+                    String(date)
+                )
+            ) {
+
+                return date;
+
+            }
+
+
+            /*
+             * YYYY-MM-DD
+             */
+
+            const parts =
+                String(date).split("-");
+
+
+            if (
+                parts.length === 3
+            ) {
+
+                return (
+
+                    parts[2]
+                    +
+                    "-"
+                    +
+                    parts[1]
+                    +
+                    "-"
+                    +
+                    parts[0]
+
+                );
+
+            }
+
+
+            return date;
+
+        }
+
+
+
+        /* =========================================
+           FORMAT TIME
+        ========================================= */
+
+        function formatTime(
+            time
+        ) {
+
+
+            if (!time) {
+
+                return "-";
+
+            }
+
+
+            /*
+             * If already contains AM/PM,
+             * leave it alone.
+             */
+
+            if (
+                /AM|PM/i.test(
+                    String(time)
+                )
+            ) {
+
+                return time;
+
+            }
+
+
+            const parts =
+                String(time).split(":");
+
+
+            if (
+                parts.length < 2
+            ) {
+
+                return time;
+
+            }
+
+
+            let hour =
+                parseInt(
+                    parts[0]
+                );
+
+
+            const minute =
+                parts[1];
+
+
+            if (
+                isNaN(hour)
+            ) {
+
+                return time;
+
+            }
+
+
+            const period =
+                hour >= 12
+                    ? "PM"
+                    : "AM";
+
+
+            if (
+                hour === 0
+            ) {
+
+                hour = 12;
+
+            }
+
+            else if (
+                hour > 12
+            ) {
+
+                hour -= 12;
+
+            }
+
+
+            return (
+
+                String(hour)
+                    .padStart(2, "0")
+
+                +
+
+                ":"
+
+                +
+
+                minute
+
+                +
+
+                " "
+
+                +
+
+                period
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           STATUS CLASS
+        ========================================= */
+
+        function getStatusClass(
+            status
+        ) {
+
+
+            const value =
+                String(
+                    status
+                )
+                .toLowerCase();
+
+
+            if (
+                value === "confirmed"
+            ) {
+
+                return "badge-confirmed";
+
+            }
+
+
+            if (
+                value === "completed"
+            ) {
+
+                return "badge-completed";
+
+            }
+
+
+            if (
+                value === "cancelled"
+            ) {
+
+                return "badge-cancelled";
+
+            }
+
+
+            return "badge-pending";
+
+        }
+
+
+
+        /* =========================================
+           RENDER APPOINTMENTS
+        ========================================= */
+
+        function renderAppointments() {
+
+
+            const appointments =
+                getAppointments();
+
+
+            const table =
+                document.getElementById(
+                    "appointmentTable"
+                );
+
+
+            table.innerHTML = "";
+
+
+
+            /* COUNTS */
+
+            updateStatusCounts(
+                appointments
+            );
+
+
+
+            /* NO APPOINTMENTS */
+
+            if (
+                appointments.length === 0
+            ) {
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td
+                        colspan="8"
+                        class="empty-message"
+                    >
+
+                        No appointments have been
+                        booked yet.
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(
+                    row
+                );
+
+
+                return;
+
+            }
+
+
+
+            /* DISPLAY APPOINTMENTS */
+
+            appointments.forEach(
+
+                function(appointment) {
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+
+                    const appointmentId =
+                        getAppointmentValue(
+
+                            appointment,
+
+                            [
+                                "appointmentId",
+                                "id",
+                                "appointmentID"
+                            ],
+
+                            "Not Available"
+
+                        );
+
+
+
+                    const patientName =
+                        getAppointmentValue(
+
+                            appointment,
+
+                            [
+                                "patientName",
+                                "fullName",
+                                "patient"
+                            ],
+
+                            "Not Available"
+
+                        );
+
+
+
+                    const patientType =
+                        getAppointmentValue(
+
+                            appointment,
+
+                            [
+                                "patientType",
+                                "type"
+                            ],
+
+                            "Outpatient"
+
+                        );
+
+
+
+                    const doctor =
+                        getAppointmentValue(
+
+                            appointment,
+
+                            [
+                                "doctor",
+                                "doctorName"
+                            ],
+
+                            "Not Available"
+
+                        );
+
+
+
+                    const department =
+                        getAppointmentValue(
+
+                            appointment,
+
+                            [
+                                "department",
+                                "dept"
+                            ],
+
+                            "Not Available"
+
+                        );
+
+
+
+                    const date =
+                        getAppointmentValue(
+
+                            appointment,
+
+                            [
+                                "displayDate",
+                                "date",
+                                "appointmentDate"
+                            ],
+
+                            ""
+
+                        );
+
+
+
+                    const time =
+                        getAppointmentValue(
+
+                            appointment,
+
+                            [
+                                "displayTime",
+                                "time",
+                                "appointmentTime"
+                            ],
+
+                            ""
+
+                        );
+
+
+
+                    const status =
+                        getAppointmentValue(
+
+                            appointment,
+
+                            [
+                                "status",
+                                "appointmentStatus"
+                            ],
+
+                            "Pending"
+
+                        );
+
+
+
+                    row.innerHTML = `
+
+                        <td>
+
+                            ${escapeHTML(
+                                appointmentId
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                patientName
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                patientType
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                doctor
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                department
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                formatDate(
+                                    date
+                                )
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                formatTime(
+                                    time
+                                )
+                            )}
+
+                        </td>
+
+
+                        <td
+                            class="appointment-status"
+                        >
+
+                            <span
+                                class="
+                                    status-badge
+                                    ${getStatusClass(
+                                        status
+                                    )}
+                                "
+                            >
+
+                                ${escapeHTML(
+                                    status
+                                )}
+
+                            </span>
+
+                        </td>
+
+                    `;
+
+
+                    table.appendChild(
+                        row
+                    );
+
+                }
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           UPDATE STATUS COUNTS
+        ========================================= */
+
+        function updateStatusCounts(
+            appointments
+        ) {
+
+
+            let pending = 0;
+
+            let confirmed = 0;
+
+            let completed = 0;
+
+            let cancelled = 0;
+
+
+
+            appointments.forEach(
+
+                function(appointment) {
+
+
+                    const status =
+                        String(
+
+                            getAppointmentValue(
+
+                                appointment,
+
+                                [
+                                    "status",
+                                    "appointmentStatus"
+                                ],
+
+                                "Pending"
+
+                            )
+
+                        )
+                        .toLowerCase()
+                        .trim();
+
+
+
+                    if (
+                        status === "pending"
+                    ) {
+
+                        pending++;
+
+                    }
+
+
+                    else if (
+                        status === "confirmed"
+                    ) {
+
+                        confirmed++;
+
+                    }
+
+
+                    else if (
+                        status === "completed"
+                    ) {
+
+                        completed++;
+
+                    }
+
+
+                    else if (
+                        status === "cancelled"
+                    ) {
+
+                        cancelled++;
+
+                    }
+
+                }
+
+            );
+
+
+
+            document.getElementById(
+                "allCount"
+            ).textContent =
+                appointments.length;
+
+
+            document.getElementById(
+                "pendingCount"
+            ).textContent =
+                pending;
+
+
+            document.getElementById(
+                "confirmedCount"
+            ).textContent =
+                confirmed;
+
+
+            document.getElementById(
+                "completedCount"
+            ).textContent =
+                completed;
+
+
+            document.getElementById(
+                "cancelledCount"
+            ).textContent =
+                cancelled;
+
+        }
+
+
+
+        /* =========================================
+           FILTER APPOINTMENTS
+        ========================================= */
+
+        function filterAppointments(
+            status,
+            selectedCard
+        ) {
+
+
+            const rows =
+                document.querySelectorAll(
+                    "#appointmentTable tr"
+                );
+
+
+
+            /*
+             * Remove active state
+             */
+
+            document
+                .querySelectorAll(
+                    ".status-card"
+                )
+                .forEach(
+
+                    function(card) {
+
+                        card.classList.remove(
+                            "active"
+                        );
+
+                    }
+
+                );
+
+
+
+            /*
+             * Activate selected card
+             */
+
+            selectedCard.classList.add(
+                "active"
+            );
+
+
+
+            /*
+             * Filter rows
+             */
+
+            rows.forEach(
+
+                function(row) {
+
+
+                    const statusElement =
+                        row.querySelector(
+                            ".appointment-status"
+                        );
+
+
+                    /*
+                     * Empty table row
+                     */
+
+                    if (
+                        !statusElement
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const appointmentStatus =
+                        statusElement
+                            .textContent
+                            .trim()
+                            .toLowerCase();
+
+
+
+                    if (
+
+                        status === "all"
+
+                        ||
+
+                        appointmentStatus ===
+                            status
+
+                    ) {
+
+                        row.style.display =
+                            "";
+
+                    }
+
+                    else {
+
+                        row.style.display =
+                            "none";
+
+                    }
+
+                }
+
+            );
+
+        }
+
+
+
+        /* =========================================
+           REFRESH WHEN PAGE OPENS
+        ========================================= */
+
+        document.addEventListener(
+
+            "DOMContentLoaded",
+
+            function() {
+
+                renderAppointments();
+
+            }
+
+        );
+
+
+
+        /* =========================================
+           REFRESH IF USER RETURNS TO PAGE
+        ========================================= */
+
+        window.addEventListener(
+
+            "pageshow",
+
+            function() {
+
+                renderAppointments();
+
+            }
+
+        );
+
+
+
+        /* =========================================
+           AUTO REFRESH
+
+           Checks for new appointments every
+           2 seconds while this page is open.
+        ========================================= */
+
+        setInterval(
+
+            function() {
+
+                renderAppointments();
+
+            },
+
+            2000
+
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
